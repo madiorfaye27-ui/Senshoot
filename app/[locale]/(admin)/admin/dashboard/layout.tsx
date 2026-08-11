@@ -13,6 +13,7 @@ export default async function AdminDashboardLayout({
     { href: '/admin/dashboard/photographes', label: t('navPhotographers') },
     { href: '/admin/dashboard/commandes', label: t('navOrders') },
     { href: '/admin/dashboard/abonnements', label: t('navSubscriptions') },
+    { href: '/admin/dashboard/retraits', label: t('navPayouts') },
   ];
 
   return (

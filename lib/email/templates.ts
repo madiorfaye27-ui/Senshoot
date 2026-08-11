@@ -98,6 +98,34 @@ export function subscriptionExpiringEmailFr({
   `);
 }
 
+export function payoutProcessedEmailFr({
+  amountLabel,
+  status,
+  adminNote,
+}: {
+  amountLabel: string;
+  status: 'completed' | 'rejected';
+  adminNote: string | null;
+}) {
+  return wrapper(
+    status === 'completed'
+      ? `
+        <h1 style="font-size: 20px; margin: 0 0 12px;">Retrait effectué ✅</h1>
+        <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+          Votre demande de retrait de <strong>${amountLabel}</strong> a été payée.
+        </p>
+      `
+      : `
+        <h1 style="font-size: 20px; margin: 0 0 12px;">Retrait rejeté</h1>
+        <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+          Votre demande de retrait de <strong>${amountLabel}</strong> a été rejetée.
+          ${adminNote ? `Motif : ${adminNote}` : ''}
+          Le montant reste disponible dans votre solde.
+        </p>
+      `
+  );
+}
+
 export function subscriptionExpiringEmailEn({
   studioName,
   expiresOnLabel,

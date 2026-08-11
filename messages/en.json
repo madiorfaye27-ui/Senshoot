@@ -188,7 +188,35 @@
     "title": "Sales & revenue",
     "revenue": "Revenue:",
     "estimatedRevenue": "Estimated payout ({percent}):",
-    "empty": "No sales yet."
+    "empty": "No sales yet.",
+    "availableBalance": "Available balance:",
+    "requestPayout": "Request a withdrawal",
+    "payoutAmount": "Amount (F CFA)",
+    "payoutMethod": "Withdrawal method",
+    "methodWave": "Wave",
+    "methodOrangeMoney": "Orange Money",
+    "methodBank": "Bank transfer",
+    "payoutDetails": "Number / account details",
+    "payoutDetailsPlaceholder": "+221 77 000 00 00",
+    "submitPayout": "Request withdrawal",
+    "noBalance": "No balance available yet.",
+    "myPayouts": "My withdrawal requests",
+    "noPayouts": "No withdrawal requests.",
+    "payoutStatusPending": "Pending",
+    "payoutStatusCompleted": "Paid",
+    "payoutStatusRejected": "Rejected",
+    "successPayout": "Withdrawal request sent."
+  },
+  "AdminPayoutsPage": {
+    "title": "Withdrawals",
+    "empty": "No withdrawal requests.",
+    "markPaid": "Mark as paid",
+    "reject": "Reject",
+    "requestedOn": "Requested on {date}",
+    "processedOn": "Processed on {date}",
+    "statusPending": "Pending",
+    "statusCompleted": "Paid",
+    "statusRejected": "Rejected"
   },
   "EventsPage": {
     "title": "My events",
@@ -260,7 +288,8 @@
     "navUsers": "Users",
     "navPhotographers": "Photographers",
     "navOrders": "Orders & payments",
-    "navSubscriptions": "Subscriptions"
+    "navSubscriptions": "Subscriptions",
+    "navPayouts": "Withdrawals"
   },
   "AdminDashboardPage": {
     "title": "Admin dashboard",

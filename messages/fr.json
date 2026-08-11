@@ -188,7 +188,35 @@
     "title": "Ventes & revenus",
     "revenue": "Chiffre d'affaires :",
     "estimatedRevenue": "Revenu estimé ({percent}) :",
-    "empty": "Aucune vente pour le moment."
+    "empty": "Aucune vente pour le moment.",
+    "availableBalance": "Solde disponible :",
+    "requestPayout": "Demander un retrait",
+    "payoutAmount": "Montant (F CFA)",
+    "payoutMethod": "Moyen de retrait",
+    "methodWave": "Wave",
+    "methodOrangeMoney": "Orange Money",
+    "methodBank": "Virement bancaire",
+    "payoutDetails": "Numéro / coordonnées",
+    "payoutDetailsPlaceholder": "+221 77 000 00 00",
+    "submitPayout": "Demander le retrait",
+    "noBalance": "Aucun solde disponible pour le moment.",
+    "myPayouts": "Mes demandes de retrait",
+    "noPayouts": "Aucune demande de retrait.",
+    "payoutStatusPending": "En attente",
+    "payoutStatusCompleted": "Payé",
+    "payoutStatusRejected": "Rejeté",
+    "successPayout": "Demande de retrait envoyée."
+  },
+  "AdminPayoutsPage": {
+    "title": "Retraits",
+    "empty": "Aucune demande de retrait.",
+    "markPaid": "Marquer payé",
+    "reject": "Rejeter",
+    "requestedOn": "Demandé le {date}",
+    "processedOn": "Traité le {date}",
+    "statusPending": "En attente",
+    "statusCompleted": "Payé",
+    "statusRejected": "Rejeté"
   },
   "EventsPage": {
     "title": "Mes événements",
@@ -260,7 +288,8 @@
     "navUsers": "Utilisateurs",
     "navPhotographers": "Photographes",
     "navOrders": "Commandes & paiements",
-    "navSubscriptions": "Abonnements"
+    "navSubscriptions": "Abonnements",
+    "navPayouts": "Retraits"
   },
   "AdminDashboardPage": {
     "title": "Tableau de bord administrateur",
