@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
 type NavLink = { href: string; label: string };
 
@@ -15,12 +16,13 @@ export default function MobileNav({
   dashboardHref: string;
 }) {
   const [open, setOpen] = useState(false);
+  const t = useTranslations('Header');
 
   return (
     <div className="md:hidden">
       <button
         onClick={() => setOpen((o) => !o)}
-        aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+        aria-label={open ? t('closeMenu') : t('openMenu')}
         aria-expanded={open}
         className="flex h-9 w-9 items-center justify-center rounded-full text-sn-slate transition-colors hover:bg-sn-slate/10 dark:text-gray-300 dark:hover:bg-white/10"
       >
@@ -57,11 +59,11 @@ export default function MobileNav({
                     onClick={() => setOpen(false)}
                     className="rounded-lg px-3 py-2 text-sm font-medium text-sn-slate hover:bg-sn-teal/10 hover:text-sn-orange dark:text-gray-300"
                   >
-                    Mon tableau de bord
+                    {t('myDashboard')}
                   </Link>
                   <form action="/api/auth/logout" method="post">
                     <button type="submit" className="btn-primary w-full text-sm">
-                      Déconnexion
+                      {t('logout')}
                     </button>
                   </form>
                 </>
@@ -72,14 +74,14 @@ export default function MobileNav({
                     onClick={() => setOpen(false)}
                     className="rounded-lg px-3 py-2 text-sm font-medium text-sn-slate hover:bg-sn-teal/10 hover:text-sn-orange dark:text-gray-300"
                   >
-                    Connexion
+                    {t('login')}
                   </Link>
                   <Link
                     href="/register"
                     onClick={() => setOpen(false)}
                     className="btn-primary w-full text-center text-sm"
                   >
-                    Je suis photographe
+                    {t('iAmPhotographer')}
                   </Link>
                 </>
               )}

@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function ThemeToggle() {
+  const t = useTranslations('Header');
   // null tant qu'on n'a pas lu la préférence côté client, pour éviter
   // un mismatch d'hydratation entre le rendu serveur et le navigateur.
   const [isDark, setIsDark] = useState<boolean | null>(null);
@@ -21,8 +23,8 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
-      title={isDark ? 'Mode clair' : 'Mode sombre'}
+      aria-label={isDark ? t('lightMode') : t('darkMode')}
+      title={isDark ? t('lightMode') : t('darkMode')}
       className="flex h-9 w-9 items-center justify-center rounded-full text-sn-slate transition-colors hover:bg-sn-slate/10 dark:text-gray-300 dark:hover:bg-white/10"
     >
       {isDark === null ? null : isDark ? (

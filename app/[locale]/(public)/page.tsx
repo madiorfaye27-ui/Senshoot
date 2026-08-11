@@ -1,8 +1,10 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 import Reveal from '@/components/ui/Reveal';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function HomePage() {
+  const t = await getTranslations('HomePage');
   const supabase = createClient();
   const {
     data: { user },
@@ -12,6 +14,8 @@ export default async function HomePage() {
     .select('slug, studio_name, description, city, contact_phone, contact_whatsapp')
     .eq('status', 'validated')
     .limit(3);
+
+  const steps = [t('step1'), t('step2'), t('step3'), t('step4'), t('step5')];
 
   return (
     <>
@@ -31,20 +35,19 @@ export default async function HomePage() {
 
         <div className="container-sn relative flex flex-col items-center py-20 text-center">
           <h1 className="max-w-3xl animate-fade-up text-4xl font-extrabold leading-tight text-sn-slate dark:text-white sm:text-5xl">
-            Capturez vos moments précieux.
-            <span className="block text-sn-orange">Capturez. Partagez. Vendez.</span>
+            {t('heroTitle1')}
+            <span className="block text-sn-orange">{t('heroTitle2')}</span>
           </h1>
           <p className="mt-6 max-w-xl animate-fade-up text-lg text-gray-600 dark:text-gray-400 [animation-delay:150ms]">
-            La plateforme qui connecte photographes et participants au Sénégal :
-            créez un événement, partagez un QR Code, vendez vos photos.
+            {t('heroSubtitle')}
           </p>
           <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:300ms] sm:flex-row">
             <Link href="/galeries" className="btn-primary">
-              Trouver mes photos
+              {t('findMyPhotos')}
             </Link>
             {!user && (
               <Link href="/register" className="btn-secondary">
-                Je suis photographe
+                {t('iAmPhotographer')}
               </Link>
             )}
           </div>
@@ -56,17 +59,11 @@ export default async function HomePage() {
       <section className="container-sn py-16">
         <Reveal>
           <h2 className="text-center text-2xl font-bold text-sn-slate dark:text-white">
-            Comment ça marche ?
+            {t('howItWorksTitle')}
           </h2>
         </Reveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-5">
-          {[
-            'Événement créé',
-            'QR Code généré',
-            'Scan par le client',
-            'Sélection des photos',
-            'Paiement & téléchargement',
-          ].map((step, i) => (
+          {steps.map((step, i) => (
             <Reveal key={step} delay={i * 100}>
               <div className="card-hover h-full rounded-xl border border-gray-100 bg-white p-5 text-center shadow-sm dark:border-white/10 dark:bg-slate-800">
                 <div className="mx-auto mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-sn-orange font-bold text-white">
@@ -87,9 +84,9 @@ export default async function HomePage() {
         <section className="container-sn py-16">
           <Reveal>
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-sn-slate dark:text-white">Nos photographes</h2>
+              <h2 className="text-2xl font-bold text-sn-slate dark:text-white">{t('ourPhotographers')}</h2>
               <Link href="/photographes" className="text-sm font-medium text-sn-orange">
-                Voir tout →
+                {t('seeAll')}
               </Link>
             </div>
           </Reveal>
@@ -123,9 +120,9 @@ export default async function HomePage() {
       {!user && (
         <Reveal>
           <section className="bg-sn-teal py-16 text-center text-white">
-            <p className="text-2xl font-bold">Vos moments. Vos images. Votre valeur.</p>
+            <p className="text-2xl font-bold">{t('ctaTagline')}</p>
             <Link href="/register" className="btn-primary mt-6 inline-flex">
-              Créer mon compte photographe
+              {t('createPhotographerAccount')}
             </Link>
           </section>
         </Reveal>

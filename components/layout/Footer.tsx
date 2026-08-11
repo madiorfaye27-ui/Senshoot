@@ -1,4 +1,8 @@
-export default function Footer() {
+import { getTranslations } from 'next-intl/server';
+
+export default async function Footer() {
+  const t = await getTranslations('Footer');
+
   return (
     <footer className="border-t border-gray-100 bg-sn-slate text-white">
       <div className="container-sn grid gap-8 py-12 md:grid-cols-4">
@@ -6,40 +10,38 @@ export default function Footer() {
           <p className="text-lg font-bold">
             Senshoot <span className="text-sn-orange">Sénégal</span>
           </p>
-          <p className="mt-2 text-sm text-gray-300">
-            Vos moments. Vos images. Votre valeur.
-          </p>
+          <p className="mt-2 text-sm text-gray-300">{t('tagline')}</p>
         </div>
 
         <div>
-          <p className="font-semibold">Plateforme</p>
+          <p className="font-semibold">{t('platform')}</p>
           <ul className="mt-2 space-y-1 text-sm text-gray-300">
-            <li>Photographes</li>
-            <li>Galeries</li>
-            <li>Tarifs</li>
+            <li>{t('photographers')}</li>
+            <li>{t('galleries')}</li>
+            <li>{t('pricing')}</li>
           </ul>
         </div>
 
         <div>
-          <p className="font-semibold">Entreprise</p>
+          <p className="font-semibold">{t('company')}</p>
           <ul className="mt-2 space-y-1 text-sm text-gray-300">
-            <li>À propos</li>
-            <li>FAQ</li>
-            <li>Contact</li>
+            <li>{t('about')}</li>
+            <li>{t('faq')}</li>
+            <li>{t('contact')}</li>
           </ul>
         </div>
 
         <div>
-          <p className="font-semibold">Contact</p>
+          <p className="font-semibold">{t('contact')}</p>
           <ul className="mt-2 space-y-1 text-sm text-gray-300">
-            <li>Dakar, Sénégal</li>
+            <li>{t('location')}</li>
             <li>contact@shootsenegal.com</li>
           </ul>
         </div>
       </div>
 
       <div className="border-t border-white/10 py-4 text-center text-xs text-gray-400">
-        © {new Date().getFullYear()} Senshoot Sénégal — Tous droits réservés.
+        © {new Date().getFullYear()} Senshoot Sénégal — {t('rights')}
       </div>
     </footer>
   );
