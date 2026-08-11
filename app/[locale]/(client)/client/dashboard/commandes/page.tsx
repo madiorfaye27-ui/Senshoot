@@ -1,8 +1,10 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 import QRCode from 'qrcode';
 
 export default async function ClientOrdersPage() {
+  const t = await getTranslations('ClientOrdersPage');
   const supabase = createClient();
   const {
     data: { user },
@@ -16,20 +18,30 @@ export default async function ClientOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">Mes commandes</h1>
+      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
       <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100">
         {(orders ?? []).map((o) => (
-          <OrderRow key={o.id} order={o} />
+          <OrderRow key={o.id} order={o} accessLabel={t('accessLabel')} accessQrAlt={t('accessQrAlt')} usedLink={t('usedLink')} />
         ))}
         {!orders?.length && (
-          <p className="p-8 text-center text-sm text-gray-400">Aucune commande pour le moment.</p>
+          <p className="p-8 text-center text-sm text-gray-400">{t('empty')}</p>
         )}
       </div>
     </div>
   );
 }
 
-async function OrderRow({ order: o }: { order: any }) {
+async function OrderRow({
+  order: o,
+  accessLabel,
+  accessQrAlt,
+  usedLink,
+}: {
+  order: any;
+  accessLabel: string;
+  accessQrAlt: string;
+  usedLink: string;
+}) {
   // Le token n'existe que pour les commandes payées (généré par le
   // webhook Stripe). "used_at" : le lien à usage unique a déjà servi ;
   // le client retrouve alors ses photos via cette page (son compte).
@@ -52,11 +64,9 @@ async function OrderRow({ order: o }: { order: any }) {
 
       {qrDataUrl && (
         <div className="mt-3 flex items-center gap-4 rounded-lg border border-gray-100 p-3">
-          <img src={qrDataUrl} alt="QR d'accès" className="h-20 w-20" />
+          <img src={qrDataUrl} alt={accessQrAlt} className="h-20 w-20" />
           <div>
-            <p className="text-xs font-medium text-sn-slate">
-              Accès direct à vos photos (lien à usage unique)
-            </p>
+            <p className="text-xs font-medium text-sn-slate">{accessLabel}</p>
             <a href={accessUrl!} className="text-xs text-sn-orange break-all">
               {accessUrl}
             </a>
@@ -65,9 +75,7 @@ async function OrderRow({ order: o }: { order: any }) {
       )}
 
       {accessToken?.used_at && (
-        <p className="mt-2 text-xs text-gray-400">
-          Lien d'accès déjà utilisé — vos photos restent disponibles ici, dans votre compte.
-        </p>
+        <p className="mt-2 text-xs text-gray-400">{usedLink}</p>
       )}
     </div>
   );

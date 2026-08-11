@@ -1,20 +1,22 @@
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 
-const links = [
-  { href: '/client/dashboard', label: 'Mon profil' },
-  { href: '/client/dashboard/commandes', label: 'Mes commandes' },
-  { href: '/client/dashboard/telechargements', label: 'Mes téléchargements' },
-];
-
-export default function ClientDashboardLayout({
+export default async function ClientDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = await getTranslations('ClientDashboardLayout');
+  const links = [
+    { href: '/client/dashboard', label: t('navProfile') },
+    { href: '/client/dashboard/commandes', label: t('navOrders') },
+    { href: '/client/dashboard/telechargements', label: t('navDownloads') },
+  ];
+
   return (
     <div className="flex min-h-screen">
       <aside className="w-64 shrink-0 border-r border-gray-100 bg-white p-6">
-        <p className="mb-6 text-lg font-bold text-sn-teal">Espace client</p>
+        <p className="mb-6 text-lg font-bold text-sn-teal">{t('title')}</p>
         <nav className="space-y-1">
           {links.map((link) => (
             <Link

@@ -1,6 +1,8 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function ClientProfilePage() {
+  const t = await getTranslations('ClientProfilePage');
   const supabase = createClient();
   const {
     data: { user },
@@ -15,15 +17,13 @@ export default async function ClientProfilePage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-sn-slate">
-        Bonjour {profile?.first_name ?? ''} 👋
+        {t('greeting', { name: profile?.first_name ?? '' })}
       </h1>
       <p className="mt-1 text-sm text-gray-500">{user?.email}</p>
 
       <div className="mt-8 rounded-xl border border-gray-100 p-6">
-        <p className="font-semibold text-sn-slate">Astuce</p>
-        <p className="mt-1 text-sm text-gray-500">
-          Scannez le QR Code d'un événement pour retrouver et acheter vos photos.
-        </p>
+        <p className="font-semibold text-sn-slate">{t('tip')}</p>
+        <p className="mt-1 text-sm text-gray-500">{t('tipText')}</p>
       </div>
     </div>
   );

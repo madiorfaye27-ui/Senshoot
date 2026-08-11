@@ -118,5 +118,28 @@
     "submit": "Créer mon compte",
     "alreadyRegistered": "Déjà inscrit ?",
     "logIn": "Connectez-vous"
+  },
+  "ClientDashboardLayout": {
+    "title": "Espace client",
+    "navProfile": "Mon profil",
+    "navOrders": "Mes commandes",
+    "navDownloads": "Mes téléchargements"
+  },
+  "ClientProfilePage": {
+    "greeting": "Bonjour {name} 👋",
+    "tip": "Astuce",
+    "tipText": "Scannez le QR Code d'un événement pour retrouver et acheter vos photos."
+  },
+  "ClientOrdersPage": {
+    "title": "Mes commandes",
+    "empty": "Aucune commande pour le moment.",
+    "accessLabel": "Accès direct à vos photos (lien à usage unique)",
+    "accessQrAlt": "QR d'accès",
+    "usedLink": "Lien d'accès déjà utilisé — vos photos restent disponibles ici, dans votre compte."
+  },
+  "ClientDownloadsPage": {
+    "title": "Mes téléchargements",
+    "downloadHQ": "Télécharger la version haute qualité",
+    "empty": "Aucune photo téléchargeable pour le moment."
   }
 }

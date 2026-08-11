@@ -118,5 +118,28 @@
     "submit": "Create my account",
     "alreadyRegistered": "Already registered?",
     "logIn": "Log in"
+  },
+  "ClientDashboardLayout": {
+    "title": "Client area",
+    "navProfile": "My profile",
+    "navOrders": "My orders",
+    "navDownloads": "My downloads"
+  },
+  "ClientProfilePage": {
+    "greeting": "Hello {name} 👋",
+    "tip": "Tip",
+    "tipText": "Scan an event's QR code to find and buy your photos."
+  },
+  "ClientOrdersPage": {
+    "title": "My orders",
+    "empty": "No orders yet.",
+    "accessLabel": "Direct access to your photos (single-use link)",
+    "accessQrAlt": "Access QR",
+    "usedLink": "Access link already used — your photos remain available here, in your account."
+  },
+  "ClientDownloadsPage": {
+    "title": "My downloads",
+    "downloadHQ": "Download high-quality version",
+    "empty": "No downloadable photos yet."
   }
 }
