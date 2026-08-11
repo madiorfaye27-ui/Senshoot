@@ -1,6 +1,7 @@
+import { getTranslations } from 'next-intl/server';
 import { createAdminClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 
 export default async function AccessTokenPage({
@@ -8,6 +9,7 @@ export default async function AccessTokenPage({
 }: {
   params: { token: string };
 }) {
+  const t = await getTranslations('AccessTokenPage');
   const admin = createAdminClient();
 
   const { data: accessToken } = await admin
@@ -28,15 +30,13 @@ export default async function AccessTokenPage({
     return (
       <div className="container-sn flex min-h-[60vh] flex-col items-center justify-center text-center">
         <h1 className="text-xl font-bold text-sn-slate dark:text-white">
-          Ce lien a déjà été utilisé
+          {t('linkUsedTitle')}
         </h1>
         <p className="mt-2 max-w-md text-sm text-gray-500 dark:text-gray-400">
-          Pour votre sécurité, ce lien d'accès à usage unique ne fonctionne
-          qu'une seule fois. Connectez-vous à votre compte pour retrouver vos
-          photos achetées.
+          {t('linkUsedText')}
         </p>
         <Link href="/login" className="btn-primary mt-6 text-sm">
-          Se connecter
+          {t('login')}
         </Link>
       </div>
     );
@@ -51,7 +51,7 @@ export default async function AccessTokenPage({
     <div className="container-sn py-10">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-sn-slate dark:text-white">
-          Vos photos — {order.order_number}
+          {t('title', { orderNumber: order.order_number })}
         </h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {formatDate(order.created_at)} · {formatFCFA(order.total_fcfa)}
@@ -75,7 +75,7 @@ export default async function AccessTokenPage({
                 href={`/api/acces/${params.token}/download/${item.id}`}
                 className="btn-primary mt-2 block text-center text-xs"
               >
-                Télécharger
+                {t('download')}
               </a>
             </div>
           </div>

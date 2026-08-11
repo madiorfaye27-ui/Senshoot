@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { formatFCFA } from '@/lib/utils/format';
 
 type Photo = {
@@ -25,6 +26,7 @@ export default function GalleryCart({
   photos: Photo[];
   eventId: string;
 }) {
+  const t = useTranslations('GalleryCartComponent');
   const [selected, setSelected] = useState<string[]>([]);
   const [paying, setPaying] = useState(false);
   const [query, setQuery] = useState('');
@@ -114,11 +116,11 @@ export default function GalleryCart({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher par numéro de photo (ex: 0042)"
+            placeholder={t('searchPlaceholder')}
             className="w-full max-w-md rounded-lg border border-gray-200 px-4 py-2 text-sm dark:border-white/10 dark:bg-slate-800 dark:text-white"
           />
           <p className="mt-2 text-xs text-gray-400">
-            {visiblePhotos.length} photo(s) {normalizedQuery ? 'trouvée(s)' : 'au total'}
+            {normalizedQuery ? t('resultsFound', { count: visiblePhotos.length }) : t('resultsTotal', { count: visiblePhotos.length })}
           </p>
         </div>
       )}
@@ -155,7 +157,7 @@ export default function GalleryCart({
         ))}
         {!visiblePhotos.length && (
           <p className="col-span-full rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400 dark:border-white/10">
-            Aucune photo ne correspond à "{query}".
+            {t('noResults', { query })}
           </p>
         )}
       </div>
@@ -168,7 +170,7 @@ export default function GalleryCart({
       >
         <div className="container-sn flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm dark:text-gray-200">
-            {selected.length} photo(s) sélectionnée(s) —{' '}
+            {t('selectedCount', { count: selected.length })}{' '}
             <span className="font-bold text-sn-teal">{formatFCFA(total)}</span>
           </p>
           <div className="flex gap-2">
@@ -177,14 +179,14 @@ export default function GalleryCart({
               disabled={paying}
               className="btn-secondary text-sm disabled:opacity-50"
             >
-              Wave / Orange Money
+              {t('payMobileMoney')}
             </button>
             <button
               onClick={checkoutStripe}
               disabled={paying}
               className="btn-primary text-sm disabled:opacity-50"
             >
-              Payer par carte
+              {t('payCard')}
             </button>
           </div>
         </div>

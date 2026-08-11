@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import GalleryCart from '@/components/gallery/GalleryCart';
@@ -7,6 +8,7 @@ export default async function GalleryPage({
 }: {
   params: { eventId: string };
 }) {
+  const t = await getTranslations('PublicGalleryPage');
   const supabase = createClient();
 
   const { data: event } = await supabase
@@ -34,7 +36,7 @@ export default async function GalleryPage({
           <GalleryCart photos={photos} eventId={event.id} />
         ) : (
           <p className="rounded-lg border border-dashed border-gray-300 bg-white p-10 text-center text-gray-400 dark:border-white/10 dark:bg-slate-800">
-            Les photos de cet événement seront bientôt disponibles.
+            {t('comingSoon')}
           </p>
         )}
       </div>

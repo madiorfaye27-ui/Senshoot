@@ -332,6 +332,25 @@
     "subtitle": "100 most recent orders.",
     "empty": "No orders yet."
   },
+  "GalleryCartComponent": {
+    "searchPlaceholder": "Search by photo number (e.g. 0042)",
+    "resultsFound": "{count} photo(s) found",
+    "resultsTotal": "{count} photo(s) total",
+    "noResults": "No photo matches \"{query}\".",
+    "selectedCount": "{count} photo(s) selected —",
+    "payMobileMoney": "Wave / Orange Money",
+    "payCard": "Pay by card"
+  },
+  "AccessTokenPage": {
+    "linkUsedTitle": "This link has already been used",
+    "linkUsedText": "For your security, this single-use access link only works once. Log in to your account to find your purchased photos.",
+    "login": "Log in",
+    "title": "Your photos — {orderNumber}",
+    "download": "Download"
+  },
+  "PublicGalleryPage": {
+    "comingSoon": "This event's photos will be available soon."
+  },
   "AdminSubscriptionsPage": {
     "title": "Subscriptions",
     "perMonth": "/month",

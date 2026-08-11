@@ -332,6 +332,25 @@
     "subtitle": "100 commandes les plus récentes.",
     "empty": "Aucune commande pour le moment."
   },
+  "GalleryCartComponent": {
+    "searchPlaceholder": "Rechercher par numéro de photo (ex: 0042)",
+    "resultsFound": "{count} photo(s) trouvée(s)",
+    "resultsTotal": "{count} photo(s) au total",
+    "noResults": "Aucune photo ne correspond à \"{query}\".",
+    "selectedCount": "{count} photo(s) sélectionnée(s) —",
+    "payMobileMoney": "Wave / Orange Money",
+    "payCard": "Payer par carte"
+  },
+  "AccessTokenPage": {
+    "linkUsedTitle": "Ce lien a déjà été utilisé",
+    "linkUsedText": "Pour votre sécurité, ce lien d'accès à usage unique ne fonctionne qu'une seule fois. Connectez-vous à votre compte pour retrouver vos photos achetées.",
+    "login": "Se connecter",
+    "title": "Vos photos — {orderNumber}",
+    "download": "Télécharger"
+  },
+  "PublicGalleryPage": {
+    "comingSoon": "Les photos de cet événement seront bientôt disponibles."
+  },
   "AdminSubscriptionsPage": {
     "title": "Abonnements",
     "perMonth": "/mois",
