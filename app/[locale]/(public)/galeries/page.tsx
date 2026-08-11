@@ -1,5 +1,6 @@
+import { getTranslations, getLocale } from 'next-intl/server';
+import { Link, getPathname } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
-import Link from 'next/link';
 import { formatDate } from '@/lib/utils/format';
 
 export default async function GalleriesSearchPage({
@@ -7,6 +8,9 @@ export default async function GalleriesSearchPage({
 }: {
   searchParams: { q?: string };
 }) {
+  const t = await getTranslations('GalleriesSearchPage');
+  const locale = await getLocale();
+  const searchAction = getPathname({ href: '/galeries', locale });
   const q = searchParams.q?.trim() ?? '';
   const supabase = createClient();
 
@@ -24,21 +28,19 @@ export default async function GalleriesSearchPage({
 
   return (
     <div className="container-sn py-16">
-      <h1 className="text-3xl font-bold text-sn-slate dark:text-white">Trouver ma galerie</h1>
-      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-        Recherchez l'événement par son nom pour retrouver vos photos.
-      </p>
+      <h1 className="text-3xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
+      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{t('subtitle')}</p>
 
-      <form className="mt-6 flex gap-2" action="/galeries" method="get">
+      <form className="mt-6 flex gap-2" action={searchAction} method="get">
         <input
           type="text"
           name="q"
           defaultValue={q}
-          placeholder="Nom de l'événement (ex: Mariage Awa & Moussa)"
+          placeholder={t('searchPlaceholder')}
           className="w-full max-w-md rounded-lg border border-gray-200 px-4 py-2 dark:border-white/10 dark:bg-slate-800 dark:text-white"
         />
         <button type="submit" className="btn-primary text-sm">
-          Rechercher
+          {t('search')}
         </button>
       </form>
 
@@ -63,9 +65,7 @@ export default async function GalleriesSearchPage({
         ))}
         {!events?.length && (
           <p className="col-span-full rounded-lg border border-dashed border-gray-200 p-10 text-center text-sm text-gray-400 dark:border-white/10">
-            {q
-              ? `Aucun événement trouvé pour "${q}".`
-              : 'Aucun événement publié pour le moment.'}
+            {q ? t('noResultsFor', { query: q }) : t('noEvents')}
           </p>
         )}
       </div>

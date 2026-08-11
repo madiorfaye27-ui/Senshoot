@@ -1,16 +1,15 @@
-const steps = [
-  { title: 'Le photographe crée un événement', text: 'Nom, date, lieu, catégorie.' },
-  { title: 'Un QR Code est généré', text: 'À afficher, imprimer ou partager sur place.' },
-  { title: 'Les participants scannent', text: 'Ils accèdent directement à la galerie.' },
-  { title: 'Ils sélectionnent leurs photos', text: 'Recherche par nom, numéro ou visage (bientôt).' },
-  { title: 'Paiement en ligne', text: 'Wave, Orange Money, carte bancaire.' },
-  { title: 'Téléchargement immédiat', text: 'Lien sécurisé après confirmation du paiement.' },
-];
+import { getTranslations } from 'next-intl/server';
 
-export default function CommentCaMarchePage() {
+export default async function CommentCaMarchePage() {
+  const t = await getTranslations('HowItWorksPage');
+  const steps = [1, 2, 3, 4, 5, 6].map((n) => ({
+    title: t(`step${n}Title` as 'step1Title'),
+    text: t(`step${n}Text` as 'step1Text'),
+  }));
+
   return (
     <div className="container-sn py-16">
-      <h1 className="text-center text-3xl font-bold text-sn-slate dark:text-white">Comment ça marche ?</h1>
+      <h1 className="text-center text-3xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map((s, i) => (
           <div key={s.title} className="surface-card rounded-xl p-6 shadow-sm">

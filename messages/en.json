@@ -47,5 +47,76 @@
   },
   "LanguageSwitcher": {
     "label": "Language"
+  },
+  "PricingPage": {
+    "title": "A plan for every photographer",
+    "perMonth": "/month",
+    "events": "events",
+    "storage": "GB storage",
+    "photos": "photos",
+    "choose": "Choose",
+    "comingSoon": "Plans will be available soon."
+  },
+  "PhotographersPage": {
+    "title": "Our photographers",
+    "subtitle": "Find a photographer for your event and contact them directly.",
+    "defaultName": "Photographer",
+    "empty": "No validated photographer yet."
+  },
+  "HowItWorksPage": {
+    "title": "How it works",
+    "step1Title": "The photographer creates an event",
+    "step1Text": "Name, date, location, category.",
+    "step2Title": "A QR code is generated",
+    "step2Text": "Display, print, or share it on site.",
+    "step3Title": "Guests scan it",
+    "step3Text": "They land directly on the gallery.",
+    "step4Title": "They pick their photos",
+    "step4Text": "Search by name, number, or face (coming soon).",
+    "step5Title": "Online payment",
+    "step5Text": "Wave, Orange Money, card.",
+    "step6Title": "Instant download",
+    "step6Text": "Secure link right after payment is confirmed."
+  },
+  "AboutPage": {
+    "title": "About Senshoot Sénégal",
+    "text": "Senshoot Sénégal connects professional photographers, event organizers, and guests: create an event, import your photos, share a QR code, and sell your images with ease. Your moments. Your images. Your value."
+  },
+  "ContactPage": {
+    "title": "Contact",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "Email",
+    "messagePlaceholder": "Message",
+    "send": "Send"
+  },
+  "GalleriesSearchPage": {
+    "title": "Find my gallery",
+    "subtitle": "Search for the event by name to find your photos.",
+    "searchPlaceholder": "Event name (e.g. Awa & Moussa's Wedding)",
+    "search": "Search",
+    "noResultsFor": "No event found for \"{query}\".",
+    "noEvents": "No published event yet."
+  },
+  "LoginPage": {
+    "title": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "noAccount": "Don't have an account yet?",
+    "signUp": "Sign up"
+  },
+  "RegisterPage": {
+    "title": "Create an account",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "registerAs": "I'm signing up as a",
+    "roleClient": "Client (buy photos)",
+    "rolePhotographer": "Photographer",
+    "acceptTerms": "I accept the terms of use.",
+    "submit": "Create my account",
+    "alreadyRegistered": "Already registered?",
+    "logIn": "Log in"
   }
 }

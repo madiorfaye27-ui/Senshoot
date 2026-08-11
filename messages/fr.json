@@ -47,5 +47,76 @@
   },
   "LanguageSwitcher": {
     "label": "Langue"
+  },
+  "PricingPage": {
+    "title": "Des formules pour chaque photographe",
+    "perMonth": "/mois",
+    "events": "événements",
+    "storage": "Go de stockage",
+    "photos": "photos",
+    "choose": "Choisir",
+    "comingSoon": "Les formules seront bientôt disponibles."
+  },
+  "PhotographersPage": {
+    "title": "Nos photographes",
+    "subtitle": "Trouvez un photographe pour votre événement et contactez-le directement.",
+    "defaultName": "Photographe",
+    "empty": "Aucun photographe validé pour le moment."
+  },
+  "HowItWorksPage": {
+    "title": "Comment ça marche ?",
+    "step1Title": "Le photographe crée un événement",
+    "step1Text": "Nom, date, lieu, catégorie.",
+    "step2Title": "Un QR Code est généré",
+    "step2Text": "À afficher, imprimer ou partager sur place.",
+    "step3Title": "Les participants scannent",
+    "step3Text": "Ils accèdent directement à la galerie.",
+    "step4Title": "Ils sélectionnent leurs photos",
+    "step4Text": "Recherche par nom, numéro ou visage (bientôt).",
+    "step5Title": "Paiement en ligne",
+    "step5Text": "Wave, Orange Money, carte bancaire.",
+    "step6Title": "Téléchargement immédiat",
+    "step6Text": "Lien sécurisé après confirmation du paiement."
+  },
+  "AboutPage": {
+    "title": "À propos de Senshoot Sénégal",
+    "text": "Senshoot Sénégal connecte photographes professionnels, organisateurs d'événements et participants : créez un événement, importez vos photos, partagez un QR Code et vendez vos images en toute simplicité. Vos moments. Vos images. Votre valeur."
+  },
+  "ContactPage": {
+    "title": "Contact",
+    "namePlaceholder": "Nom",
+    "emailPlaceholder": "Email",
+    "messagePlaceholder": "Message",
+    "send": "Envoyer"
+  },
+  "GalleriesSearchPage": {
+    "title": "Trouver ma galerie",
+    "subtitle": "Recherchez l'événement par son nom pour retrouver vos photos.",
+    "searchPlaceholder": "Nom de l'événement (ex: Mariage Awa & Moussa)",
+    "search": "Rechercher",
+    "noResultsFor": "Aucun événement trouvé pour \"{query}\".",
+    "noEvents": "Aucun événement publié pour le moment."
+  },
+  "LoginPage": {
+    "title": "Connexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "noAccount": "Pas encore de compte ?",
+    "signUp": "Inscrivez-vous"
+  },
+  "RegisterPage": {
+    "title": "Créer un compte",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "registerAs": "Je m'inscris en tant que",
+    "roleClient": "Client (acheter des photos)",
+    "rolePhotographer": "Photographe",
+    "acceptTerms": "J'accepte les conditions générales d'utilisation.",
+    "submit": "Créer mon compte",
+    "alreadyRegistered": "Déjà inscrit ?",
+    "logIn": "Connectez-vous"
   }
 }

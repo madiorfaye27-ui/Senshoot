@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createRouteClient } from '@/lib/supabase/route';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { getLocalePrefix } from '@/lib/utils/locale';
 
 const registerSchema = z.object({
   email: z.string().email(),
@@ -18,11 +19,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
+  const locale = getLocalePrefix(request.nextUrl.pathname);
+
   // Limite la création de comptes par IP (anti-bot / anti-spam d'inscriptions)
   const rate = checkRateLimit(request, 'register', 5, 10 * 60_000);
   if (!rate.allowed) {
     return NextResponse.redirect(
-      new URL('/register?error=' + encodeURIComponent('Trop de tentatives, réessayez plus tard.'), request.url)
+      new URL(`${locale}/register?error=` + encodeURIComponent('Trop de tentatives, réessayez plus tard.'), request.url)
     );
   }
 
@@ -38,12 +41,12 @@ export async function POST(request: NextRequest) {
 
   if (!parsed.success) {
     const message = parsed.error.issues[0]?.message || 'Formulaire invalide';
-    return NextResponse.redirect(new URL('/register?error=' + encodeURIComponent(message), request.url));
+    return NextResponse.redirect(new URL(`${locale}/register?error=` + encodeURIComponent(message), request.url));
   }
 
   const { email, password, first_name, last_name, role } = parsed.data;
 
-  const response = NextResponse.redirect(new URL('/', request.url));
+  const response = NextResponse.redirect(new URL(`${locale}/`, request.url));
   const supabase = createRouteClient(request, response);
 
   // 1. Création du compte auth Supabase
@@ -57,7 +60,7 @@ export async function POST(request: NextRequest) {
     // Message générique : ne pas confirmer/infirmer qu'un email est déjà
     // utilisé (évite l'énumération de comptes existants).
     return NextResponse.redirect(
-      new URL('/register?error=' + encodeURIComponent('Inscription impossible avec ces informations.'), request.url)
+      new URL(`${locale}/register?error=` + encodeURIComponent('Inscription impossible avec ces informations.'), request.url)
     );
   }
 

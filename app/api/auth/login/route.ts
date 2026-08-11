@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createRouteClient } from '@/lib/supabase/route';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { getLocalePrefix } from '@/lib/utils/locale';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -14,12 +15,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
+  const locale = getLocalePrefix(request.nextUrl.pathname);
+
   // Limite les tentatives de connexion par IP : ralentit fortement une
   // attaque par force brute sur les mots de passe (5 essais / minute).
   const rate = checkRateLimit(request, 'login', 5, 60_000);
   if (!rate.allowed) {
     return NextResponse.redirect(
-      new URL('/login?error=' + encodeURIComponent('Trop de tentatives, réessayez dans une minute.'), request.url)
+      new URL(`${locale}/login?error=` + encodeURIComponent('Trop de tentatives, réessayez dans une minute.'), request.url)
     );
   }
 
@@ -31,11 +34,11 @@ export async function POST(request: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.redirect(
-      new URL('/login?error=' + encodeURIComponent('Email ou mot de passe invalide.'), request.url)
+      new URL(`${locale}/login?error=` + encodeURIComponent('Email ou mot de passe invalide.'), request.url)
     );
   }
 
-  const response = NextResponse.redirect(new URL('/', request.url));
+  const response = NextResponse.redirect(new URL(`${locale}/`, request.url));
   const supabase = createRouteClient(request, response);
 
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
@@ -50,7 +53,7 @@ export async function POST(request: NextRequest) {
       error.message === 'Email not confirmed'
         ? 'Merci de confirmer votre email avant de vous connecter.'
         : 'Identifiants incorrects.';
-    return NextResponse.redirect(new URL('/login?error=' + encodeURIComponent(message), request.url));
+    return NextResponse.redirect(new URL(`${locale}/login?error=` + encodeURIComponent(message), request.url));
   }
 
   return response;
