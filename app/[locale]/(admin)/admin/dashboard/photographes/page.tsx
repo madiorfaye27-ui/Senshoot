@@ -1,12 +1,6 @@
+import { getTranslations } from 'next-intl/server';
 import { createAdminClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils/format';
-
-const STATUS_LABELS: Record<string, string> = {
-  pending: 'En attente',
-  validated: 'Validé',
-  rejected: 'Rejeté',
-  suspended: 'Suspendu',
-};
 
 const STATUS_STYLES: Record<string, string> = {
   pending: 'bg-amber-50 text-amber-700',
@@ -16,6 +10,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function AdminPhotographersPage() {
+  const t = await getTranslations('AdminPhotographersPage');
   const admin = createAdminClient();
 
   const { data: photographers } = await admin
@@ -26,36 +21,50 @@ export default async function AdminPhotographersPage() {
   const pending = (photographers ?? []).filter((p) => p.status === 'pending');
   const others = (photographers ?? []).filter((p) => p.status !== 'pending');
 
+  const STATUS_LABELS: Record<string, string> = {
+    pending: t('statusPending'),
+    validated: t('statusValidated'),
+    rejected: t('statusRejected'),
+    suspended: t('statusSuspended'),
+  };
+
+  const labels = {
+    defaultName: t('defaultName'),
+    noPhone: t('noPhone'),
+    registeredOn: (date: string) => t('registeredOn', { date }),
+    validate: t('validate'),
+    reject: t('reject'),
+    suspend: t('suspend'),
+    reactivate: t('reactivate'),
+  };
+
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">Photographes</h1>
-      <p className="mt-1 text-sm text-gray-500">
-        Validez un photographe pour qu'il apparaisse publiquement sur
-        l'accueil, l'annuaire et sa fiche.
-      </p>
+      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+      <p className="mt-1 text-sm text-gray-500">{t('intro')}</p>
 
       {!!pending.length && (
         <div className="mt-8">
           <h2 className="text-sm font-semibold uppercase text-gray-400">
-            En attente de validation ({pending.length})
+            {t('pendingHeading', { count: pending.length })}
           </h2>
           <div className="mt-3 space-y-3">
             {pending.map((p) => (
-              <PhotographerRow key={p.id} photographer={p} />
+              <PhotographerRow key={p.id} photographer={p} statusLabels={STATUS_LABELS} labels={labels} />
             ))}
           </div>
         </div>
       )}
 
       <div className="mt-8">
-        <h2 className="text-sm font-semibold uppercase text-gray-400">Tous les photographes</h2>
+        <h2 className="text-sm font-semibold uppercase text-gray-400">{t('allHeading')}</h2>
         <div className="mt-3 space-y-3">
           {others.map((p) => (
-            <PhotographerRow key={p.id} photographer={p} />
+            <PhotographerRow key={p.id} photographer={p} statusLabels={STATUS_LABELS} labels={labels} />
           ))}
           {!photographers?.length && (
             <p className="rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400">
-              Aucun photographe inscrit pour le moment.
+              {t('empty')}
             </p>
           )}
         </div>
@@ -64,36 +73,52 @@ export default async function AdminPhotographersPage() {
   );
 }
 
-function PhotographerRow({ photographer: p }: { photographer: any }) {
+function PhotographerRow({
+  photographer: p,
+  statusLabels,
+  labels,
+}: {
+  photographer: any;
+  statusLabels: Record<string, string>;
+  labels: {
+    defaultName: string;
+    noPhone: string;
+    registeredOn: (date: string) => string;
+    validate: string;
+    reject: string;
+    suspend: string;
+    reactivate: string;
+  };
+}) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-gray-100 p-4">
       <div>
         <div className="flex items-center gap-2">
           <p className="font-semibold text-sn-slate">
-            {p.studio_name || `${p.profiles?.first_name ?? ''} ${p.profiles?.last_name ?? ''}`.trim() || 'Photographe'}
+            {p.studio_name || `${p.profiles?.first_name ?? ''} ${p.profiles?.last_name ?? ''}`.trim() || labels.defaultName}
           </p>
           <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[p.status]}`}>
-            {STATUS_LABELS[p.status]}
+            {statusLabels[p.status]}
           </span>
         </div>
         <p className="mt-1 text-xs text-gray-500">
-          {p.profiles?.first_name} {p.profiles?.last_name} · {p.profiles?.phone || 'pas de téléphone'} ·
-          {' '}inscrit le {formatDate(p.created_at)}
+          {p.profiles?.first_name} {p.profiles?.last_name} · {p.profiles?.phone || labels.noPhone} ·
+          {' '}{labels.registeredOn(formatDate(p.created_at))}
         </p>
       </div>
 
       <div className="flex gap-2">
         {(p.status === 'pending' || p.status === 'rejected') && (
-          <StatusForm photographerId={p.id} status="validated" label="Valider" className="btn-primary text-xs" />
+          <StatusForm photographerId={p.id} status="validated" label={labels.validate} className="btn-primary text-xs" />
         )}
         {p.status === 'pending' && (
-          <StatusForm photographerId={p.id} status="rejected" label="Rejeter" className="btn-secondary text-xs" />
+          <StatusForm photographerId={p.id} status="rejected" label={labels.reject} className="btn-secondary text-xs" />
         )}
         {p.status === 'validated' && (
-          <StatusForm photographerId={p.id} status="suspended" label="Suspendre" className="btn-secondary text-xs" />
+          <StatusForm photographerId={p.id} status="suspended" label={labels.suspend} className="btn-secondary text-xs" />
         )}
         {p.status === 'suspended' && (
-          <StatusForm photographerId={p.id} status="validated" label="Réactiver" className="btn-primary text-xs" />
+          <StatusForm photographerId={p.id} status="validated" label={labels.reactivate} className="btn-primary text-xs" />
         )}
       </div>
     </div>

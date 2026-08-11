@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { createAdminClient } from '@/lib/supabase/server';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 
@@ -10,6 +11,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function AdminSubscriptionsPage() {
+  const t = await getTranslations('AdminSubscriptionsPage');
   const admin = createAdminClient();
 
   const { data: subscriptions } = await admin
@@ -19,24 +21,24 @@ export default async function AdminSubscriptionsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">Abonnements</h1>
+      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
 
       <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100">
         {(subscriptions ?? []).map((s: any) => (
           <div key={s.id} className="flex flex-wrap items-center justify-between gap-2 p-4 text-sm">
             <span className="text-sn-slate">{s.photographers?.studio_name || s.photographers?.slug}</span>
             <span className="font-medium text-sn-orange">{s.plans?.name}</span>
-            <span className="text-gray-500">{formatFCFA(s.plans?.price_fcfa)}/mois</span>
+            <span className="text-gray-500">{formatFCFA(s.plans?.price_fcfa)}{t('perMonth')}</span>
             <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[s.status] ?? ''}`}>
               {s.status}
             </span>
             <span className="text-xs text-gray-400">
-              {s.expires_at ? `Expire le ${formatDate(s.expires_at)}` : 'Sans expiration'}
+              {s.expires_at ? t('expiresOn', { date: formatDate(s.expires_at) }) : t('noExpiration')}
             </span>
           </div>
         ))}
         {!subscriptions?.length && (
-          <p className="p-8 text-center text-sm text-gray-400">Aucun abonnement pour le moment.</p>
+          <p className="p-8 text-center text-sm text-gray-400">{t('empty')}</p>
         )}
       </div>
     </div>

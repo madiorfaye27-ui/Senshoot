@@ -253,5 +253,61 @@
     "unsupportedFormat": "{name} : format non supporté (JPEG, PNG, WEBP, HEIC uniquement)",
     "tooLarge": "{name} : fichier trop volumineux (25 Mo max)",
     "processingError": "erreur de traitement"
+  },
+  "AdminDashboardLayout": {
+    "title": "Administration",
+    "navOverview": "Vue d'ensemble",
+    "navUsers": "Utilisateurs",
+    "navPhotographers": "Photographes",
+    "navOrders": "Commandes & paiements",
+    "navSubscriptions": "Abonnements"
+  },
+  "AdminDashboardPage": {
+    "title": "Tableau de bord administrateur",
+    "statUsers": "Utilisateurs",
+    "statPhotographers": "Photographes",
+    "statOrders": "Commandes"
+  },
+  "AdminPhotographersPage": {
+    "title": "Photographes",
+    "intro": "Validez un photographe pour qu'il apparaisse publiquement sur l'accueil, l'annuaire et sa fiche.",
+    "pendingHeading": "En attente de validation ({count})",
+    "allHeading": "Tous les photographes",
+    "empty": "Aucun photographe inscrit pour le moment.",
+    "defaultName": "Photographe",
+    "noPhone": "pas de téléphone",
+    "registeredOn": "inscrit le {date}",
+    "statusPending": "En attente",
+    "statusValidated": "Validé",
+    "statusRejected": "Rejeté",
+    "statusSuspended": "Suspendu",
+    "validate": "Valider",
+    "reject": "Rejeter",
+    "suspend": "Suspendre",
+    "reactivate": "Réactiver"
+  },
+  "AdminUsersPage": {
+    "title": "Utilisateurs",
+    "filterAll": "Tous",
+    "filterClients": "Clients",
+    "filterPhotographers": "Photographes",
+    "filterAdmins": "Admins",
+    "roleClient": "Client",
+    "rolePhotographer": "Photographe",
+    "roleAdmin": "Admin",
+    "registeredOn": "Inscrit le {date}",
+    "empty": "Aucun utilisateur pour ce filtre."
+  },
+  "AdminOrdersPage": {
+    "title": "Commandes & paiements",
+    "subtitle": "100 commandes les plus récentes.",
+    "empty": "Aucune commande pour le moment."
+  },
+  "AdminSubscriptionsPage": {
+    "title": "Abonnements",
+    "perMonth": "/mois",
+    "expiresOn": "Expire le {date}",
+    "noExpiration": "Sans expiration",
+    "empty": "Aucun abonnement pour le moment."
   }
 }

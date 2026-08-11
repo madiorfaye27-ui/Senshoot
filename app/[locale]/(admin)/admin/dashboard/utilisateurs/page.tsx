@@ -1,11 +1,7 @@
+import { getTranslations, getLocale } from 'next-intl/server';
+import { getPathname } from '@/i18n/navigation';
 import { createAdminClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils/format';
-
-const ROLE_LABELS: Record<string, string> = {
-  client: 'Client',
-  photographer: 'Photographe',
-  admin: 'Admin',
-};
 
 const ROLE_STYLES: Record<string, string> = {
   client: 'bg-sn-teal/10 text-sn-teal',
@@ -18,6 +14,9 @@ export default async function AdminUsersPage({
 }: {
   searchParams: { role?: string };
 }) {
+  const t = await getTranslations('AdminUsersPage');
+  const locale = await getLocale();
+  const basePath = getPathname({ href: '/admin/dashboard/utilisateurs', locale });
   const admin = createAdminClient();
 
   const [{ data: profiles }, { data: authUsers }] = await Promise.all([
@@ -32,20 +31,26 @@ export default async function AdminUsersPage({
   const roleFilter = searchParams.role;
   const users = (profiles ?? []).filter((p) => !roleFilter || p.role === roleFilter);
 
+  const ROLE_LABELS: Record<string, string> = {
+    client: t('roleClient'),
+    photographer: t('rolePhotographer'),
+    admin: t('roleAdmin'),
+  };
+
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">Utilisateurs</h1>
+      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
 
       <div className="mt-4 flex gap-2">
         {[
-          { value: undefined, label: 'Tous' },
-          { value: 'client', label: 'Clients' },
-          { value: 'photographer', label: 'Photographes' },
-          { value: 'admin', label: 'Admins' },
+          { value: undefined, label: t('filterAll') },
+          { value: 'client', label: t('filterClients') },
+          { value: 'photographer', label: t('filterPhotographers') },
+          { value: 'admin', label: t('filterAdmins') },
         ].map((f) => (
           <a
             key={f.label}
-            href={f.value ? `/admin/dashboard/utilisateurs?role=${f.value}` : '/admin/dashboard/utilisateurs'}
+            href={f.value ? `${basePath}?role=${f.value}` : basePath}
             className={`rounded-full px-3 py-1 text-xs font-medium ${
               roleFilter === f.value ? 'bg-sn-orange text-white' : 'bg-gray-100 text-gray-600'
             }`}
@@ -68,11 +73,11 @@ export default async function AdminUsersPage({
               {ROLE_LABELS[u.role] ?? u.role}
             </span>
             <span className="text-xs text-gray-500">{u.city || '—'}</span>
-            <span className="text-xs text-gray-400">Inscrit le {formatDate(u.created_at)}</span>
+            <span className="text-xs text-gray-400">{t('registeredOn', { date: formatDate(u.created_at) })}</span>
           </div>
         ))}
         {!users.length && (
-          <p className="p-8 text-center text-sm text-gray-400">Aucun utilisateur pour ce filtre.</p>
+          <p className="p-8 text-center text-sm text-gray-400">{t('empty')}</p>
         )}
       </div>
     </div>

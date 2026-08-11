@@ -253,5 +253,61 @@
     "unsupportedFormat": "{name}: unsupported format (JPEG, PNG, WEBP, HEIC only)",
     "tooLarge": "{name}: file too large (25 MB max)",
     "processingError": "processing error"
+  },
+  "AdminDashboardLayout": {
+    "title": "Administration",
+    "navOverview": "Overview",
+    "navUsers": "Users",
+    "navPhotographers": "Photographers",
+    "navOrders": "Orders & payments",
+    "navSubscriptions": "Subscriptions"
+  },
+  "AdminDashboardPage": {
+    "title": "Admin dashboard",
+    "statUsers": "Users",
+    "statPhotographers": "Photographers",
+    "statOrders": "Orders"
+  },
+  "AdminPhotographersPage": {
+    "title": "Photographers",
+    "intro": "Validate a photographer so they appear publicly on the homepage, the directory, and their profile page.",
+    "pendingHeading": "Pending validation ({count})",
+    "allHeading": "All photographers",
+    "empty": "No registered photographer yet.",
+    "defaultName": "Photographer",
+    "noPhone": "no phone number",
+    "registeredOn": "registered on {date}",
+    "statusPending": "Pending",
+    "statusValidated": "Validated",
+    "statusRejected": "Rejected",
+    "statusSuspended": "Suspended",
+    "validate": "Validate",
+    "reject": "Reject",
+    "suspend": "Suspend",
+    "reactivate": "Reactivate"
+  },
+  "AdminUsersPage": {
+    "title": "Users",
+    "filterAll": "All",
+    "filterClients": "Clients",
+    "filterPhotographers": "Photographers",
+    "filterAdmins": "Admins",
+    "roleClient": "Client",
+    "rolePhotographer": "Photographer",
+    "roleAdmin": "Admin",
+    "registeredOn": "Registered on {date}",
+    "empty": "No users for this filter."
+  },
+  "AdminOrdersPage": {
+    "title": "Orders & payments",
+    "subtitle": "100 most recent orders.",
+    "empty": "No orders yet."
+  },
+  "AdminSubscriptionsPage": {
+    "title": "Subscriptions",
+    "perMonth": "/month",
+    "expiresOn": "Expires on {date}",
+    "noExpiration": "No expiration",
+    "empty": "No subscriptions yet."
   }
 }

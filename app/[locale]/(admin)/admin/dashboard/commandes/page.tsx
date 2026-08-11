@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { createAdminClient } from '@/lib/supabase/server';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 
@@ -10,6 +11,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function AdminOrdersPage() {
+  const t = await getTranslations('AdminOrdersPage');
   const admin = createAdminClient();
 
   const { data: orders } = await admin
@@ -20,8 +22,8 @@ export default async function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">Commandes & paiements</h1>
-      <p className="mt-1 text-sm text-gray-500">100 commandes les plus récentes.</p>
+      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+      <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
 
       <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100">
         {(orders ?? []).map((o: any) => (
@@ -40,7 +42,7 @@ export default async function AdminOrdersPage() {
           </div>
         ))}
         {!orders?.length && (
-          <p className="p-8 text-center text-sm text-gray-400">Aucune commande pour le moment.</p>
+          <p className="p-8 text-center text-sm text-gray-400">{t('empty')}</p>
         )}
       </div>
     </div>
