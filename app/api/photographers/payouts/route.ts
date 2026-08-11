@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { isSameOriginRequest } from '@/lib/utils/csrf';
-import { getAvailableBalance } from '@/lib/utils/payouts';
+import { getAvailableBalance, getCommissionRate } from '@/lib/utils/payouts';
 
 const payoutSchema = z.object({
   amount_fcfa: z.coerce.number().int().positive(),
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
   const { data: photographer } = await supabase
     .from('photographers')
-    .select('id, commission_rate')
+    .select('id')
     .eq('profile_id', user.id)
     .single();
 
@@ -55,7 +55,8 @@ export async function POST(request: NextRequest) {
 
   // Le solde est recalculé côté serveur — jamais fait confiance à une
   // valeur envoyée par le client, qui pourrait être falsifiée.
-  const available = await getAvailableBalance(supabase, photographer.id, photographer.commission_rate);
+  const commissionRate = await getCommissionRate(supabase, photographer.id);
+  const available = await getAvailableBalance(supabase, photographer.id, commissionRate);
 
   if (parsed.data.amount_fcfa > available) {
     return NextResponse.redirect(

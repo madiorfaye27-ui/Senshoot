@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
-import { getAvailableBalance } from '@/lib/utils/payouts';
+import { getAvailableBalance, getCommissionRate } from '@/lib/utils/payouts';
 
 export default async function VentesPage({
   searchParams,
@@ -16,7 +16,7 @@ export default async function VentesPage({
 
   const { data: photographer } = await supabase
     .from('photographers')
-    .select('id, commission_rate')
+    .select('id')
     .eq('profile_id', user?.id)
     .single();
 
@@ -30,7 +30,7 @@ export default async function VentesPage({
     .filter((o) => o.status === 'payee')
     .reduce((sum, o) => sum + o.total_fcfa, 0);
 
-  const commissionRate = photographer?.commission_rate ?? 0;
+  const commissionRate = photographer ? await getCommissionRate(supabase, photographer.id) : 0;
   const available = photographer
     ? await getAvailableBalance(supabase, photographer.id, commissionRate)
     : 0;
