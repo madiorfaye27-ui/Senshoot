@@ -141,5 +141,117 @@
     "title": "Mes téléchargements",
     "downloadHQ": "Télécharger la version haute qualité",
     "empty": "Aucune photo téléchargeable pour le moment."
+  },
+  "PhotographerDashboardLayout": {
+    "title": "Espace photographe",
+    "navOverview": "Vue d'ensemble",
+    "navEvents": "Événements",
+    "navGalleries": "Galeries",
+    "navSales": "Ventes & revenus",
+    "navProfile": "Mon profil public",
+    "navSubscription": "Abonnement"
+  },
+  "PhotographerDashboardPage": {
+    "welcome": "Bienvenue{studioName}",
+    "accountStatus": "Statut du compte :",
+    "statusPending": "en attente",
+    "statEvents": "Événements",
+    "statGalleries": "Galeries",
+    "statPhotos": "Photos",
+    "statSales": "Ventes",
+    "statRevenue": "Chiffre d'affaires",
+    "statAvailableRevenue": "Revenus disponibles"
+  },
+  "PhotographerProfilePage": {
+    "title": "Mon profil public",
+    "intro": "Ces informations sont visibles par tous les clients sur la page d'accueil et l'annuaire des photographes — c'est ce qui leur permet de vous contacter pour un événement.",
+    "success": "Profil mis à jour.",
+    "studioName": "Nom du studio",
+    "description": "Description",
+    "city": "Ville",
+    "cityPlaceholder": "Dakar",
+    "phone": "Téléphone",
+    "phonePlaceholder": "+221 77 000 00 00",
+    "whatsapp": "WhatsApp",
+    "whatsappPlaceholder": "+221 77 000 00 00",
+    "email": "Email de contact",
+    "save": "Enregistrer"
+  },
+  "AbonnementPage": {
+    "title": "Mon abonnement",
+    "perMonth": "/mois",
+    "expiresOn": "Expire le {date}",
+    "noActive": "Aucun abonnement actif.",
+    "seePlans": "Voir les formules →"
+  },
+  "VentesPage": {
+    "title": "Ventes & revenus",
+    "revenue": "Chiffre d'affaires :",
+    "estimatedRevenue": "Revenu estimé ({percent}) :",
+    "empty": "Aucune vente pour le moment."
+  },
+  "EventsPage": {
+    "title": "Mes événements",
+    "newEvent": "+ Nouvel événement",
+    "manage": "Gérer →",
+    "empty": "Aucun événement pour le moment. Créez votre premier événement pour générer un QR Code."
+  },
+  "NewEventPage": {
+    "title": "Nouvel événement",
+    "nameLabel": "Nom de l'événement",
+    "descriptionLabel": "Description",
+    "dateLabel": "Date",
+    "cityLabel": "Ville",
+    "categoryLabel": "Catégorie",
+    "submit": "Créer l'événement et générer le QR Code"
+  },
+  "EventCategories": {
+    "mariage": "Mariage",
+    "bapteme": "Baptême",
+    "anniversaire": "Anniversaire",
+    "conference": "Conférence",
+    "concert": "Concert",
+    "festival": "Festival",
+    "sport": "Sport",
+    "professionnel": "Professionnel",
+    "remise_diplomes": "Remise de diplômes",
+    "scolaire": "Scolaire",
+    "institutionnel": "Institutionnel",
+    "shooting": "Shooting photo",
+    "autre": "Autre"
+  },
+  "EventManagePage": {
+    "qrCodeAlt": "QR Code",
+    "qrCodeTitle": "QR Code de l'événement",
+    "qrCodeDesc": "Public, réutilisable par tous les invités — /galerie/{code}",
+    "photosTitle": "Photos",
+    "photosImported": "{count} photo(s) importée(s)",
+    "noGallery": "Aucune galerie associée à cet événement.",
+    "clientLinksTitle": "Liens clients (sur place)",
+    "clientLinksDesc": "Un lien/QR individuel à usage unique par client présent, pour l'emmener directement vers cette galerie.",
+    "generateLink": "+ Générer un lien client",
+    "noLinks": "Aucun lien généré pour le moment.",
+    "linkUsed": "Lien utilisé",
+    "linkAvailable": "Lien disponible",
+    "usedShort": "Utilisé",
+    "clientQrAlt": "QR client"
+  },
+  "GaleriesPage": {
+    "title": "Mes galeries",
+    "photosCount": "{count} photo(s)",
+    "importPhotos": "Importer des photos →",
+    "empty": "Créez d'abord un événement pour obtenir une galerie."
+  },
+  "GalleryManagePage": {
+    "photosImported": "{count} photo(s) importée(s)",
+    "qrCodeAlt": "QR Code",
+    "qrCodeTitle": "QR Code de l'événement"
+  },
+  "PhotoUploader": {
+    "uploading": "Import et filigranage en cours… {done}/{total}",
+    "hint": "Glissez-déposez ou sélectionnez plusieurs photos à la fois (25 Mo max par fichier). Un filigrane Senshoot Sénégal est appliqué automatiquement ; l'original reste privé jusqu'au paiement du client.",
+    "unsupportedFormat": "{name} : format non supporté (JPEG, PNG, WEBP, HEIC uniquement)",
+    "tooLarge": "{name} : fichier trop volumineux (25 Mo max)",
+    "processingError": "erreur de traitement"
   }
 }

@@ -1,7 +1,9 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA } from '@/lib/utils/format';
 
 export default async function PhotographerDashboardPage() {
+  const t = await getTranslations('PhotographerDashboardPage');
   const supabase = createClient();
   const {
     data: { user },
@@ -14,22 +16,22 @@ export default async function PhotographerDashboardPage() {
     .single();
 
   const stats = [
-    { label: 'Événements', value: 0 },
-    { label: 'Galeries', value: 0 },
-    { label: 'Photos', value: 0 },
-    { label: 'Ventes', value: 0 },
-    { label: 'Chiffre d\'affaires', value: formatFCFA(0) },
-    { label: 'Revenus disponibles', value: formatFCFA(0) },
+    { label: t('statEvents'), value: 0 },
+    { label: t('statGalleries'), value: 0 },
+    { label: t('statPhotos'), value: 0 },
+    { label: t('statSales'), value: 0 },
+    { label: t('statRevenue'), value: formatFCFA(0) },
+    { label: t('statAvailableRevenue'), value: formatFCFA(0) },
   ];
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-sn-slate">
-        Bienvenue{photographer?.studio_name ? `, ${photographer.studio_name}` : ''}
+        {t('welcome', { studioName: photographer?.studio_name ? `, ${photographer.studio_name}` : '' })}
       </h1>
       <p className="mt-1 text-sm text-gray-500">
-        Statut du compte :{' '}
-        <span className="font-medium">{photographer?.status ?? 'en attente'}</span>
+        {t('accountStatus')}{' '}
+        <span className="font-medium">{photographer?.status ?? t('statusPending')}</span>
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">

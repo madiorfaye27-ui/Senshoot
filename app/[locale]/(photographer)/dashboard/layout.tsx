@@ -1,23 +1,25 @@
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 
-const links = [
-  { href: '/dashboard', label: 'Vue d\'ensemble' },
-  { href: '/dashboard/evenements', label: 'Événements' },
-  { href: '/dashboard/galeries', label: 'Galeries' },
-  { href: '/dashboard/ventes', label: 'Ventes & revenus' },
-  { href: '/dashboard/profil', label: 'Mon profil public' },
-  { href: '/dashboard/abonnement', label: 'Abonnement' },
-];
-
-export default function PhotographerDashboardLayout({
+export default async function PhotographerDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = await getTranslations('PhotographerDashboardLayout');
+  const links = [
+    { href: '/dashboard', label: t('navOverview') },
+    { href: '/dashboard/evenements', label: t('navEvents') },
+    { href: '/dashboard/galeries', label: t('navGalleries') },
+    { href: '/dashboard/ventes', label: t('navSales') },
+    { href: '/dashboard/profil', label: t('navProfile') },
+    { href: '/dashboard/abonnement', label: t('navSubscription') },
+  ];
+
   return (
     <div className="flex min-h-screen">
       <aside className="w-64 shrink-0 border-r border-gray-100 bg-white p-6">
-        <p className="mb-6 text-lg font-bold text-sn-teal">Espace photographe</p>
+        <p className="mb-6 text-lg font-bold text-sn-teal">{t('title')}</p>
         <nav className="space-y-1">
           {links.map((link) => (
             <Link

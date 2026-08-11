@@ -1,7 +1,9 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA } from '@/lib/utils/format';
 
 export default async function VentesPage() {
+  const t = await getTranslations('VentesPage');
   const supabase = createClient();
   const {
     data: { user },
@@ -25,10 +27,10 @@ export default async function VentesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">Ventes & revenus</h1>
+      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
       <p className="mt-2 text-sm text-gray-500">
-        Chiffre d'affaires : <span className="font-semibold text-sn-teal">{formatFCFA(total)}</span>
-        {' · '}Revenu estimé ({photographer ? '90%' : '—'}) :{' '}
+        {t('revenue')} <span className="font-semibold text-sn-teal">{formatFCFA(total)}</span>
+        {' · '}{t('estimatedRevenue', { percent: photographer ? '90%' : '—' })}{' '}
         <span className="font-semibold text-sn-teal">{formatFCFA(Math.round(total * 0.9))}</span>
       </p>
 
@@ -41,7 +43,7 @@ export default async function VentesPage() {
           </div>
         ))}
         {!orders?.length && (
-          <p className="p-8 text-center text-sm text-gray-400">Aucune vente pour le moment.</p>
+          <p className="p-8 text-center text-sm text-gray-400">{t('empty')}</p>
         )}
       </div>
     </div>

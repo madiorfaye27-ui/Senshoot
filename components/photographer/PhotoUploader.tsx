@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 
 const ORIGINALS_BUCKET = 'photos-originals';
@@ -8,6 +9,7 @@ const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 Mo
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
 export default function PhotoUploader({ galleryId }: { galleryId: string }) {
+  const t = useTranslations('PhotoUploader');
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0 });
   const [errors, setErrors] = useState<string[]>([]);
@@ -26,12 +28,12 @@ export default function PhotoUploader({ galleryId }: { galleryId: string }) {
       // vérifications côté serveur — ceci n'est qu'un premier filtre
       // pour un retour immédiat à l'utilisateur).
       if (!ALLOWED_TYPES.includes(file.type)) {
-        setErrors((e) => [...e, `${file.name} : format non supporté (JPEG, PNG, WEBP, HEIC uniquement)`]);
+        setErrors((e) => [...e, t('unsupportedFormat', { name: file.name })]);
         setProgress((p) => ({ ...p, done: p.done + 1 }));
         continue;
       }
       if (file.size > MAX_FILE_SIZE) {
-        setErrors((e) => [...e, `${file.name} : fichier trop volumineux (25 Mo max)`]);
+        setErrors((e) => [...e, t('tooLarge', { name: file.name })]);
         setProgress((p) => ({ ...p, done: p.done + 1 }));
         continue;
       }
@@ -67,7 +69,7 @@ export default function PhotoUploader({ galleryId }: { galleryId: string }) {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setErrors((e) => [...e, `${file.name} : ${data.error || 'erreur de traitement'}`]);
+        setErrors((e) => [...e, `${file.name} : ${data.error || t('processingError')}`]);
       }
 
       setProgress((p) => ({ ...p, done: p.done + 1 }));
@@ -88,7 +90,7 @@ export default function PhotoUploader({ galleryId }: { galleryId: string }) {
       />
       {uploading && (
         <p className="mt-3 text-sm text-sn-teal">
-          Import et filigranage en cours… {progress.done}/{progress.total}
+          {t('uploading', { done: progress.done, total: progress.total })}
         </p>
       )}
       {errors.length > 0 && (
@@ -98,11 +100,7 @@ export default function PhotoUploader({ galleryId }: { galleryId: string }) {
           ))}
         </ul>
       )}
-      <p className="mt-2 text-xs text-gray-400">
-        Glissez-déposez ou sélectionnez plusieurs photos à la fois (25 Mo max
-        par fichier). Un filigrane Senshoot Sénégal est appliqué
-        automatiquement ; l'original reste privé jusqu'au paiement du client.
-      </p>
+      <p className="mt-2 text-xs text-gray-400">{t('hint')}</p>
     </div>
   );
 }

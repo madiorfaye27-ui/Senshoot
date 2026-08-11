@@ -1,7 +1,9 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 export default async function GaleriesPage() {
+  const t = await getTranslations('GaleriesPage');
   const supabase = createClient();
   const {
     data: { user },
@@ -20,7 +22,7 @@ export default async function GaleriesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">Mes galeries</h1>
+      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
       <div className="mt-6 space-y-3">
         {(events ?? []).map((e: any) => {
           const gallery = e.galleries?.[0];
@@ -28,20 +30,20 @@ export default async function GaleriesPage() {
             <div key={e.id} className="flex items-center justify-between rounded-lg border border-gray-100 p-4">
               <div>
                 <p className="font-semibold text-sn-slate">{e.name}</p>
-                <p className="text-xs text-gray-500">{gallery?.photos?.length ?? 0} photo(s)</p>
+                <p className="text-xs text-gray-500">{t('photosCount', { count: gallery?.photos?.length ?? 0 })}</p>
               </div>
               <Link
                 href={`/dashboard/galeries/${gallery?.id}`}
                 className="text-sm font-medium text-sn-orange"
               >
-                Importer des photos →
+                {t('importPhotos')}
               </Link>
             </div>
           );
         })}
         {!events?.length && (
           <p className="rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400">
-            Créez d'abord un événement pour obtenir une galerie.
+            {t('empty')}
           </p>
         )}
       </div>

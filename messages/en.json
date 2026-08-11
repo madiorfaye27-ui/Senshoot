@@ -141,5 +141,117 @@
     "title": "My downloads",
     "downloadHQ": "Download high-quality version",
     "empty": "No downloadable photos yet."
+  },
+  "PhotographerDashboardLayout": {
+    "title": "Photographer area",
+    "navOverview": "Overview",
+    "navEvents": "Events",
+    "navGalleries": "Galleries",
+    "navSales": "Sales & revenue",
+    "navProfile": "My public profile",
+    "navSubscription": "Subscription"
+  },
+  "PhotographerDashboardPage": {
+    "welcome": "Welcome{studioName}",
+    "accountStatus": "Account status:",
+    "statusPending": "pending",
+    "statEvents": "Events",
+    "statGalleries": "Galleries",
+    "statPhotos": "Photos",
+    "statSales": "Sales",
+    "statRevenue": "Revenue",
+    "statAvailableRevenue": "Available revenue"
+  },
+  "PhotographerProfilePage": {
+    "title": "My public profile",
+    "intro": "This information is visible to all clients on the homepage and the photographer directory — it's how they reach you about an event.",
+    "success": "Profile updated.",
+    "studioName": "Studio name",
+    "description": "Description",
+    "city": "City",
+    "cityPlaceholder": "Dakar",
+    "phone": "Phone",
+    "phonePlaceholder": "+221 77 000 00 00",
+    "whatsapp": "WhatsApp",
+    "whatsappPlaceholder": "+221 77 000 00 00",
+    "email": "Contact email",
+    "save": "Save"
+  },
+  "AbonnementPage": {
+    "title": "My subscription",
+    "perMonth": "/month",
+    "expiresOn": "Expires on {date}",
+    "noActive": "No active subscription.",
+    "seePlans": "See plans →"
+  },
+  "VentesPage": {
+    "title": "Sales & revenue",
+    "revenue": "Revenue:",
+    "estimatedRevenue": "Estimated payout ({percent}):",
+    "empty": "No sales yet."
+  },
+  "EventsPage": {
+    "title": "My events",
+    "newEvent": "+ New event",
+    "manage": "Manage →",
+    "empty": "No events yet. Create your first event to generate a QR code."
+  },
+  "NewEventPage": {
+    "title": "New event",
+    "nameLabel": "Event name",
+    "descriptionLabel": "Description",
+    "dateLabel": "Date",
+    "cityLabel": "City",
+    "categoryLabel": "Category",
+    "submit": "Create the event and generate the QR code"
+  },
+  "EventCategories": {
+    "mariage": "Wedding",
+    "bapteme": "Baptism",
+    "anniversaire": "Birthday",
+    "conference": "Conference",
+    "concert": "Concert",
+    "festival": "Festival",
+    "sport": "Sports",
+    "professionnel": "Professional",
+    "remise_diplomes": "Graduation",
+    "scolaire": "School",
+    "institutionnel": "Institutional",
+    "shooting": "Photo shoot",
+    "autre": "Other"
+  },
+  "EventManagePage": {
+    "qrCodeAlt": "QR code",
+    "qrCodeTitle": "Event QR code",
+    "qrCodeDesc": "Public, reusable by every guest — /galerie/{code}",
+    "photosTitle": "Photos",
+    "photosImported": "{count} photo(s) imported",
+    "noGallery": "No gallery linked to this event.",
+    "clientLinksTitle": "On-site client links",
+    "clientLinksDesc": "One single-use link/QR per guest on site, taking them straight to this gallery.",
+    "generateLink": "+ Generate a client link",
+    "noLinks": "No link generated yet.",
+    "linkUsed": "Link used",
+    "linkAvailable": "Link available",
+    "usedShort": "Used",
+    "clientQrAlt": "Client QR"
+  },
+  "GaleriesPage": {
+    "title": "My galleries",
+    "photosCount": "{count} photo(s)",
+    "importPhotos": "Import photos →",
+    "empty": "Create an event first to get a gallery."
+  },
+  "GalleryManagePage": {
+    "photosImported": "{count} photo(s) imported",
+    "qrCodeAlt": "QR code",
+    "qrCodeTitle": "Event QR code"
+  },
+  "PhotoUploader": {
+    "uploading": "Importing and watermarking… {done}/{total}",
+    "hint": "Drag and drop or select several photos at once (25 MB max per file). A Senshoot Sénégal watermark is applied automatically; the original stays private until the client pays.",
+    "unsupportedFormat": "{name}: unsupported format (JPEG, PNG, WEBP, HEIC only)",
+    "tooLarge": "{name}: file too large (25 MB max)",
+    "processingError": "processing error"
   }
 }

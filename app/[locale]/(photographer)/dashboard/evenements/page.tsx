@@ -1,7 +1,9 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 export default async function EventsPage() {
+  const t = await getTranslations('EventsPage');
   const supabase = createClient();
   const {
     data: { user },
@@ -22,9 +24,9 @@ export default async function EventsPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-sn-slate">Mes événements</h1>
+        <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
         <Link href="/dashboard/evenements/nouveau" className="btn-primary text-sm">
-          + Nouvel événement
+          {t('newEvent')}
         </Link>
       </div>
 
@@ -37,13 +39,13 @@ export default async function EventsPage() {
                 <p className="text-xs text-gray-500">{e.category} · {e.status}</p>
               </div>
               <Link href={`/dashboard/evenements/${e.id}`} className="text-sm font-medium text-sn-orange">
-                Gérer →
+                {t('manage')}
               </Link>
             </div>
           ))
         ) : (
           <p className="rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400">
-            Aucun événement pour le moment. Créez votre premier événement pour générer un QR Code.
+            {t('empty')}
           </p>
         )}
       </div>

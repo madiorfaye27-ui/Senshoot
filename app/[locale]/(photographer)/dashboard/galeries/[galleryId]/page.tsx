@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import PhotoUploader from '@/components/photographer/PhotoUploader';
@@ -7,6 +8,7 @@ export default async function GalleryManagePage({
 }: {
   params: { galleryId: string };
 }) {
+  const t = await getTranslations('GalleryManagePage');
   const supabase = createClient();
 
   const { data: gallery } = await supabase
@@ -21,7 +23,7 @@ export default async function GalleryManagePage({
     <div>
       <h1 className="text-2xl font-bold text-sn-slate">{gallery.name}</h1>
       <p className="mt-1 text-sm text-gray-500">
-        {gallery.photos?.length ?? 0} photo(s) importée(s)
+        {t('photosImported', { count: gallery.photos?.length ?? 0 })}
       </p>
 
       <div className="mt-6">
@@ -30,9 +32,9 @@ export default async function GalleryManagePage({
 
       {gallery.events?.qr_code_url && (
         <div className="mt-8 flex items-center gap-4 rounded-xl border border-gray-100 p-4">
-          <img src={gallery.events.qr_code_url} alt="QR Code" className="h-24 w-24" />
+          <img src={gallery.events.qr_code_url} alt={t('qrCodeAlt')} className="h-24 w-24" />
           <div>
-            <p className="text-sm font-medium text-sn-slate">QR Code de l'événement</p>
+            <p className="text-sm font-medium text-sn-slate">{t('qrCodeTitle')}</p>
             <p className="text-xs text-gray-500">
               /galerie/{gallery.events.qr_short_code}
             </p>
