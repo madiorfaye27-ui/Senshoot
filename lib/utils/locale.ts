@@ -1,12 +1,14 @@
 import { routing } from '@/i18n/routing';
 
-const LOCALE_PREFIX_RE = new RegExp(`^/(${routing.locales.join('|')})(?=/|$)`);
-
-// Extrait le préfixe de langue courant (ex: "/en", ou "" pour le français,
-// langue par défaut sans préfixe — voir i18n/routing.ts) à partir d'un
-// pathname, pour construire des redirections serveur qui restent dans la
-// bonne langue (ex: après connexion/inscription).
-export function getLocalePrefix(pathname: string): string {
-  const match = pathname.match(LOCALE_PREFIX_RE);
-  return match ? match[0] : '';
+// À utiliser dans les routes API (ex: /api/auth/login) : contrairement
+// aux pages, `request.nextUrl.pathname` y vaut toujours le chemin de la
+// route elle-même (ex: "/api/auth/login"), jamais celui de la page qui a
+// soumis le formulaire — impossible d'en extraire la langue. La langue
+// doit donc être transmise explicitement (champ caché du formulaire,
+// paramètre de requête) puis convertie ici en préfixe de redirection.
+export function localeToPrefix(locale: string | null | undefined): string {
+  const value = locale ?? '';
+  return routing.locales.includes(value as (typeof routing.locales)[number]) && value !== routing.defaultLocale
+    ? `/${value}`
+    : '';
 }

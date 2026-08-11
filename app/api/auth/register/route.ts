@@ -3,7 +3,9 @@ import { z } from 'zod';
 import { createRouteClient } from '@/lib/supabase/route';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 import { isSameOriginRequest } from '@/lib/utils/csrf';
-import { getLocalePrefix } from '@/lib/utils/locale';
+import { localeToPrefix } from '@/lib/utils/locale';
+import { sendEmail } from '@/lib/email/resend';
+import { welcomeEmailFr, welcomeEmailEn } from '@/lib/email/templates';
 
 const registerSchema = z.object({
   email: z.string().email(),
@@ -19,7 +21,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const locale = getLocalePrefix(request.nextUrl.pathname);
+  const formData = await request.formData();
+  const locale = localeToPrefix(formData.get('locale')?.toString());
 
   // Limite la création de comptes par IP (anti-bot / anti-spam d'inscriptions)
   const rate = checkRateLimit(request, 'register', 5, 10 * 60_000);
@@ -29,7 +32,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const formData = await request.formData();
   const parsed = registerSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
@@ -69,6 +71,17 @@ export async function POST(request: NextRequest) {
   // (supabase/migrations/0007_auto_create_profile.sql), à partir des
   // métadonnées passées à auth.signUp ci-dessus. Cela évite de dépendre
   // d'une session client, indisponible tant que l'email n'est pas confirmé.
+
+  const isPhotographer = role === 'photographer';
+  const isEn = locale === '/en';
+  const html = isEn
+    ? welcomeEmailEn({ firstName: first_name, isPhotographer })
+    : welcomeEmailFr({ firstName: first_name, isPhotographer });
+  void sendEmail({
+    to: email,
+    subject: isEn ? 'Welcome to Senshoot Sénégal' : 'Bienvenue sur Senshoot Sénégal',
+    html,
+  });
 
   return response;
 }

@@ -10,10 +10,12 @@ export default function MobileNav({
   navLinks,
   isLoggedIn,
   dashboardHref,
+  locale,
 }: {
   navLinks: NavLink[];
   isLoggedIn: boolean;
   dashboardHref: string;
+  locale: string;
 }) {
   const [open, setOpen] = useState(false);
   const t = useTranslations('Header');
@@ -61,7 +63,7 @@ export default function MobileNav({
                   >
                     {t('myDashboard')}
                   </Link>
-                  <form action="/api/auth/logout" method="post">
+                  <form action={`/api/auth/logout?locale=${locale}`} method="post">
                     <button type="submit" className="btn-primary w-full text-sm">
                       {t('logout')}
                     </button>

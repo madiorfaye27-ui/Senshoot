@@ -1,10 +1,12 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
 export default async function RegisterPage() {
   const t = await getTranslations('RegisterPage');
+  const locale = await getLocale();
   return (
     <form action="/api/auth/register" method="post" className="space-y-4">
+      <input type="hidden" name="locale" value={locale} />
       <h1 className="text-center text-lg font-bold text-sn-slate dark:text-white">{t('title')}</h1>
 
       <div className="grid grid-cols-2 gap-3">

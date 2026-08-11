@@ -1,5 +1,5 @@
 import { Link } from '@/i18n/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher';
@@ -7,6 +7,7 @@ import MobileNav from '@/components/layout/MobileNav';
 
 export default async function Header() {
   const t = await getTranslations('Header');
+  const locale = await getLocale();
   const supabase = createClient();
   const {
     data: { user },
@@ -62,7 +63,7 @@ export default async function Header() {
                 <Link href={dashboardHref} className="text-sm font-medium text-sn-slate transition-colors hover:text-sn-orange dark:text-gray-300 dark:hover:text-sn-orange">
                   {t('myDashboard')}
                 </Link>
-                <form action="/api/auth/logout" method="post">
+                <form action={`/api/auth/logout?locale=${locale}`} method="post">
                   <button type="submit" className="btn-primary text-sm">
                     {t('logout')}
                   </button>
@@ -80,7 +81,7 @@ export default async function Header() {
             )}
           </div>
 
-          <MobileNav navLinks={navLinks} isLoggedIn={!!user} dashboardHref={dashboardHref} />
+          <MobileNav navLinks={navLinks} isLoggedIn={!!user} dashboardHref={dashboardHref} locale={locale} />
         </div>
       </div>
     </header>

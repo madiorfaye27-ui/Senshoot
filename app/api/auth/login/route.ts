@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { createRouteClient } from '@/lib/supabase/route';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 import { isSameOriginRequest } from '@/lib/utils/csrf';
-import { getLocalePrefix } from '@/lib/utils/locale';
+import { localeToPrefix } from '@/lib/utils/locale';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -15,7 +15,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const locale = getLocalePrefix(request.nextUrl.pathname);
+  const formData = await request.formData();
+  const locale = localeToPrefix(formData.get('locale')?.toString());
 
   // Limite les tentatives de connexion par IP : ralentit fortement une
   // attaque par force brute sur les mots de passe (5 essais / minute).
@@ -26,7 +27,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const formData = await request.formData();
   const parsed = loginSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
