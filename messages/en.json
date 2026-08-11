@@ -1,0 +1,51 @@
+{
+  "Header": {
+    "findGallery": "Find my gallery",
+    "photographers": "Photographers",
+    "howItWorks": "How it works",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "myDashboard": "My dashboard",
+    "logout": "Log out",
+    "login": "Log in",
+    "iAmPhotographer": "I'm a photographer",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "lightMode": "Switch to light mode",
+    "darkMode": "Switch to dark mode"
+  },
+  "Footer": {
+    "tagline": "Your moments. Your images. Your value.",
+    "platform": "Platform",
+    "photographers": "Photographers",
+    "galleries": "Galleries",
+    "pricing": "Pricing",
+    "company": "Company",
+    "about": "About",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "location": "Dakar, Senegal",
+    "rights": "All rights reserved."
+  },
+  "HomePage": {
+    "heroTitle1": "Capture your precious moments.",
+    "heroTitle2": "Capture. Share. Sell.",
+    "heroSubtitle": "The platform connecting photographers and event guests across Senegal: create an event, share a QR code, sell your photos.",
+    "findMyPhotos": "Find my photos",
+    "iAmPhotographer": "I'm a photographer",
+    "howItWorksTitle": "How it works",
+    "step1": "Event created",
+    "step2": "QR code generated",
+    "step3": "Guest scans it",
+    "step4": "Photos selected",
+    "step5": "Payment & download",
+    "ourPhotographers": "Our photographers",
+    "seeAll": "See all →",
+    "ctaTagline": "Your moments. Your images. Your value.",
+    "createPhotographerAccount": "Create my photographer account"
+  },
+  "LanguageSwitcher": {
+    "label": "Language"
+  }
+}

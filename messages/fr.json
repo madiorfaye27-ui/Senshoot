@@ -1,0 +1,51 @@
+{
+  "Header": {
+    "findGallery": "Trouver ma galerie",
+    "photographers": "Photographes",
+    "howItWorks": "Comment ça marche ?",
+    "pricing": "Tarifs",
+    "about": "À propos",
+    "contact": "Contact",
+    "myDashboard": "Mon tableau de bord",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "iAmPhotographer": "Je suis photographe",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "lightMode": "Passer en mode clair",
+    "darkMode": "Passer en mode sombre"
+  },
+  "Footer": {
+    "tagline": "Vos moments. Vos images. Votre valeur.",
+    "platform": "Plateforme",
+    "photographers": "Photographes",
+    "galleries": "Galeries",
+    "pricing": "Tarifs",
+    "company": "Entreprise",
+    "about": "À propos",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "location": "Dakar, Sénégal",
+    "rights": "Tous droits réservés."
+  },
+  "HomePage": {
+    "heroTitle1": "Capturez vos moments précieux.",
+    "heroTitle2": "Capturez. Partagez. Vendez.",
+    "heroSubtitle": "La plateforme qui connecte photographes et participants au Sénégal : créez un événement, partagez un QR Code, vendez vos photos.",
+    "findMyPhotos": "Trouver mes photos",
+    "iAmPhotographer": "Je suis photographe",
+    "howItWorksTitle": "Comment ça marche ?",
+    "step1": "Événement créé",
+    "step2": "QR Code généré",
+    "step3": "Scan par le client",
+    "step4": "Sélection des photos",
+    "step5": "Paiement & téléchargement",
+    "ourPhotographers": "Nos photographes",
+    "seeAll": "Voir tout →",
+    "ctaTagline": "Vos moments. Vos images. Votre valeur.",
+    "createPhotographerAccount": "Créer mon compte photographe"
+  },
+  "LanguageSwitcher": {
+    "label": "Langue"
+  }
+}

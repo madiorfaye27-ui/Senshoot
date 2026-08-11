@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { routing } from '@/i18n/routing';
 
 // Chaque espace privé est associé au(x) rôle(s) autorisé(s) à y accéder.
 // Un utilisateur connecté mais avec le mauvais rôle est renvoyé vers SON
@@ -17,8 +18,32 @@ function homeForRole(role: string | undefined) {
   return '/';
 }
 
-export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
+// Retire le préfixe de langue (ex: "/en") pour comparer aux préfixes
+// d'espaces privés ci-dessus, qui sont eux toujours écrits en français
+// (le français n'a pas de préfixe, voir i18n/routing.ts localePrefix).
+const LOCALE_PREFIX_RE = new RegExp(`^/(${routing.locales.join('|')})(?=/|$)`);
+
+function splitLocale(pathname: string) {
+  const match = pathname.match(LOCALE_PREFIX_RE);
+  return {
+    localePrefix: match ? match[0] : '',
+    pathWithoutLocale: match ? pathname.slice(match[0].length) || '/' : pathname,
+  };
+}
+
+// `baseResponse` est la réponse déjà produite par le middleware next-intl
+// (routage/préfixe de langue) — on y greffe la logique d'authentification
+// par-dessus, au lieu de repartir d'une réponse vierge, pour ne perdre ni
+// la redirection de langue ni les cookies qu'elle a pu poser.
+export async function updateSession(request: NextRequest, baseResponse: NextResponse) {
+  // Une redirection de langue (ex: URL sans préfixe valide) doit s'exécuter
+  // telle quelle : inutile de vérifier l'authentification avant qu'elle
+  // n'ait eu lieu, le middleware sera de toute façon rejoué après.
+  if (baseResponse.status >= 300 && baseResponse.status < 400) {
+    return baseResponse;
+  }
+
+  let supabaseResponse = baseResponse;
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -38,7 +63,13 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
-          supabaseResponse = NextResponse.next({ request });
+          const refreshed = NextResponse.next({ request });
+          // Reporte ce que next-intl avait déjà posé (ex: cookie de langue)
+          baseResponse.cookies.getAll().forEach((c) => refreshed.cookies.set(c));
+          baseResponse.headers.forEach((value, key) => {
+            if (!refreshed.headers.has(key)) refreshed.headers.set(key, value);
+          });
+          supabaseResponse = refreshed;
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           );
@@ -52,15 +83,17 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const { localePrefix, pathWithoutLocale } = splitLocale(request.nextUrl.pathname);
+
   const matchedArea = ROLE_AREAS.find((area) =>
-    request.nextUrl.pathname.startsWith(area.prefix)
+    pathWithoutLocale.startsWith(area.prefix)
   );
 
   if (matchedArea) {
     // Non connecté → redirection vers la connexion
     if (!user) {
       const url = request.nextUrl.clone();
-      url.pathname = '/login';
+      url.pathname = `${localePrefix}/login`;
       url.searchParams.set('next', request.nextUrl.pathname);
       return NextResponse.redirect(url);
     }
@@ -76,7 +109,7 @@ export async function updateSession(request: NextRequest) {
 
     if (!profile || !matchedArea.roles.includes(profile.role)) {
       const url = request.nextUrl.clone();
-      url.pathname = homeForRole(profile?.role);
+      url.pathname = `${localePrefix}${homeForRole(profile?.role)}`;
       return NextResponse.redirect(url);
     }
   }
