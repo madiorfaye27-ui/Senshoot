@@ -1,0 +1,55 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+      },
+    ],
+  },
+
+  // En-têtes de sécurité HTTP appliqués à toutes les pages/routes.
+  // Référence : https://owasp.org/www-project-secure-headers/
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            // Empêche le site d'être affiché dans une <iframe> sur un
+            // autre domaine (protection contre le "clickjacking").
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            // Empêche le navigateur de deviner le type d'un fichier
+            // différemment de son Content-Type déclaré.
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            // Limite les informations envoyées dans l'en-tête Referer
+            // lors de la navigation vers un autre site.
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            // Désactive l'accès aux capteurs/caméra/micro/géoloc par
+            // défaut pour les pages du site (rien n'en a besoin ici).
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+          {
+            // Force HTTPS pendant 2 ans, y compris pour les sous-domaines,
+            // une fois le site en production sur un vrai domaine HTTPS.
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+        ],
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;

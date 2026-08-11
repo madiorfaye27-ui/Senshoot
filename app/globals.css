@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Respecte les préférences d'accessibilité : désactive les animations
+     pour les personnes sensibles au mouvement (cf. skill frontend-design). */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-sn-orange px-6 py-3 font-semibold text-white transition-all duration-200 hover:brightness-95 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border-2 border-sn-teal px-6 py-3 font-semibold text-sn-teal transition-all duration-200 hover:bg-sn-teal hover:text-white hover:-translate-y-0.5;
+  }
+  .container-sn {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Carte avec effet de survol subtil : légère élévation + ombre */
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* Fond + bordure de carte standard, adapté au mode sombre */
+  .surface-card {
+    @apply border border-gray-100 bg-white dark:border-white/10 dark:bg-slate-800;
+  }
+
+  /* Champs de formulaire, adaptés au mode sombre */
+  .input-field {
+    @apply w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-sn-slate focus:border-sn-teal focus:outline-none dark:border-white/10 dark:bg-slate-800 dark:text-gray-100;
+  }
+}
+
+/* État initial des éléments "reveal" avant leur entrée dans le viewport */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
