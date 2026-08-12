@@ -4,6 +4,7 @@ import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe/server';
 import { generateOrderId } from '@/lib/utils/format';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
+import { computeOrderPricing } from '@/lib/utils/pricing';
 
 const orderSchema = z.object({
   event_id: z.string().uuid(),
@@ -57,8 +58,10 @@ export async function POST(request: NextRequest) {
 
   // Le prix total est TOUJOURS recalculé depuis la base de données à
   // partir des prix réels enregistrés — jamais depuis une valeur envoyée
-  // par le client, qui pourrait être falsifiée.
-  const total_fcfa = photos.reduce((sum, p) => sum + p.price_fcfa, 0);
+  // par le client, qui pourrait être falsifiée. Applique au passage la
+  // remise de 10% par photo dès 2 photos sélectionnées (voir
+  // lib/utils/pricing.ts).
+  const { total_fcfa, unitPrices } = computeOrderPricing(photos);
 
   const { count } = await supabase.from('orders').select('*', { count: 'exact', head: true });
   const order_number = generateOrderId((count ?? 0) + 1);
@@ -85,7 +88,7 @@ export async function POST(request: NextRequest) {
     photos.map((p) => ({
       order_id: order.id,
       photo_id: p.id,
-      unit_price_fcfa: p.price_fcfa,
+      unit_price_fcfa: unitPrices[p.id],
     }))
   );
 
@@ -103,7 +106,7 @@ export async function POST(request: NextRequest) {
         price_data: {
           currency: 'xof',
           product_data: { name: `Photo #${p.photo_number}` },
-          unit_amount: p.price_fcfa,
+          unit_amount: unitPrices[p.id],
         },
         quantity: 1,
       })),

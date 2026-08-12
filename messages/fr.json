@@ -344,7 +344,8 @@
     "noResults": "Aucune photo ne correspond à \"{query}\".",
     "selectedCount": "{count} photo(s) sélectionnée(s) —",
     "payMobileMoney": "Wave / Orange Money",
-    "payCard": "Payer par carte"
+    "payCard": "Payer par carte",
+    "discountApplied": "-10% dès 2 photos"
   },
   "AccessTokenPage": {
     "linkUsedTitle": "Ce lien a déjà été utilisé",

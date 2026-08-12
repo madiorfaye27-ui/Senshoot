@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatFCFA } from '@/lib/utils/format';
+import { computeOrderPricing } from '@/lib/utils/pricing';
 
 type Photo = {
   id: string;
@@ -35,9 +36,9 @@ export default function GalleryCart({
   const toggle = (id: string) =>
     setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
-  const total = photos
-    .filter((p) => selected.includes(p.id))
-    .reduce((sum, p) => sum + p.price_fcfa, 0);
+  const selectedPhotos = photos.filter((p) => selected.includes(p.id));
+  const fullPriceTotal = selectedPhotos.reduce((sum, p) => sum + p.price_fcfa, 0);
+  const { total_fcfa: total, discountApplied } = computeOrderPricing(selectedPhotos);
 
   // Recherche par numéro : utile dès que la galerie dépasse quelques
   // centaines de photos (ex : un invité qui connaît son numéro de dossard).
@@ -171,7 +172,13 @@ export default function GalleryCart({
         <div className="container-sn flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm dark:text-gray-200">
             {t('selectedCount', { count: selected.length })}{' '}
+            {discountApplied && (
+              <span className="mr-1 text-xs text-gray-400 line-through">{formatFCFA(fullPriceTotal)}</span>
+            )}
             <span className="font-bold text-sn-teal">{formatFCFA(total)}</span>
+            {discountApplied && (
+              <span className="ml-1 text-xs font-medium text-sn-orange">{t('discountApplied')}</span>
+            )}
           </p>
           <div className="flex gap-2">
             <button

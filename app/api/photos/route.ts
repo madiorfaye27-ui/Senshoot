@@ -12,7 +12,7 @@ const photoSchema = z.object({
   gallery_id: z.string().uuid(),
   photo_number: z.string().trim().max(20).optional().default(''),
   original_path: z.string().min(1).max(500),
-  price_fcfa: z.number().int().min(100).max(1_000_000).optional(),
+  price_fcfa: z.number().int().min(500).max(1_000_000).optional(),
 });
 
 // Traite une photo dont l'original a déjà été uploadé par le photographe
