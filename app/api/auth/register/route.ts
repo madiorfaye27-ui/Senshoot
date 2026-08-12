@@ -48,7 +48,12 @@ export async function POST(request: NextRequest) {
 
   const { email, password, first_name, last_name, role } = parsed.data;
 
-  const response = NextResponse.redirect(new URL(`${locale}/`, request.url));
+  // Un photographe fraîchement inscrit est envoyé directement choisir une
+  // formule (avec un moyen de continuer sans forfait) plutôt que sur
+  // l'accueil — c'est le principal levier pour qu'il souscrive au moment
+  // où son intention est la plus forte, sans complexifier ce formulaire.
+  const target = role === 'photographer' ? '/tarifs' : '/';
+  const response = NextResponse.redirect(new URL(`${locale}${target}`, request.url));
   const supabase = createRouteClient(request, response);
 
   // 1. Création du compte auth Supabase

@@ -58,7 +58,8 @@
     "comingSoon": "Plans will be available soon.",
     "payMobileMoney": "Wave / Orange Money",
     "payCard": "Pay by card",
-    "currentPlan": "Current plan"
+    "currentPlan": "Current plan",
+    "skipPlan": "Continue without a plan"
   },
   "PhotographersPage": {
     "title": "Our photographers",

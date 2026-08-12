@@ -74,6 +74,14 @@ export default async function TarifsPage() {
           <p className="col-span-full text-center text-gray-400">{t('comingSoon')}</p>
         )}
       </div>
+
+      {photographerId && !activePlanId && (
+        <p className="mt-8 text-center text-sm">
+          <Link href="/dashboard" className="text-gray-400 underline hover:text-sn-orange">
+            {t('skipPlan')}
+          </Link>
+        </p>
+      )}
     </div>
   );
 }

@@ -58,7 +58,8 @@
     "comingSoon": "Les formules seront bientôt disponibles.",
     "payMobileMoney": "Wave / Orange Money",
     "payCard": "Payer par carte",
-    "currentPlan": "Formule actuelle"
+    "currentPlan": "Formule actuelle",
+    "skipPlan": "Continuer sans forfait"
   },
   "PhotographersPage": {
     "title": "Nos photographes",
