@@ -1,13 +1,21 @@
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: { error?: string };
+}) {
   const t = await getTranslations('LoginPage');
   const locale = await getLocale();
   return (
     <form action="/api/auth/login" method="post" className="space-y-4">
       <input type="hidden" name="locale" value={locale} />
       <h1 className="text-center text-lg font-bold text-sn-slate dark:text-white">{t('title')}</h1>
+
+      {searchParams.error && (
+        <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{searchParams.error}</p>
+      )}
 
       <div>
         <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('email')}</label>

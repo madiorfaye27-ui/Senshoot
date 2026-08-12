@@ -30,7 +30,7 @@ export default async function AdminOrdersPage() {
           <div key={o.id} className="flex flex-wrap items-center justify-between gap-2 p-4 text-sm">
             <span className="font-mono text-gray-500">{o.order_number}</span>
             <span className="text-sn-slate">
-              {o.profiles?.first_name} {o.profiles?.last_name}
+              {o.profiles ? `${o.profiles.first_name} ${o.profiles.last_name}` : o.guest_email}
             </span>
             <span className="text-gray-500">{o.photographers?.studio_name || '—'}</span>
             <span className="font-semibold text-sn-teal">{formatFCFA(o.total_fcfa)}</span>
