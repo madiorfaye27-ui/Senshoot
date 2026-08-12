@@ -20,17 +20,22 @@ declare global {
   }
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function GalleryCart({
   photos,
   eventId,
+  isLoggedIn,
 }: {
   photos: Photo[];
   eventId: string;
+  isLoggedIn: boolean;
 }) {
   const t = useTranslations('GalleryCartComponent');
   const [selected, setSelected] = useState<string[]>([]);
   const [paying, setPaying] = useState(false);
   const [query, setQuery] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
   const pendingOrderId = useRef<string | null>(null);
 
   const toggle = (id: string) =>
@@ -39,6 +44,10 @@ export default function GalleryCart({
   const selectedPhotos = photos.filter((p) => selected.includes(p.id));
   const fullPriceTotal = selectedPhotos.reduce((sum, p) => sum + p.price_fcfa, 0);
   const { total_fcfa: total, discountApplied } = computeOrderPricing(selectedPhotos);
+
+  // Achat sans compte : l'email de l'invité est le seul moyen de lui
+  // envoyer le lien vers ses photos, il n'a pas de tableau de bord.
+  const emailValid = isLoggedIn || EMAIL_RE.test(guestEmail.trim());
 
   // Recherche par numéro : utile dès que la galerie dépasse quelques
   // centaines de photos (ex : un invité qui connaît son numéro de dossard).
@@ -57,26 +66,36 @@ export default function GalleryCart({
       window.addSuccessListener?.(async (response) => {
         const orderId = pendingOrderId.current;
         if (!orderId) return;
-        await fetch(`/api/orders/${orderId}/confirm-kkiapay`, {
+        const res = await fetch(`/api/orders/${orderId}/confirm-kkiapay`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ transaction_id: response.transactionId }),
         });
-        window.location.href = '/client/dashboard/commandes?success=1';
+        const data = await res.json().catch(() => ({}));
+        // Un invité n'a pas de tableau de bord : direct vers ses photos.
+        // Un client connecté retrouve tout dans son historique de commandes.
+        window.location.href = isLoggedIn
+          ? '/client/dashboard/commandes?success=1'
+          : data.access_url || '/';
       });
     };
     document.body.appendChild(script);
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  }, [isLoggedIn]);
 
   async function checkoutStripe() {
     setPaying(true);
     const res = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ event_id: eventId, photo_ids: selected, payment_method: 'stripe' }),
+      body: JSON.stringify({
+        event_id: eventId,
+        photo_ids: selected,
+        payment_method: 'stripe',
+        guest_email: isLoggedIn ? undefined : guestEmail.trim(),
+      }),
     });
     const data = await res.json();
     if (data.checkout_url) {
@@ -91,7 +110,12 @@ export default function GalleryCart({
     const res = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ event_id: eventId, photo_ids: selected, payment_method: 'kkiapay' }),
+      body: JSON.stringify({
+        event_id: eventId,
+        photo_ids: selected,
+        payment_method: 'kkiapay',
+        guest_email: isLoggedIn ? undefined : guestEmail.trim(),
+      }),
     });
     const data = await res.json();
     if (!data.order_id) {
@@ -180,17 +204,26 @@ export default function GalleryCart({
               <span className="ml-1 text-xs font-medium text-sn-orange">{t('discountApplied')}</span>
             )}
           </p>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {!isLoggedIn && (
+              <input
+                type="email"
+                value={guestEmail}
+                onChange={(e) => setGuestEmail(e.target.value)}
+                placeholder={t('guestEmailPlaceholder')}
+                className="w-48 rounded-lg border border-gray-200 px-3 py-2 text-sm dark:border-white/10 dark:bg-slate-700 dark:text-white"
+              />
+            )}
             <button
               onClick={checkoutKkiapay}
-              disabled={paying}
+              disabled={paying || !emailValid}
               className="btn-secondary text-sm disabled:opacity-50"
             >
               {t('payMobileMoney')}
             </button>
             <button
               onClick={checkoutStripe}
-              disabled={paying}
+              disabled={paying || !emailValid}
               className="btn-primary text-sm disabled:opacity-50"
             >
               {t('payCard')}

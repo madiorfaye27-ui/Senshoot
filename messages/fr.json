@@ -351,7 +351,13 @@
     "selectedCount": "{count} photo(s) sélectionnée(s) —",
     "payMobileMoney": "Wave / Orange Money",
     "payCard": "Payer par carte",
-    "discountApplied": "-10% dès 2 photos"
+    "discountApplied": "-10% dès 2 photos",
+    "guestEmailPlaceholder": "Votre email (pour recevoir vos photos)"
+  },
+  "OrderConfirmedPage": {
+    "title": "Paiement reçu !",
+    "text": "Vous allez recevoir un email avec le lien pour accéder à vos photos dans quelques instants.",
+    "backHome": "Retour à l'accueil"
   },
   "AccessTokenPage": {
     "linkUsedTitle": "Ce lien a déjà été utilisé",

@@ -8,7 +8,7 @@ type AdminClient = ReturnType<typeof createAdminClient>;
 // Utilisé par les deux webhooks de paiement (Stripe et PayDunya) une fois
 // le paiement confirmé côté serveur — jamais appelé sur la seule foi d'un
 // retour navigateur ou d'une notification non re-vérifiée.
-export async function markOrderPaid(admin: AdminClient, orderId: string, rawResponse: unknown) {
+export async function markOrderPaid(admin: AdminClient, orderId: string, rawResponse: unknown): Promise<string> {
   await admin.from('orders').update({ status: 'payee' }).eq('id', orderId);
   await admin
     .from('payments')
@@ -16,7 +16,10 @@ export async function markOrderPaid(admin: AdminClient, orderId: string, rawResp
     .eq('order_id', orderId);
 
   // Lien/QR d'accès à usage unique vers les photos achetées
-  // (voir supabase/migrations/0008_access_tokens.sql).
+  // (voir supabase/migrations/0008_access_tokens.sql). Fonctionne aussi
+  // bien pour un client avec compte que pour un invité (guest_email) —
+  // c'est même le SEUL accès à ses photos pour un invité, qui n'a pas
+  // de tableau de bord où les retrouver autrement.
   const token = crypto.randomUUID();
   await admin.from('order_access_tokens').insert({
     order_id: orderId,
@@ -24,6 +27,8 @@ export async function markOrderPaid(admin: AdminClient, orderId: string, rawResp
   });
 
   await notifyOrderPaid(admin, orderId, token);
+
+  return token;
 }
 
 // Best-effort : une notification email ratée ne doit jamais remettre en
@@ -32,13 +37,16 @@ async function notifyOrderPaid(admin: AdminClient, orderId: string, token: strin
   try {
     const { data: order } = await admin
       .from('orders')
-      .select('order_number, total_fcfa, client_id')
+      .select('order_number, total_fcfa, client_id, guest_email')
       .eq('id', orderId)
       .single();
-    if (!order?.client_id) return;
+    if (!order) return;
 
-    const { data: authUser } = await admin.auth.admin.getUserById(order.client_id);
-    const email = authUser?.user?.email;
+    let email = order.guest_email;
+    if (order.client_id) {
+      const { data: authUser } = await admin.auth.admin.getUserById(order.client_id);
+      email = authUser?.user?.email ?? null;
+    }
     if (!email) return;
 
     const accessUrl = `${process.env.NEXT_PUBLIC_APP_URL}/acces/${token}`;

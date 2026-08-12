@@ -10,8 +10,13 @@ const orderSchema = z.object({
   event_id: z.string().uuid(),
   photo_ids: z.array(z.string().uuid()).min(1).max(200),
   payment_method: z.enum(['stripe', 'kkiapay']),
+  guest_email: z.string().trim().email().optional(),
 });
 
+// Un client n'a pas besoin de compte pour acheter : s'il n'est pas
+// connecté, son email (obligatoire dans ce cas) sert à lui envoyer le
+// lien d'accès à usage unique à ses photos après paiement — c'est le
+// seul moyen de le recontacter puisqu'il n'a pas de tableau de bord.
 export async function POST(request: NextRequest) {
   // Limite les tentatives de création de commande par IP (anti-abus /
   // anti-bombardement de sessions Stripe).
@@ -27,14 +32,14 @@ export async function POST(request: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: 'Requête invalide' }, { status: 400 });
   }
-  const { event_id, photo_ids, payment_method } = parsed.data;
+  const { event_id, photo_ids, payment_method, guest_email } = parsed.data;
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
+  if (!user && !guest_email) {
+    return NextResponse.json({ error: 'Email requis pour un achat sans compte' }, { status: 400 });
   }
 
   const { data: event } = await supabase
@@ -63,14 +68,22 @@ export async function POST(request: NextRequest) {
   // lib/utils/pricing.ts).
   const { total_fcfa, unitPrices } = computeOrderPricing(photos);
 
-  const { count } = await supabase.from('orders').select('*', { count: 'exact', head: true });
+  // Écriture via le client admin dans tous les cas : un invité n'a pas
+  // de session (auth.uid() est null), donc les policies RLS "client_id
+  // = auth.uid()" ne s'appliqueraient de toute façon pas à sa commande
+  // — la vérification de sécurité a déjà eu lieu ci-dessus (événement,
+  // photos, prix recalculés côté serveur), pas besoin de RLS en plus ici.
+  const admin = createAdminClient();
+
+  const { count } = await admin.from('orders').select('*', { count: 'exact', head: true });
   const order_number = generateOrderId((count ?? 0) + 1);
 
-  const { data: order, error } = await supabase
+  const { data: order, error } = await admin
     .from('orders')
     .insert({
       order_number,
-      client_id: user.id,
+      client_id: user?.id ?? null,
+      guest_email: user ? null : guest_email,
       photographer_id: event.photographer_id,
       event_id: event.id,
       total_fcfa,
@@ -84,7 +97,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error?.message }, { status: 400 });
   }
 
-  await supabase.from('order_items').insert(
+  await admin.from('order_items').insert(
     photos.map((p) => ({
       order_id: order.id,
       photo_id: p.id,
@@ -92,16 +105,18 @@ export async function POST(request: NextRequest) {
     }))
   );
 
-  // La table "payments" n'accepte aucune écriture d'un utilisateur normal
-  // (RLS, voir migration 0004) : seul le client admin (service_role)
-  // peut y écrire, ce qui empêche un client de falsifier un statut de
-  // paiement.
-  const admin = createAdminClient();
-
   if (payment_method === 'stripe') {
+    // Un invité n'a pas de tableau de bord où atterrir : il retrouve ses
+    // photos via le lien envoyé par email (voir markOrderPaid), la page
+    // de succès se contente de le lui rappeler.
+    const successUrl = user
+      ? `${process.env.NEXT_PUBLIC_APP_URL}/client/dashboard/commandes?success=1`
+      : `${process.env.NEXT_PUBLIC_APP_URL}/commande-confirmee`;
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
+      customer_email: user ? undefined : guest_email,
       line_items: photos.map((p) => ({
         price_data: {
           currency: 'xof',
@@ -111,7 +126,7 @@ export async function POST(request: NextRequest) {
         quantity: 1,
       })),
       metadata: { order_id: order.id },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/client/dashboard/commandes?success=1`,
+      success_url: successUrl,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/galerie/${event_id}?canceled=1`,
     });
 
