@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import PhotoUploader from '@/components/photographer/PhotoUploader';
+import PhotoPriceEditor from '@/components/photographer/PhotoPriceEditor';
 
 export default async function GalleryManagePage({
   params,
@@ -44,12 +45,17 @@ export default async function GalleryManagePage({
 
       <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-5">
         {(gallery.photos ?? []).map((p: any) => (
-          <img
-            key={p.id}
-            src={p.thumbnail_url}
-            className="aspect-square rounded-lg object-cover"
-            alt={p.photo_number}
-          />
+          <div key={p.id} className="overflow-hidden rounded-lg border border-gray-100">
+            <img
+              src={p.thumbnail_url}
+              className="aspect-square w-full object-cover"
+              alt={p.photo_number}
+            />
+            <div className="flex items-center justify-between gap-1 p-1.5">
+              <span className="text-[10px] text-gray-400">#{p.photo_number}</span>
+              <PhotoPriceEditor photoId={p.id} initialPrice={p.price_fcfa} />
+            </div>
+          </div>
         ))}
       </div>
     </div>

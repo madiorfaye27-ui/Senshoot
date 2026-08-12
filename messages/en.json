@@ -285,7 +285,13 @@
     "hint": "Drag and drop or select several photos at once (25 MB max per file). A Senshoot Sénégal watermark is applied automatically; the original stays private until the client pays.",
     "unsupportedFormat": "{name}: unsupported format (JPEG, PNG, WEBP, HEIC only)",
     "tooLarge": "{name}: file too large (25 MB max)",
-    "processingError": "processing error"
+    "processingError": "processing error",
+    "defaultPrice": "Price per photo (F CFA)"
+  },
+  "PhotoPriceEditor": {
+    "save": "Save",
+    "saved": "Saved ✓",
+    "error": "Failed"
   },
   "AdminDashboardLayout": {
     "title": "Administration",

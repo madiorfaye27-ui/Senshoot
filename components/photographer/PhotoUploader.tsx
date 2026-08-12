@@ -13,6 +13,7 @@ export default function PhotoUploader({ galleryId }: { galleryId: string }) {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0 });
   const [errors, setErrors] = useState<string[]>([]);
+  const [defaultPrice, setDefaultPrice] = useState(2000);
   const supabase = createClient();
 
   async function handleFiles(files: FileList | null) {
@@ -64,6 +65,7 @@ export default function PhotoUploader({ galleryId }: { galleryId: string }) {
           gallery_id: galleryId,
           photo_number: String(i + 1).padStart(4, '0'),
           original_path: path,
+          price_fcfa: defaultPrice,
         }),
       });
 
@@ -80,6 +82,18 @@ export default function PhotoUploader({ galleryId }: { galleryId: string }) {
 
   return (
     <div className="rounded-xl border-2 border-dashed border-gray-200 p-8 text-center">
+      <div className="mx-auto mb-4 flex max-w-xs items-center justify-center gap-2">
+        <label className="text-xs font-medium text-sn-slate dark:text-gray-300">{t('defaultPrice')}</label>
+        <input
+          type="number"
+          min={500}
+          step={100}
+          value={defaultPrice}
+          onChange={(e) => setDefaultPrice(Number(e.target.value))}
+          disabled={uploading}
+          className="w-24 rounded-lg border border-gray-200 px-2 py-1 text-sm dark:border-white/10 dark:bg-slate-700 dark:text-white"
+        />
+      </div>
       <input
         type="file"
         multiple

@@ -285,7 +285,13 @@
     "hint": "Glissez-déposez ou sélectionnez plusieurs photos à la fois (25 Mo max par fichier). Un filigrane Senshoot Sénégal est appliqué automatiquement ; l'original reste privé jusqu'au paiement du client.",
     "unsupportedFormat": "{name} : format non supporté (JPEG, PNG, WEBP, HEIC uniquement)",
     "tooLarge": "{name} : fichier trop volumineux (25 Mo max)",
-    "processingError": "erreur de traitement"
+    "processingError": "erreur de traitement",
+    "defaultPrice": "Prix par photo (F CFA)"
+  },
+  "PhotoPriceEditor": {
+    "save": "Enregistrer",
+    "saved": "Enregistré ✓",
+    "error": "Échec"
   },
   "AdminDashboardLayout": {
     "title": "Administration",
