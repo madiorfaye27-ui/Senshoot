@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA } from '@/lib/utils/format';
+import SubscribeButtons from '@/components/pricing/SubscribeButtons';
 
 export default async function TarifsPage() {
   const t = await getTranslations('PricingPage');
@@ -11,6 +12,32 @@ export default async function TarifsPage() {
     .select('*')
     .eq('is_active', true)
     .order('sort_order');
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let photographerId: string | null = null;
+  let activePlanId: string | null = null;
+
+  if (user) {
+    const { data: photographer } = await supabase
+      .from('photographers')
+      .select('id')
+      .eq('profile_id', user.id)
+      .single();
+
+    if (photographer) {
+      photographerId = photographer.id;
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('plan_id')
+        .eq('photographer_id', photographer.id)
+        .eq('status', 'active')
+        .single();
+      activePlanId = subscription?.plan_id ?? null;
+    }
+  }
 
   return (
     <div className="container-sn py-16">
@@ -30,9 +57,17 @@ export default async function TarifsPage() {
               {plan.max_storage_gb && <li>{plan.max_storage_gb} {t('storage')}</li>}
               {plan.max_photos && <li>{plan.max_photos} {t('photos')}</li>}
             </ul>
-            <Link href="/register" className="btn-primary mt-6 w-full text-sm">
-              {t('choose')}
-            </Link>
+            {plan.id === activePlanId ? (
+              <p className="btn-secondary mt-6 w-full cursor-default text-sm opacity-70">
+                {t('currentPlan')}
+              </p>
+            ) : photographerId ? (
+              <SubscribeButtons planId={plan.id} />
+            ) : (
+              <Link href="/register" className="btn-primary mt-6 w-full text-sm">
+                {t('choose')}
+              </Link>
+            )}
           </div>
         ))}
         {!plans?.length && (

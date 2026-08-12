@@ -3,7 +3,11 @@ import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 
-export default async function AbonnementPage() {
+export default async function AbonnementPage({
+  searchParams,
+}: {
+  searchParams: { success?: string };
+}) {
   const t = await getTranslations('AbonnementPage');
   const supabase = createClient();
   const {
@@ -26,6 +30,12 @@ export default async function AbonnementPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+
+      {searchParams.success && (
+        <p className="mt-4 max-w-md rounded-lg bg-sn-teal/10 p-3 text-sm text-sn-teal">
+          {t('successActivated')}
+        </p>
+      )}
 
       {subscription ? (
         <div className="mt-6 max-w-md rounded-xl border border-gray-100 p-6 shadow-sm">

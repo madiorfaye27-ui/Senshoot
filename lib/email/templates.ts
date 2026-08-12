@@ -79,6 +79,22 @@ export function orderPaidEmailEn({
   `);
 }
 
+export function subscriptionActivatedEmailFr({
+  planName,
+  amountLabel,
+}: {
+  planName: string;
+  amountLabel: string;
+}) {
+  return wrapper(`
+    <h1 style="font-size: 20px; margin: 0 0 12px;">Abonnement activé ✅</h1>
+    <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+      Votre formule <strong>${planName}</strong> (${amountLabel}) est active pour 30 jours.
+      Vous en profiterez notamment d'une meilleure commission sur vos ventes.
+    </p>
+  `);
+}
+
 export function subscriptionExpiringEmailFr({
   studioName,
   expiresOnLabel,

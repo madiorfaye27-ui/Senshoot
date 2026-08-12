@@ -55,7 +55,10 @@
     "storage": "GB storage",
     "photos": "photos",
     "choose": "Choose",
-    "comingSoon": "Plans will be available soon."
+    "comingSoon": "Plans will be available soon.",
+    "payMobileMoney": "Wave / Orange Money",
+    "payCard": "Pay by card",
+    "currentPlan": "Current plan"
   },
   "PhotographersPage": {
     "title": "Our photographers",
@@ -182,7 +185,8 @@
     "perMonth": "/month",
     "expiresOn": "Expires on {date}",
     "noActive": "No active subscription.",
-    "seePlans": "See plans →"
+    "seePlans": "See plans →",
+    "successActivated": "Subscription activated successfully!"
   },
   "VentesPage": {
     "title": "Sales & revenue",

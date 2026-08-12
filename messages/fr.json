@@ -55,7 +55,10 @@
     "storage": "Go de stockage",
     "photos": "photos",
     "choose": "Choisir",
-    "comingSoon": "Les formules seront bientôt disponibles."
+    "comingSoon": "Les formules seront bientôt disponibles.",
+    "payMobileMoney": "Wave / Orange Money",
+    "payCard": "Payer par carte",
+    "currentPlan": "Formule actuelle"
   },
   "PhotographersPage": {
     "title": "Nos photographes",
@@ -182,7 +185,8 @@
     "perMonth": "/mois",
     "expiresOn": "Expire le {date}",
     "noActive": "Aucun abonnement actif.",
-    "seePlans": "Voir les formules →"
+    "seePlans": "Voir les formules →",
+    "successActivated": "Abonnement activé avec succès !"
   },
   "VentesPage": {
     "title": "Ventes & revenus",
