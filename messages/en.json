@@ -354,6 +354,11 @@
     "discountApplied": "-10% for 2+ photos",
     "guestEmailPlaceholder": "Your email (to receive your photos)"
   },
+  "NotFoundPage": {
+    "title": "Page not found",
+    "text": "This page doesn't exist or has been moved.",
+    "backHome": "Back to home"
+  },
   "OrderConfirmedPage": {
     "title": "Payment received!",
     "text": "You'll receive an email with the link to access your photos in just a moment.",
