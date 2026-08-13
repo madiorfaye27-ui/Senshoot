@@ -3,10 +3,10 @@ import { createClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils/format';
 
 const STATUS_STYLES: Record<string, string> = {
-  en_attente: 'bg-amber-50 text-amber-700',
+  en_attente: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
   contactee: 'bg-sn-teal/10 text-sn-teal',
-  confirmee: 'bg-emerald-50 text-emerald-700',
-  refusee: 'bg-red-50 text-red-600',
+  confirmee: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+  refusee: 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400',
 };
 
 export default async function ReservationsPage() {
@@ -38,16 +38,16 @@ export default async function ReservationsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
 
-      <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100">
+      <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100 dark:divide-white/10 dark:border-white/10">
         {(bookings ?? []).map((b) => (
           <div key={b.id} className="flex flex-wrap items-center justify-between gap-3 p-4 text-sm">
             <div>
-              <p className="font-semibold text-sn-slate">
+              <p className="font-semibold text-sn-slate dark:text-white">
                 {b.client_name} — {t('forDate', { date: formatDate(b.event_date) })}
               </p>
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {b.event_category ? tc(b.event_category) : ''} · {b.client_email}
                 {b.client_whatsapp ? ` · ${b.client_whatsapp}` : ''}
               </p>

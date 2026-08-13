@@ -26,17 +26,17 @@ export default async function PhotographerDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">
         {t('welcome', { studioName: photographer?.studio_name ? `, ${photographer.studio_name}` : '' })}
       </h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
         {t('accountStatus')}{' '}
         <span className="font-medium">{photographer?.status ?? t('statusPending')}</span>
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-xl border border-gray-100 p-5 shadow-sm">
+          <div key={s.label} className="card-hover surface-card rounded-xl p-5 shadow-sm">
             <p className="text-xs font-medium uppercase text-gray-400">{s.label}</p>
             <p className="mt-2 text-xl font-bold text-sn-teal">{s.value}</p>
           </div>

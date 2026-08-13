@@ -22,15 +22,15 @@ export default async function GaleriesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
       <div className="mt-6 space-y-3">
         {(events ?? []).map((e: any) => {
           const gallery = e.galleries?.[0];
           return (
-            <div key={e.id} className="flex items-center justify-between rounded-lg border border-gray-100 p-4">
+            <div key={e.id} className="card-hover surface-card flex items-center justify-between rounded-lg p-4">
               <div>
-                <p className="font-semibold text-sn-slate">{e.name}</p>
-                <p className="text-xs text-gray-500">{t('photosCount', { count: gallery?.photos?.length ?? 0 })}</p>
+                <p className="font-semibold text-sn-slate dark:text-white">{e.name}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t('photosCount', { count: gallery?.photos?.length ?? 0 })}</p>
               </div>
               <Link
                 href={`/dashboard/galeries/${gallery?.id}`}
@@ -42,7 +42,7 @@ export default async function GaleriesPage() {
           );
         })}
         {!events?.length && (
-          <p className="rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400">
+          <p className="rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400 dark:border-white/10">
             {t('empty')}
           </p>
         )}

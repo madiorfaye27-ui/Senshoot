@@ -20,8 +20,8 @@ export default async function PhotographerProfilePage({
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
-      <p className="mt-1 text-sm text-gray-500">{t('intro')}</p>
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('intro')}</p>
 
       {searchParams.success && (
         <p className="mt-4 rounded-lg bg-sn-teal/10 p-3 text-sm text-sn-teal">
@@ -36,62 +36,62 @@ export default async function PhotographerProfilePage({
 
       <form action="/api/photographers/profile" method="post" className="mt-6 space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-sn-slate">{t('studioName')}</label>
+          <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('studioName')}</label>
           <input
             name="studio_name"
             defaultValue={photographer?.studio_name ?? ''}
-            className="w-full rounded-lg border border-gray-200 px-4 py-2"
+            className="input-field"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-sn-slate">{t('description')}</label>
+          <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('description')}</label>
           <textarea
             name="description"
             rows={3}
             defaultValue={photographer?.description ?? ''}
-            className="w-full rounded-lg border border-gray-200 px-4 py-2"
+            className="input-field"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-sn-slate">{t('city')}</label>
+          <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('city')}</label>
           <input
             name="city"
             defaultValue={photographer?.city ?? ''}
             placeholder={t('cityPlaceholder')}
-            className="w-full rounded-lg border border-gray-200 px-4 py-2"
+            className="input-field"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="mb-1 block text-sm font-medium text-sn-slate">{t('phone')}</label>
+            <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('phone')}</label>
             <input
               name="contact_phone"
               defaultValue={photographer?.contact_phone ?? ''}
               placeholder={t('phonePlaceholder')}
-              className="w-full rounded-lg border border-gray-200 px-4 py-2"
+              className="input-field"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-sn-slate">{t('whatsapp')}</label>
+            <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('whatsapp')}</label>
             <input
               name="contact_whatsapp"
               defaultValue={photographer?.contact_whatsapp ?? ''}
               placeholder={t('whatsappPlaceholder')}
-              className="w-full rounded-lg border border-gray-200 px-4 py-2"
+              className="input-field"
             />
           </div>
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-sn-slate">{t('email')}</label>
+          <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('email')}</label>
           <input
             name="contact_email"
             type="email"
             defaultValue={photographer?.contact_email ?? ''}
-            className="w-full rounded-lg border border-gray-200 px-4 py-2"
+            className="input-field"
           />
         </div>
 

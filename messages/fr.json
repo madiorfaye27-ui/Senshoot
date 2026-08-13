@@ -157,7 +157,8 @@
     "navCalendar": "Calendrier",
     "navSales": "Ventes & revenus",
     "navProfile": "Mon profil public",
-    "navSubscription": "Abonnement"
+    "navSubscription": "Abonnement",
+    "backToSite": "Retour au site"
   },
   "PhotographerDashboardPage": {
     "welcome": "Bienvenue{studioName}",

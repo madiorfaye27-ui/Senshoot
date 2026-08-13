@@ -24,7 +24,7 @@ export default async function EventsPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
         <Link href="/dashboard/evenements/nouveau" className="btn-primary text-sm">
           {t('newEvent')}
         </Link>
@@ -33,10 +33,10 @@ export default async function EventsPage() {
       <div className="mt-6 space-y-3">
         {events?.length ? (
           events.map((e) => (
-            <div key={e.id} className="flex items-center justify-between rounded-lg border border-gray-100 p-4">
+            <div key={e.id} className="card-hover surface-card flex items-center justify-between rounded-lg p-4">
               <div>
-                <p className="font-semibold text-sn-slate">{e.name}</p>
-                <p className="text-xs text-gray-500">{e.category} · {e.status}</p>
+                <p className="font-semibold text-sn-slate dark:text-white">{e.name}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{e.category} · {e.status}</p>
               </div>
               <Link href={`/dashboard/evenements/${e.id}`} className="text-sm font-medium text-sn-orange">
                 {t('manage')}
@@ -44,7 +44,7 @@ export default async function EventsPage() {
             </div>
           ))
         ) : (
-          <p className="rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400">
+          <p className="rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400 dark:border-white/10">
             {t('empty')}
           </p>
         )}

@@ -29,7 +29,7 @@ export default async function AbonnementPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
 
       {searchParams.success && (
         <p className="mt-4 max-w-md rounded-lg bg-sn-teal/10 p-3 text-sm text-sn-teal">
@@ -38,20 +38,20 @@ export default async function AbonnementPage({
       )}
 
       {subscription ? (
-        <div className="mt-6 max-w-md rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="surface-card mt-6 max-w-md rounded-xl p-6 shadow-sm">
           <p className="font-bold text-sn-teal">{subscription.plans?.name}</p>
-          <p className="mt-1 text-2xl font-extrabold">
+          <p className="mt-1 text-2xl font-extrabold text-sn-slate dark:text-white">
             {formatFCFA(subscription.plans?.price_fcfa)}
             <span className="text-sm font-normal text-gray-400">{t('perMonth')}</span>
           </p>
           {subscription.expires_at && (
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               {t('expiresOn', { date: formatDate(subscription.expires_at) })}
             </p>
           )}
         </div>
       ) : (
-        <p className="mt-6 rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400">
+        <p className="mt-6 rounded-lg border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400 dark:border-white/10">
           {t('noActive')}{' '}
           <Link href="/tarifs" className="font-medium text-sn-orange">{t('seePlans')}</Link>
         </p>
