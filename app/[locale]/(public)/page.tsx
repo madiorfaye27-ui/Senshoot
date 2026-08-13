@@ -13,6 +13,8 @@ export default async function HomePage() {
     .from('photographers')
     .select('slug, studio_name, description, city, contact_phone, contact_whatsapp')
     .eq('status', 'validated')
+    .not('studio_name', 'is', null)
+    .neq('studio_name', '')
     .limit(3);
 
   const steps = [t('step1'), t('step2'), t('step3'), t('step4'), t('step5')];

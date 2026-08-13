@@ -8,7 +8,9 @@ export default async function PhotographesPage() {
   const { data: photographers } = await supabase
     .from('photographers')
     .select('*')
-    .eq('status', 'validated');
+    .eq('status', 'validated')
+    .not('studio_name', 'is', null)
+    .neq('studio_name', '');
 
   return (
     <div className="container-sn py-16">
