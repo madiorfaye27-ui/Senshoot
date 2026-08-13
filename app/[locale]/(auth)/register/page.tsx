@@ -72,7 +72,12 @@ export default async function RegisterPage({
 
       <label className="flex items-start gap-2 text-xs text-gray-500 dark:text-gray-400">
         <input type="checkbox" name="terms" required className="mt-0.5" />
-        {t('acceptTerms')}
+        <span>
+          {t('acceptTermsPrefix')}{' '}
+          <Link href="/conditions-generales" target="_blank" className="font-medium text-sn-orange underline">
+            {t('acceptTermsLink')}
+          </Link>
+        </span>
       </label>
 
       <button type="submit" className="btn-primary w-full">

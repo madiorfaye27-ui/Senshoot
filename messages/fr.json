@@ -118,7 +118,8 @@
     "registerAs": "Je m'inscris en tant que",
     "roleClient": "Client (acheter des photos)",
     "rolePhotographer": "Photographe",
-    "acceptTerms": "J'accepte les conditions générales d'utilisation.",
+    "acceptTermsPrefix": "J'accepte les",
+    "acceptTermsLink": "conditions générales d'utilisation",
     "submit": "Créer mon compte",
     "alreadyRegistered": "Déjà inscrit ?",
     "logIn": "Connectez-vous"
@@ -353,6 +354,64 @@
     "payCard": "Payer par carte",
     "discountApplied": "-10% dès 2 photos",
     "guestEmailPlaceholder": "Votre email (pour recevoir vos photos)"
+  },
+  "TermsPage": {
+    "title": "Conditions générales d'utilisation",
+    "lastUpdated": "Dernière mise à jour : août 2026",
+    "sections": [
+      {
+        "heading": "1. Objet",
+        "body": "Senshoot Sénégal est une plateforme qui met en relation des photographes professionnels et des clients pour la vente de photos d'événements (mariages, baptêmes, conférences, remises de diplômes, etc.) au Sénégal. Les présentes conditions générales d'utilisation régissent l'accès et l'utilisation de la plateforme par tout utilisateur, qu'il soit photographe ou client."
+      },
+      {
+        "heading": "2. Inscription et compte",
+        "body": "La création d'un événement et la vente de photos nécessitent un compte photographe. L'achat de photos, en revanche, ne nécessite aucun compte : un client peut acheter une ou plusieurs photos en tant qu'invité, en fournissant simplement une adresse email pour recevoir son lien d'accès. Chaque utilisateur est responsable de l'exactitude des informations fournies lors de son inscription et de la confidentialité de son mot de passe."
+      },
+      {
+        "heading": "3. Fonctionnement du service",
+        "body": "Un photographe crée un événement, génère un QR Code public et importe ses photos, protégées par un filigrane jusqu'à leur achat. Les invités scannent le QR Code, sélectionnent les photos souhaitées et procèdent au paiement en ligne (carte bancaire ou mobile money). Après confirmation du paiement, l'acheteur reçoit un lien à usage unique lui permettant de télécharger ses photos en haute qualité, sans filigrane."
+      },
+      {
+        "heading": "4. Tarifs et paiement",
+        "body": "Chaque photographe fixe librement le prix de vente de ses photos (500 F CFA minimum par photo). Une remise de 10% est automatiquement appliquée sur le prix de chaque photo dès qu'un client en achète 2 ou plus au sein d'une même commande. Les paiements sont traités par nos prestataires (Stripe pour les cartes bancaires, KKiaPay pour Wave et Orange Money) ; Senshoot Sénégal ne stocke aucune donnée bancaire."
+      },
+      {
+        "heading": "5. Abonnements et commission",
+        "body": "Un photographe peut, à tout moment, souscrire à une formule payante mensuelle ou opérer sans forfait. La plateforme prélève une commission sur chaque vente, dont le taux dépend de la formule active du photographe (70% reversés au photographe sans forfait, jusqu'à 90% avec la formule la plus élevée). Les abonnements ne sont pas reconduits automatiquement : le photographe doit renouveler chaque mois pour continuer à bénéficier du taux associé."
+      },
+      {
+        "heading": "6. Reversement au photographe",
+        "body": "Le photographe peut demander à tout moment le retrait de son solde disponible vers Wave, Orange Money ou un compte bancaire. Le virement est exécuté manuellement par Senshoot Sénégal dans un délai raisonnable après la demande."
+      },
+      {
+        "heading": "7. Propriété intellectuelle",
+        "body": "Le photographe reste l'unique titulaire des droits sur les photos qu'il met en vente. En les important sur la plateforme, il concède à Senshoot Sénégal un droit limité de les afficher, filigraner et vendre pour son compte, dans le seul cadre du service. Le photographe garantit disposer de toutes les autorisations nécessaires (droit à l'image des personnes photographiées notamment) pour la diffusion et la vente des photos qu'il importe."
+      },
+      {
+        "heading": "8. Responsabilités",
+        "body": "Le photographe est seul responsable du contenu des photos qu'il importe et de l'obtention des autorisations nécessaires. Senshoot Sénégal agit en tant qu'intermédiaire technique et n'exerce aucun contrôle éditorial sur les photos mises en vente. La plateforme s'efforce d'assurer la disponibilité continue du service sans pouvoir la garantir absolument."
+      },
+      {
+        "heading": "9. Protection des données personnelles",
+        "body": "Les données personnelles collectées (nom, email, téléphone) sont utilisées exclusivement pour le fonctionnement du service et ne sont jamais vendues à des tiers. Chaque utilisateur peut demander la suppression de son compte et de ses données en nous contactant à contact@shootsenegal.com."
+      },
+      {
+        "heading": "10. Résiliation",
+        "body": "Un utilisateur peut supprimer son compte à tout moment en nous contactant. Senshoot Sénégal se réserve le droit de suspendre ou résilier un compte en cas de non-respect des présentes conditions, notamment en cas de contenu illicite ou de fraude."
+      },
+      {
+        "heading": "11. Modification des conditions",
+        "body": "Senshoot Sénégal peut modifier les présentes conditions à tout moment. Les utilisateurs seront informés de toute modification substantielle."
+      },
+      {
+        "heading": "12. Droit applicable",
+        "body": "Les présentes conditions sont régies par le droit sénégalais. Tout litige relève de la compétence des tribunaux de Dakar."
+      },
+      {
+        "heading": "13. Contact",
+        "body": "Pour toute question relative aux présentes conditions : contact@shootsenegal.com."
+      }
+    ]
   },
   "NotFoundPage": {
     "title": "Page introuvable",

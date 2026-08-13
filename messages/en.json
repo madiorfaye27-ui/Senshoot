@@ -118,7 +118,8 @@
     "registerAs": "I'm signing up as a",
     "roleClient": "Client (buy photos)",
     "rolePhotographer": "Photographer",
-    "acceptTerms": "I accept the terms of use.",
+    "acceptTermsPrefix": "I accept the",
+    "acceptTermsLink": "terms of use",
     "submit": "Create my account",
     "alreadyRegistered": "Already registered?",
     "logIn": "Log in"
@@ -353,6 +354,64 @@
     "payCard": "Pay by card",
     "discountApplied": "-10% for 2+ photos",
     "guestEmailPlaceholder": "Your email (to receive your photos)"
+  },
+  "TermsPage": {
+    "title": "Terms of Use",
+    "lastUpdated": "Last updated: August 2026",
+    "sections": [
+      {
+        "heading": "1. Purpose",
+        "body": "Senshoot Sénégal is a platform that connects professional photographers with clients for the sale of event photos (weddings, baptisms, conferences, graduations, etc.) across Senegal. These terms of use govern access to and use of the platform by any user, whether photographer or client."
+      },
+      {
+        "heading": "2. Registration and account",
+        "body": "Creating an event and selling photos requires a photographer account. Buying photos, however, requires no account at all: a client can purchase one or more photos as a guest, simply providing an email address to receive their access link. Each user is responsible for the accuracy of the information provided at registration and for keeping their password confidential."
+      },
+      {
+        "heading": "3. How the service works",
+        "body": "A photographer creates an event, generates a public QR code, and uploads their photos, protected by a watermark until purchased. Guests scan the QR code, select the photos they want, and pay online (card or mobile money). Once payment is confirmed, the buyer receives a single-use link to download their photos in high quality, without the watermark."
+      },
+      {
+        "heading": "4. Pricing and payment",
+        "body": "Each photographer freely sets the sale price of their photos (500 F CFA minimum per photo). A 10% discount is automatically applied to each photo's price whenever a client buys 2 or more in the same order. Payments are processed by our providers (Stripe for cards, KKiaPay for Wave and Orange Money); Senshoot Sénégal never stores any banking data."
+      },
+      {
+        "heading": "5. Subscriptions and commission",
+        "body": "A photographer may, at any time, subscribe to a paid monthly plan or operate without one. The platform takes a commission on each sale, at a rate that depends on the photographer's active plan (70% paid to the photographer with no plan, up to 90% with the top plan). Subscriptions do not renew automatically: the photographer must renew each month to keep the associated rate."
+      },
+      {
+        "heading": "6. Payouts to photographers",
+        "body": "A photographer can request a withdrawal of their available balance to Wave, Orange Money, or a bank account at any time. The transfer is carried out manually by Senshoot Sénégal within a reasonable time after the request."
+      },
+      {
+        "heading": "7. Intellectual property",
+        "body": "The photographer remains the sole rights holder for the photos they offer for sale. By uploading them to the platform, they grant Senshoot Sénégal a limited right to display, watermark, and sell them on their behalf, solely within the scope of the service. The photographer guarantees they hold all necessary permissions (including image rights of the people photographed) to distribute and sell the photos they upload."
+      },
+      {
+        "heading": "8. Liability",
+        "body": "The photographer is solely responsible for the content of the photos they upload and for obtaining any necessary permissions. Senshoot Sénégal acts as a technical intermediary and exercises no editorial control over the photos offered for sale. The platform strives to keep the service continuously available but cannot absolutely guarantee it."
+      },
+      {
+        "heading": "9. Personal data protection",
+        "body": "Personal data collected (name, email, phone number) is used solely for operating the service and is never sold to third parties. Any user may request deletion of their account and data by contacting contact@shootsenegal.com."
+      },
+      {
+        "heading": "10. Termination",
+        "body": "A user may delete their account at any time by contacting us. Senshoot Sénégal reserves the right to suspend or terminate an account for violation of these terms, including unlawful content or fraud."
+      },
+      {
+        "heading": "11. Changes to these terms",
+        "body": "Senshoot Sénégal may amend these terms at any time. Users will be notified of any material change."
+      },
+      {
+        "heading": "12. Governing law",
+        "body": "These terms are governed by Senegalese law. Any dispute falls under the jurisdiction of the courts of Dakar."
+      },
+      {
+        "heading": "13. Contact",
+        "body": "For any question about these terms: contact@shootsenegal.com."
+      }
+    ]
   },
   "NotFoundPage": {
     "title": "Page not found",
