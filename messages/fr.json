@@ -153,6 +153,7 @@
     "navOverview": "Vue d'ensemble",
     "navEvents": "Événements",
     "navGalleries": "Galeries",
+    "navReservations": "Réservations",
     "navSales": "Ventes & revenus",
     "navProfile": "Mon profil public",
     "navSubscription": "Abonnement"
@@ -355,6 +356,40 @@
     "payCard": "Payer par carte",
     "discountApplied": "-10% dès 2 photos",
     "guestEmailPlaceholder": "Votre email (pour recevoir vos photos)"
+  },
+  "PhotographerReservationsPage": {
+    "title": "Réservations",
+    "empty": "Aucune demande de réservation.",
+    "markContacted": "Marquer contacté",
+    "decline": "Refuser",
+    "statusPending": "Nouvelle",
+    "statusContacted": "Contacté",
+    "statusDeclined": "Refusée",
+    "requestedOn": "Reçue le {date}",
+    "forDate": "Pour le {date}"
+  },
+  "PhotographerProfilePublicPage": {
+    "defaultName": "Photographe",
+    "whatsappLabel": "WhatsApp : {number}",
+    "callLabel": "Appeler : {number}",
+    "bookButton": "Réserver pour une date",
+    "publicEventsTitle": "Événements publics",
+    "noPublicEvents": "Aucun événement public pour le moment."
+  },
+  "BookingForm": {
+    "title": "Demander une réservation",
+    "dateLabel": "Date de l'événement",
+    "categoryLabel": "Type d'événement",
+    "nameLabel": "Votre nom",
+    "emailLabel": "Votre email",
+    "whatsappLabel": "Votre WhatsApp (optionnel)",
+    "messageLabel": "Message (optionnel)",
+    "submit": "Envoyer la demande",
+    "success": "Demande envoyée ! Ouverture de WhatsApp…",
+    "successNoWhatsapp": "Demande envoyée ! Le photographe vous contactera.",
+    "openWhatsapp": "Le message ne s'est pas ouvert automatiquement ? Cliquez ici →",
+    "error": "Une erreur est survenue, réessayez.",
+    "cancel": "Annuler"
   },
   "TermsPage": {
     "title": "Conditions générales d'utilisation",

@@ -79,6 +79,36 @@ export function orderPaidEmailEn({
   `);
 }
 
+export function bookingRequestEmailFr({
+  clientName,
+  clientEmail,
+  clientWhatsapp,
+  eventDateLabel,
+  categoryLabel,
+  message,
+  dashboardUrl,
+}: {
+  clientName: string;
+  clientEmail: string;
+  clientWhatsapp: string | null;
+  eventDateLabel: string;
+  categoryLabel: string;
+  message: string | null;
+  dashboardUrl: string;
+}) {
+  return wrapper(`
+    <h1 style="font-size: 20px; margin: 0 0 12px;">Nouvelle demande de réservation 📅</h1>
+    <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+      <strong>${clientName}</strong> souhaite réserver vos services pour le <strong>${eventDateLabel}</strong> (${categoryLabel}).
+    </p>
+    <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+      Contact : ${clientEmail}${clientWhatsapp ? ` · WhatsApp : ${clientWhatsapp}` : ''}
+    </p>
+    ${message ? `<p style="font-size: 14px; line-height: 1.6; color: #475569; font-style: italic;">« ${message} »</p>` : ''}
+    ${button(dashboardUrl, 'Voir la demande')}
+  `);
+}
+
 export function subscriptionActivatedEmailFr({
   planName,
   amountLabel,

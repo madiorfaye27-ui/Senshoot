@@ -1,12 +1,15 @@
+import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import BookingForm from '@/components/photographer/BookingForm';
 
 export default async function PhotographerProfilePage({
   params,
 }: {
   params: { slug: string };
 }) {
+  const t = await getTranslations('PhotographerProfilePublicPage');
   const supabase = createClient();
 
   const { data: photographer } = await supabase
@@ -26,11 +29,11 @@ export default async function PhotographerProfilePage({
       <div className="flex items-center gap-4">
         <div className="h-16 w-16 rounded-full bg-sn-teal/10" />
         <div>
-          <h1 className="text-2xl font-bold text-sn-slate">
-            {photographer.studio_name || 'Photographe'}
+          <h1 className="text-2xl font-bold text-sn-slate dark:text-white">
+            {photographer.studio_name || t('defaultName')}
           </h1>
           {photographer.city && <p className="text-sm text-sn-teal">{photographer.city}</p>}
-          <p className="text-sm text-gray-500">{photographer.description}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{photographer.description}</p>
         </div>
       </div>
 
@@ -41,12 +44,12 @@ export default async function PhotographerProfilePage({
               href={`https://wa.me/${photographer.contact_whatsapp.replace(/[^0-9]/g, '')}`}
               className="btn-primary text-sm"
             >
-              WhatsApp : {photographer.contact_whatsapp}
+              {t('whatsappLabel', { number: photographer.contact_whatsapp })}
             </a>
           )}
           {photographer.contact_phone && (
             <a href={`tel:${photographer.contact_phone}`} className="btn-secondary text-sm">
-              Appeler : {photographer.contact_phone}
+              {t('callLabel', { number: photographer.contact_phone })}
             </a>
           )}
           {photographer.contact_email && (
@@ -57,7 +60,15 @@ export default async function PhotographerProfilePage({
         </div>
       )}
 
-      <h2 className="mt-10 text-lg font-semibold text-sn-slate">Événements publics</h2>
+      <div className="mt-4">
+        <BookingForm
+          photographerId={photographer.id}
+          photographerWhatsapp={photographer.contact_whatsapp}
+          bookButtonLabel={t('bookButton')}
+        />
+      </div>
+
+      <h2 className="mt-10 text-lg font-semibold text-sn-slate dark:text-white">{t('publicEventsTitle')}</h2>
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {publicEvents.map((e: any) => (
           <Link
@@ -65,12 +76,12 @@ export default async function PhotographerProfilePage({
             href={`/galerie/${e.qr_short_code}`}
             className="rounded-xl border border-gray-100 p-4 shadow-sm hover:border-sn-orange"
           >
-            <p className="font-medium text-sn-slate">{e.name}</p>
-            <p className="text-xs text-gray-500">{e.city}</p>
+            <p className="font-medium text-sn-slate dark:text-white">{e.name}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{e.city}</p>
           </Link>
         ))}
         {!publicEvents.length && (
-          <p className="col-span-full text-gray-400">Aucun événement public pour le moment.</p>
+          <p className="col-span-full text-gray-400">{t('noPublicEvents')}</p>
         )}
       </div>
     </div>
