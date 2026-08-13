@@ -5,6 +5,7 @@ import { formatDate } from '@/lib/utils/format';
 const STATUS_STYLES: Record<string, string> = {
   en_attente: 'bg-amber-50 text-amber-700',
   contactee: 'bg-sn-teal/10 text-sn-teal',
+  confirmee: 'bg-emerald-50 text-emerald-700',
   refusee: 'bg-red-50 text-red-600',
 };
 
@@ -31,6 +32,7 @@ export default async function ReservationsPage() {
   const statusLabels: Record<string, string> = {
     en_attente: t('statusPending'),
     contactee: t('statusContacted'),
+    confirmee: t('statusConfirmed'),
     refusee: t('statusDeclined'),
   };
 
@@ -57,11 +59,17 @@ export default async function ReservationsPage() {
               {statusLabels[b.status]}
             </span>
 
-            {b.status === 'en_attente' && (
-              <div className="flex gap-2">
+            {(b.status === 'en_attente' || b.status === 'contactee') && (
+              <div className="flex flex-wrap gap-2">
+                {b.status === 'en_attente' && (
+                  <form action={`/api/photographers/booking-requests/${b.id}/status`} method="post">
+                    <input type="hidden" name="status" value="contactee" />
+                    <button type="submit" className="btn-secondary text-xs">{t('markContacted')}</button>
+                  </form>
+                )}
                 <form action={`/api/photographers/booking-requests/${b.id}/status`} method="post">
-                  <input type="hidden" name="status" value="contactee" />
-                  <button type="submit" className="btn-primary text-xs">{t('markContacted')}</button>
+                  <input type="hidden" name="status" value="confirmee" />
+                  <button type="submit" className="btn-primary text-xs">{t('confirm')}</button>
                 </form>
                 <form action={`/api/photographers/booking-requests/${b.id}/status`} method="post">
                   <input type="hidden" name="status" value="refusee" />

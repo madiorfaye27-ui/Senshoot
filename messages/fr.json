@@ -154,6 +154,7 @@
     "navEvents": "Événements",
     "navGalleries": "Galeries",
     "navReservations": "Réservations",
+    "navCalendar": "Calendrier",
     "navSales": "Ventes & revenus",
     "navProfile": "Mon profil public",
     "navSubscription": "Abonnement"
@@ -361,12 +362,25 @@
     "title": "Réservations",
     "empty": "Aucune demande de réservation.",
     "markContacted": "Marquer contacté",
+    "confirm": "Confirmer",
     "decline": "Refuser",
     "statusPending": "Nouvelle",
     "statusContacted": "Contacté",
+    "statusConfirmed": "Confirmée",
     "statusDeclined": "Refusée",
     "requestedOn": "Reçue le {date}",
     "forDate": "Pour le {date}"
+  },
+  "PhotographerCalendarPage": {
+    "title": "Calendrier",
+    "emptyMonth": "Aucune date confirmée ce mois-ci.",
+    "weekday_mon": "Lun",
+    "weekday_tue": "Mar",
+    "weekday_wed": "Mer",
+    "weekday_thu": "Jeu",
+    "weekday_fri": "Ven",
+    "weekday_sat": "Sam",
+    "weekday_sun": "Dim"
   },
   "PhotographerProfilePublicPage": {
     "defaultName": "Photographe",

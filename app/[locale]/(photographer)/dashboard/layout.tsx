@@ -12,6 +12,7 @@ export default async function PhotographerDashboardLayout({
     { href: '/dashboard/evenements', label: t('navEvents') },
     { href: '/dashboard/galeries', label: t('navGalleries') },
     { href: '/dashboard/reservations', label: t('navReservations') },
+    { href: '/dashboard/calendrier', label: t('navCalendar') },
     { href: '/dashboard/ventes', label: t('navSales') },
     { href: '/dashboard/profil', label: t('navProfile') },
     { href: '/dashboard/abonnement', label: t('navSubscription') },

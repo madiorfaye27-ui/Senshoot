@@ -4,7 +4,7 @@ import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { isSameOriginRequest } from '@/lib/utils/csrf';
 
 const statusSchema = z.object({
-  status: z.enum(['contactee', 'refusee']),
+  status: z.enum(['contactee', 'confirmee', 'refusee']),
 });
 
 // Pas de policy RLS UPDATE sur "booking_requests" (migration 0017,
