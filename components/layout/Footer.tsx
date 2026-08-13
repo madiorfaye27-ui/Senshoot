@@ -1,7 +1,10 @@
 import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 
 export default async function Footer() {
   const t = await getTranslations('Footer');
+
+  const linkClass = 'hover:text-white transition-colors';
 
   return (
     <footer className="border-t border-gray-100 bg-sn-slate text-white">
@@ -16,18 +19,18 @@ export default async function Footer() {
         <div>
           <p className="font-semibold">{t('platform')}</p>
           <ul className="mt-2 space-y-1 text-sm text-gray-300">
-            <li>{t('photographers')}</li>
-            <li>{t('galleries')}</li>
-            <li>{t('pricing')}</li>
+            <li><Link href="/photographes" className={linkClass}>{t('photographers')}</Link></li>
+            <li><Link href="/galeries" className={linkClass}>{t('galleries')}</Link></li>
+            <li><Link href="/tarifs" className={linkClass}>{t('pricing')}</Link></li>
           </ul>
         </div>
 
         <div>
           <p className="font-semibold">{t('company')}</p>
           <ul className="mt-2 space-y-1 text-sm text-gray-300">
-            <li>{t('about')}</li>
-            <li>{t('faq')}</li>
-            <li>{t('contact')}</li>
+            <li><Link href="/a-propos" className={linkClass}>{t('about')}</Link></li>
+            <li><Link href="/comment-ca-marche" className={linkClass}>{t('faq')}</Link></li>
+            <li><Link href="/contact" className={linkClass}>{t('contact')}</Link></li>
           </ul>
         </div>
 
@@ -35,13 +38,23 @@ export default async function Footer() {
           <p className="font-semibold">{t('contact')}</p>
           <ul className="mt-2 space-y-1 text-sm text-gray-300">
             <li>{t('location')}</li>
-            <li>contact@shootsenegal.com</li>
+            <li>
+              <a href="mailto:contact@shootsenegal.com" className={linkClass}>
+                contact@shootsenegal.com
+              </a>
+            </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-4 text-center text-xs text-gray-400">
-        © {new Date().getFullYear()} Senshoot Sénégal — {t('rights')}
+      <div className="border-t border-white/10 py-4">
+        <div className="container-sn flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs text-gray-400">
+          <span>© {new Date().getFullYear()} Senshoot Sénégal — {t('rights')}</span>
+          <span aria-hidden="true">·</span>
+          <Link href="/conditions-generales" className="hover:text-white transition-colors">
+            {t('terms')}
+          </Link>
+        </div>
       </div>
     </footer>
   );
