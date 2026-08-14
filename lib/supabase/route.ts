@@ -1,4 +1,4 @@
-import { createServerClient } from '@supabase/ssr';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 import type { Database } from './database.types';
 
@@ -29,13 +29,13 @@ export function createRouteClient(request: NextRequest, response: NextResponse) 
       // y compris ceux de supabase-js — ce qui peut renvoyer des données
       // périmées juste après une écriture. Voir lib/supabase/server.ts.
       global: {
-        fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }),
+        fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, { ...init, cache: 'no-store' }),
       },
       cookies: {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value, options }) => {
             response.cookies.set(name, value, options);
           });

@@ -1,4 +1,4 @@
-import { createServerClient } from '@supabase/ssr';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { routing } from '@/i18n/routing';
 
@@ -53,13 +53,13 @@ export async function updateSession(request: NextRequest, baseResponse: NextResp
       // y compris ceux de supabase-js — ce qui peut renvoyer des données
       // périmées juste après une écriture. Voir lib/supabase/server.ts.
       global: {
-        fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }),
+        fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, { ...init, cache: 'no-store' }),
       },
       cookies: {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
