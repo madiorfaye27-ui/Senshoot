@@ -1,5 +1,5 @@
 import { getTranslations, getLocale } from 'next-intl/server';
-import DashboardNav from '@/components/photographer/DashboardNav';
+import DashboardNav from '@/components/dashboard/DashboardNav';
 
 function icon(children: React.ReactNode) {
   return (

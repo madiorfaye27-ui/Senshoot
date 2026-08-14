@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/utils/format';
 const ROLE_STYLES: Record<string, string> = {
   client: 'bg-sn-teal/10 text-sn-teal',
   photographer: 'bg-sn-orange/10 text-sn-orange',
-  admin: 'bg-sn-slate/10 text-sn-slate',
+  admin: 'bg-sn-slate/10 text-sn-slate dark:bg-white/10 dark:text-gray-200',
 };
 
 export default async function AdminUsersPage({
@@ -39,7 +39,7 @@ export default async function AdminUsersPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
 
       <div className="mt-4 flex gap-2">
         {[
@@ -52,7 +52,7 @@ export default async function AdminUsersPage({
             key={f.label}
             href={f.value ? `${basePath}?role=${f.value}` : basePath}
             className={`rounded-full px-3 py-1 text-xs font-medium ${
-              roleFilter === f.value ? 'bg-sn-orange text-white' : 'bg-gray-100 text-gray-600'
+              roleFilter === f.value ? 'bg-sn-orange text-white' : 'bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300'
             }`}
           >
             {f.label}
@@ -60,19 +60,19 @@ export default async function AdminUsersPage({
         ))}
       </div>
 
-      <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100">
+      <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100 dark:divide-white/10 dark:border-white/10">
         {users.map((u) => (
           <div key={u.id} className="flex flex-wrap items-center justify-between gap-2 p-4 text-sm">
             <div>
-              <p className="font-medium text-sn-slate">
+              <p className="font-medium text-sn-slate dark:text-white">
                 {u.first_name} {u.last_name}
               </p>
-              <p className="text-xs text-gray-500">{emailById.get(u.id) || '—'}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{emailById.get(u.id) || '—'}</p>
             </div>
             <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${ROLE_STYLES[u.role]}`}>
               {ROLE_LABELS[u.role] ?? u.role}
             </span>
-            <span className="text-xs text-gray-500">{u.city || '—'}</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">{u.city || '—'}</span>
             <span className="text-xs text-gray-400">{t('registeredOn', { date: formatDate(u.created_at) })}</span>
           </div>
         ))}

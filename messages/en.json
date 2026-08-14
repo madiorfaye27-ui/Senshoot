@@ -129,7 +129,8 @@
     "title": "Client area",
     "navProfile": "My profile",
     "navOrders": "My orders",
-    "navDownloads": "My downloads"
+    "navDownloads": "My downloads",
+    "backToSite": "Back to site"
   },
   "ClientProfilePage": {
     "greeting": "Hello {name} 👋",
@@ -305,7 +306,8 @@
     "navPhotographers": "Photographers",
     "navOrders": "Orders & payments",
     "navSubscriptions": "Subscriptions",
-    "navPayouts": "Withdrawals"
+    "navPayouts": "Withdrawals",
+    "backToSite": "Back to site"
   },
   "AdminDashboardPage": {
     "title": "Admin dashboard",
