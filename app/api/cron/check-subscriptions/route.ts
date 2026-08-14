@@ -9,10 +9,15 @@ const WARNING_WINDOW_DAYS = 3;
 // Destinée à être déclenchée par un planificateur externe (Vercel Cron,
 // cron-job.org, etc.) — il n'existe pas de cron intégré en local. Protégée
 // par un secret partagé (jamais par la seule origine, puisqu'un
-// planificateur externe n'a pas d'origine "same-site").
+// planificateur externe n'a pas d'origine "same-site"). Vercel Cron envoie
+// automatiquement "Authorization: Bearer $CRON_SECRET" dès que cette
+// variable d'environnement existe sur le projet ; ?secret= reste accepté
+// pour un déclenchement manuel ou via un planificateur tiers (cron-job.org).
 export async function GET(request: NextRequest) {
-  const secret = request.nextUrl.searchParams.get('secret');
-  if (!process.env.CRON_SECRET || secret !== process.env.CRON_SECRET) {
+  const bearerSecret = request.headers.get('authorization')?.replace('Bearer ', '');
+  const querySecret = request.nextUrl.searchParams.get('secret');
+  const providedSecret = bearerSecret || querySecret;
+  if (!process.env.CRON_SECRET || providedSecret !== process.env.CRON_SECRET) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
 
