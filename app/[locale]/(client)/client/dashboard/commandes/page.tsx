@@ -18,8 +18,8 @@ export default async function ClientOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
-      <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100">
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
+      <div className="mt-6 divide-y divide-gray-100 rounded-lg border border-gray-100 dark:divide-white/10 dark:border-white/10">
         {(orders ?? []).map((o) => (
           <OrderRow key={o.id} order={o} accessLabel={t('accessLabel')} accessQrAlt={t('accessQrAlt')} usedLink={t('usedLink')} />
         ))}
@@ -56,17 +56,17 @@ async function OrderRow({
   return (
     <div className="p-4 text-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="font-mono text-gray-500">{o.order_number}</span>
+        <span className="font-mono text-gray-500 dark:text-gray-400">{o.order_number}</span>
         <span>{formatDate(o.created_at)}</span>
         <span>{formatFCFA(o.total_fcfa)}</span>
         <span className="capitalize">{o.status}</span>
       </div>
 
       {qrDataUrl && (
-        <div className="mt-3 flex items-center gap-4 rounded-lg border border-gray-100 p-3">
+        <div className="mt-3 flex items-center gap-4 rounded-lg border border-gray-100 p-3 dark:border-white/10">
           <img src={qrDataUrl} alt={accessQrAlt} className="h-20 w-20" />
           <div>
-            <p className="text-xs font-medium text-sn-slate">{accessLabel}</p>
+            <p className="text-xs font-medium text-sn-slate dark:text-gray-300">{accessLabel}</p>
             <a href={accessUrl!} className="text-xs text-sn-orange break-all">
               {accessUrl}
             </a>

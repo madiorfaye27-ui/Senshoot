@@ -129,7 +129,8 @@
     "title": "Espace client",
     "navProfile": "Mon profil",
     "navOrders": "Mes commandes",
-    "navDownloads": "Mes téléchargements"
+    "navDownloads": "Mes téléchargements",
+    "backToSite": "Retour au site"
   },
   "ClientProfilePage": {
     "greeting": "Bonjour {name} 👋",
@@ -305,7 +306,8 @@
     "navPhotographers": "Photographes",
     "navOrders": "Commandes & paiements",
     "navSubscriptions": "Abonnements",
-    "navPayouts": "Retraits"
+    "navPayouts": "Retraits",
+    "backToSite": "Retour au site"
   },
   "AdminDashboardPage": {
     "title": "Tableau de bord administrateur",

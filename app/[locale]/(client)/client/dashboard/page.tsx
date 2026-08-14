@@ -16,14 +16,14 @@ export default async function ClientProfilePage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">
         {t('greeting', { name: profile?.first_name ?? '' })}
       </h1>
-      <p className="mt-1 text-sm text-gray-500">{user?.email}</p>
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
 
-      <div className="mt-8 rounded-xl border border-gray-100 p-6">
-        <p className="font-semibold text-sn-slate">{t('tip')}</p>
-        <p className="mt-1 text-sm text-gray-500">{t('tipText')}</p>
+      <div className="surface-card mt-8 rounded-xl p-6">
+        <p className="font-semibold text-sn-slate dark:text-white">{t('tip')}</p>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('tipText')}</p>
       </div>
     </div>
   );

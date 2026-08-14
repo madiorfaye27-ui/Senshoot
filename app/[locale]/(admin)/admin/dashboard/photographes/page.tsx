@@ -3,10 +3,10 @@ import { createAdminClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils/format';
 
 const STATUS_STYLES: Record<string, string> = {
-  pending: 'bg-amber-50 text-amber-700',
+  pending: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
   validated: 'bg-sn-teal/10 text-sn-teal',
-  rejected: 'bg-red-50 text-red-600',
-  suspended: 'bg-gray-100 text-gray-500',
+  rejected: 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400',
+  suspended: 'bg-gray-100 text-gray-500 dark:bg-white/10 dark:text-gray-400',
 };
 
 export default async function AdminPhotographersPage() {
@@ -40,8 +40,8 @@ export default async function AdminPhotographersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-sn-slate">{t('title')}</h1>
-      <p className="mt-1 text-sm text-gray-500">{t('intro')}</p>
+      <h1 className="text-2xl font-bold text-sn-slate dark:text-white">{t('title')}</h1>
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('intro')}</p>
 
       {!!pending.length && (
         <div className="mt-8">
@@ -91,17 +91,17 @@ function PhotographerRow({
   };
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-gray-100 p-4">
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-gray-100 p-4 dark:border-white/10">
       <div>
         <div className="flex items-center gap-2">
-          <p className="font-semibold text-sn-slate">
+          <p className="font-semibold text-sn-slate dark:text-white">
             {p.studio_name || `${p.profiles?.first_name ?? ''} ${p.profiles?.last_name ?? ''}`.trim() || labels.defaultName}
           </p>
           <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[p.status]}`}>
             {statusLabels[p.status]}
           </span>
         </div>
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           {p.profiles?.first_name} {p.profiles?.last_name} · {p.profiles?.phone || labels.noPhone} ·
           {' '}{labels.registeredOn(formatDate(p.created_at))}
         </p>
