@@ -29,7 +29,7 @@ function buildWatermarkSvg(width: number, height: number): Buffer {
 }
 
 async function watermarkedResize(
-  original: sharp.Sharp,
+  original: ReturnType<typeof sharp>,
   width: number,
   quality: number
 ): Promise<Buffer> {
