@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatFCFA } from '@/lib/utils/format';
 import { computeOrderPricing } from '@/lib/utils/pricing';
+import { loadKkiapayScript, openKkiapayWidget } from '@/lib/kkiapay/widget';
 
 type Photo = {
   id: string;
@@ -12,13 +13,6 @@ type Photo = {
   thumbnail_url: string;
   price_fcfa: number;
 };
-
-declare global {
-  interface Window {
-    openKkiapayWidget?: (config: Record<string, unknown>) => void;
-    addSuccessListener?: (cb: (response: { transactionId: string }) => void) => void;
-  }
-}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -59,10 +53,7 @@ export default function GalleryCart({
   // Widget KKiaPay (Wave / Orange Money) : script chargé une fois, écoute
   // globale du succès de paiement mise en place au montage.
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.kkiapay.me/k.js';
-    script.async = true;
-    script.onload = () => {
+    loadKkiapayScript().then(() => {
       window.addSuccessListener?.(async (response) => {
         const orderId = pendingOrderId.current;
         if (!orderId) return;
@@ -78,11 +69,7 @@ export default function GalleryCart({
           ? '/client/dashboard/commandes?success=1'
           : data.access_url || '/';
       });
-    };
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
+    });
   }, [isLoggedIn]);
 
   async function checkoutStripe() {
@@ -123,13 +110,7 @@ export default function GalleryCart({
       return;
     }
     pendingOrderId.current = data.order_id;
-    window.openKkiapayWidget?.({
-      amount: data.amount,
-      key: process.env.NEXT_PUBLIC_KKIAPAY_PUBLIC_KEY,
-      sandbox: process.env.NEXT_PUBLIC_KKIAPAY_SANDBOX !== 'false',
-      position: 'center',
-      theme: 'orange',
-    });
+    openKkiapayWidget(data.amount);
     setPaying(false);
   }
 

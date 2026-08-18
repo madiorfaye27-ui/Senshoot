@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { createAdminClient } from '@/lib/supabase/server';
+import { resolveRequestUser, isAuthorizedOrigin } from '@/lib/auth/resolveRequestUser';
 
 const priceSchema = z.object({
   price_fcfa: z.number().int().min(500).max(1_000_000),
@@ -17,14 +17,11 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { photoId: string } }
 ) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
-
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });

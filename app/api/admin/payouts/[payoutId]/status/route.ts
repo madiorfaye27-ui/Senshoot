@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { createAdminClient } from '@/lib/supabase/server';
+import { resolveRequestUser, isAuthorizedOrigin, parseFormOrJsonBody } from '@/lib/auth/resolveRequestUser';
 import { sendEmail } from '@/lib/email/resend';
 import { payoutProcessedEmailFr } from '@/lib/email/templates';
 import { formatFCFA } from '@/lib/utils/format';
@@ -20,16 +20,14 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { payoutId: string } }
 ) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   if (!user) {
+    if (isBearer) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -43,13 +41,14 @@ export async function POST(
     return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
   }
 
-  const formData = await request.formData();
+  const body = await parseFormOrJsonBody(request);
   const parsed = statusSchema.safeParse({
-    status: formData.get('status'),
-    admin_note: formData.get('admin_note') ?? undefined,
+    status: body.status,
+    admin_note: body.admin_note ?? undefined,
   });
 
   if (!parsed.success) {
+    if (isBearer) return NextResponse.json({ error: 'Statut invalide' }, { status: 400 });
     return NextResponse.redirect(
       new URL('/admin/dashboard/retraits?error=' + encodeURIComponent('Statut invalide'), request.url)
     );
@@ -72,6 +71,7 @@ export async function POST(
     void notifyPayoutProcessed(admin, updated, parsed.data.status, parsed.data.admin_note || null);
   }
 
+  if (isBearer) return NextResponse.json({ success: true });
   return NextResponse.redirect(new URL('/admin/dashboard/retraits?success=1', request.url));
 }
 

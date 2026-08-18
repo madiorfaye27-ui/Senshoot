@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { resolveRequestUser, isAuthorizedOrigin, parseFormOrJsonBody } from '@/lib/auth/resolveRequestUser';
 import { getAvailableBalance, getCommissionRate } from '@/lib/utils/payouts';
 
 const payoutSchema = z.object({
@@ -17,16 +16,14 @@ const payoutSchema = z.object({
 // Money/banque) hors plateforme et à marquer la demande "payée"
 // (aucune API de décaissement automatique n'est branchée aujourd'hui).
 export async function POST(request: NextRequest) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   if (!user) {
+    if (isBearer) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -37,17 +34,19 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (!photographer) {
+    if (isBearer) return NextResponse.json({ error: 'Profil photographe introuvable' }, { status: 403 });
     return NextResponse.redirect(new URL('/dashboard/ventes', request.url));
   }
 
-  const formData = await request.formData();
+  const body = await parseFormOrJsonBody(request);
   const parsed = payoutSchema.safeParse({
-    amount_fcfa: formData.get('amount_fcfa'),
-    payout_method: formData.get('payout_method'),
-    payout_details: formData.get('payout_details'),
+    amount_fcfa: body.amount_fcfa,
+    payout_method: body.payout_method,
+    payout_details: body.payout_details,
   });
 
   if (!parsed.success) {
+    if (isBearer) return NextResponse.json({ error: 'Formulaire de retrait invalide.' }, { status: 400 });
     return NextResponse.redirect(
       new URL('/dashboard/ventes?error=' + encodeURIComponent('Formulaire de retrait invalide.'), request.url)
     );
@@ -59,6 +58,9 @@ export async function POST(request: NextRequest) {
   const available = await getAvailableBalance(supabase, photographer.id, commissionRate);
 
   if (parsed.data.amount_fcfa > available) {
+    if (isBearer) {
+      return NextResponse.json({ error: 'Montant supérieur à votre solde disponible.' }, { status: 400 });
+    }
     return NextResponse.redirect(
       new URL('/dashboard/ventes?error=' + encodeURIComponent('Montant supérieur à votre solde disponible.'), request.url)
     );
@@ -72,10 +74,14 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
+    if (isBearer) {
+      return NextResponse.json({ error: 'Impossible de créer la demande de retrait.' }, { status: 400 });
+    }
     return NextResponse.redirect(
       new URL('/dashboard/ventes?error=' + encodeURIComponent('Impossible de créer la demande de retrait.'), request.url)
     );
   }
 
+  if (isBearer) return NextResponse.json({ success: true });
   return NextResponse.redirect(new URL('/dashboard/ventes?success=1', request.url));
 }

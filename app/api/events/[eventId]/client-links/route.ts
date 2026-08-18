@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { resolveRequestUser, isAuthorizedOrigin } from '@/lib/auth/resolveRequestUser';
 
 // Génère un lien/QR individuel à usage unique pour un client présent sur
 // place (voir supabase/migrations/0008_access_tokens.sql). L'appartenance
@@ -11,22 +10,25 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { eventId: string } }
 ) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const supabase = createClient();
-
+  const token = crypto.randomUUID();
   const { error } = await supabase.from('event_client_links').insert({
     event_id: params.eventId,
-    token: crypto.randomUUID(),
+    token,
   });
 
   if (error) {
+    if (isBearer) return NextResponse.json({ error: 'Création impossible' }, { status: 400 });
     return NextResponse.redirect(
       new URL(`/dashboard/evenements/${params.eventId}?error=${encodeURIComponent('Création impossible')}`, request.url)
     );
   }
 
+  if (isBearer) return NextResponse.json({ token });
   return NextResponse.redirect(new URL(`/dashboard/evenements/${params.eventId}`, request.url));
 }

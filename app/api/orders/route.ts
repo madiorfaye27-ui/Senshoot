@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe/server';
 import { generateOrderId } from '@/lib/utils/format';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 import { computeOrderPricing } from '@/lib/utils/pricing';
+import { resolveRequestUser } from '@/lib/auth/resolveRequestUser';
 
 const orderSchema = z.object({
   event_id: z.string().uuid(),
@@ -25,8 +26,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }
 
-  const supabase = createClient();
-
   const body = await request.json().catch(() => null);
   const parsed = orderSchema.safeParse(body);
   if (!parsed.success) {
@@ -34,9 +33,7 @@ export async function POST(request: NextRequest) {
   }
   const { event_id, photo_ids, payment_method, guest_email } = parsed.data;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!user && !guest_email) {
     return NextResponse.json({ error: 'Email requis pour un achat sans compte' }, { status: 400 });
@@ -109,9 +106,22 @@ export async function POST(request: NextRequest) {
     // Un invité n'a pas de tableau de bord où atterrir : il retrouve ses
     // photos via le lien envoyé par email (voir markOrderPaid), la page
     // de succès se contente de le lui rappeler.
-    const successUrl = user
-      ? `${process.env.NEXT_PUBLIC_APP_URL}/client/dashboard/commandes?success=1`
-      : `${process.env.NEXT_PUBLIC_APP_URL}/commande-confirmee`;
+    //
+    // Mobile has no page to land a browser redirect on — it opens this
+    // checkout_url in an in-app browser (expo-web-browser's
+    // openAuthSessionAsync) which watches for and intercepts the
+    // "senshootapp://" scheme itself, closing the browser and handing the
+    // result straight back to the calling screen. The actual payment
+    // confirmation still only ever happens via the Stripe webhook below,
+    // same as web — these URLs are purely where the browser lands/closes.
+    const successUrl = isBearer
+      ? `senshootapp://payment-return?result=success&order_id=${order.id}`
+      : user
+        ? `${process.env.NEXT_PUBLIC_APP_URL}/client/dashboard/commandes?success=1`
+        : `${process.env.NEXT_PUBLIC_APP_URL}/commande-confirmee`;
+    const cancelUrl = isBearer
+      ? `senshootapp://payment-return?result=canceled&order_id=${order.id}`
+      : `${process.env.NEXT_PUBLIC_APP_URL}/galerie/${event_id}?canceled=1`;
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -127,7 +137,7 @@ export async function POST(request: NextRequest) {
       })),
       metadata: { order_id: order.id },
       success_url: successUrl,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/galerie/${event_id}?canceled=1`,
+      cancel_url: cancelUrl,
     });
 
     await admin.from('payments').insert({

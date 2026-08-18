@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { resolveRequestUser, isAuthorizedOrigin } from '@/lib/auth/resolveRequestUser';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 
 const subscribeSchema = z.object({
@@ -14,7 +14,9 @@ const subscribeSchema = z.object({
 // n'est jamais pris tel quel côté client, toujours recalculé depuis le
 // prix réel du plan en base.
 export async function POST(request: NextRequest) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
@@ -22,11 +24,6 @@ export async function POST(request: NextRequest) {
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }
-
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
@@ -93,8 +90,14 @@ export async function POST(request: NextRequest) {
         },
       ],
       metadata: { subscription_payment_id: pendingPayment.id },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/abonnement?success=1`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/tarifs?canceled=1`,
+      // Same senshootapp:// deep-link pattern as POST /api/orders — see
+      // the comment there for why mobile needs a different pair of URLs.
+      success_url: isBearer
+        ? `senshootapp://payment-return?result=success&subscription_payment_id=${pendingPayment.id}`
+        : `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/abonnement?success=1`,
+      cancel_url: isBearer
+        ? `senshootapp://payment-return?result=canceled&subscription_payment_id=${pendingPayment.id}`
+        : `${process.env.NEXT_PUBLIC_APP_URL}/tarifs?canceled=1`,
     });
 
     await admin

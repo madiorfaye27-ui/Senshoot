@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { isAuthorizedOrigin } from '@/lib/auth/resolveRequestUser';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 import { sendEmail } from '@/lib/email/resend';
 import { bookingRequestEmailFr } from '@/lib/email/templates';
@@ -28,7 +28,7 @@ const bookingSchema = z.object({
 // d'un photographe peut demander une date. Le taux limité protège
 // contre le spam d'un endpoint non authentifié.
 export async function POST(request: NextRequest) {
-  if (!isSameOriginRequest(request)) {
+  if (!isAuthorizedOrigin(request, false)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 

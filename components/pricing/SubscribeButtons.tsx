@@ -3,13 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
-
-declare global {
-  interface Window {
-    openKkiapayWidget?: (config: Record<string, unknown>) => void;
-    addSuccessListener?: (cb: (response: { transactionId: string }) => void) => void;
-  }
-}
+import { loadKkiapayScript, openKkiapayWidget } from '@/lib/kkiapay/widget';
 
 // Un seul chargement du widget KKiaPay pour toute la grille de formules
 // (au lieu d'un par carte) — même logique que GalleryCart, adaptée pour
@@ -21,10 +15,7 @@ export default function SubscribeButtons({ planId }: { planId: string }) {
   const pendingPaymentId = useRef<string | null>(null);
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.kkiapay.me/k.js';
-    script.async = true;
-    script.onload = () => {
+    loadKkiapayScript().then(() => {
       window.addSuccessListener?.(async (response) => {
         const paymentId = pendingPaymentId.current;
         if (!paymentId) return;
@@ -35,11 +26,7 @@ export default function SubscribeButtons({ planId }: { planId: string }) {
         });
         router.push('/dashboard/abonnement?success=1');
       });
-    };
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
+    });
   }, [router]);
 
   async function subscribe(payment_method: 'stripe' | 'kkiapay') {
@@ -65,13 +52,7 @@ export default function SubscribeButtons({ planId }: { planId: string }) {
       return;
     }
     pendingPaymentId.current = data.subscription_payment_id;
-    window.openKkiapayWidget?.({
-      amount: data.amount,
-      key: process.env.NEXT_PUBLIC_KKIAPAY_PUBLIC_KEY,
-      sandbox: process.env.NEXT_PUBLIC_KKIAPAY_SANDBOX !== 'false',
-      position: 'center',
-      theme: 'orange',
-    });
+    openKkiapayWidget(data.amount);
     setPaying(null);
   }
 

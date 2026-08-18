@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Senshoot Sénégal",
+    "slug": "shootsenegal-mobile",
+    "scheme": "senshootapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-router",
+      "expo-camera",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Senshoot Sénégal a besoin d'accéder à vos photos pour les ajouter à une galerie d'événement."
+        }
+      ],
+      "expo-web-browser",
+      "expo-image"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "sn.senshoot.mobile"
+    },
+    "android": {
+      "package": "sn.senshoot.mobile",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    }
+  }
+}

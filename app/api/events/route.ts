@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { resolveRequestUser, isAuthorizedOrigin, parseFormOrJsonBody } from '@/lib/auth/resolveRequestUser';
 import QRCode from 'qrcode';
 
 const EVENT_CATEGORIES = [
@@ -25,30 +24,28 @@ function generateShortCode(length = 8) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const formData = await request.formData();
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   if (!user) {
+    if (isBearer) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
+  const body = await parseFormOrJsonBody(request);
   const parsed = eventSchema.safeParse({
-    name: formData.get('name'),
-    description: formData.get('description'),
-    event_date: formData.get('event_date') || undefined,
-    city: formData.get('city'),
-    category: formData.get('category'),
+    name: body.name,
+    description: body.description,
+    event_date: body.event_date || undefined,
+    city: body.city,
+    category: body.category,
   });
 
   if (!parsed.success) {
+    if (isBearer) return NextResponse.json({ error: 'Formulaire invalide' }, { status: 400 });
     return NextResponse.redirect(
       new URL(`/dashboard/evenements/nouveau?error=${encodeURIComponent('Formulaire invalide')}`, request.url)
     );
@@ -61,6 +58,7 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (!photographer) {
+    if (isBearer) return NextResponse.json({ error: 'Profil photographe introuvable' }, { status: 403 });
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
@@ -83,6 +81,7 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (error || !event) {
+    if (isBearer) return NextResponse.json({ error: 'Création impossible' }, { status: 400 });
     return NextResponse.redirect(
       new URL(`/dashboard/evenements/nouveau?error=${encodeURIComponent('Création impossible')}`, request.url)
     );
@@ -100,5 +99,6 @@ export async function POST(request: NextRequest) {
     name: event.name,
   });
 
+  if (isBearer) return NextResponse.json({ event: { ...event, qr_code_url: qrDataUrl } });
   return NextResponse.redirect(new URL(`/dashboard/evenements/${event.id}`, request.url));
 }

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/server';
 import { processPhoto } from '@/lib/utils/watermark';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { resolveRequestUser, isAuthorizedOrigin } from '@/lib/auth/resolveRequestUser';
 
 const ORIGINALS_BUCKET = 'photos-originals'; // bucket privé
 const PUBLIC_BUCKET = 'photos-public';       // bucket public (filigrané uniquement)
@@ -30,15 +30,11 @@ const photoSchema = z.object({
 // admin (service_role) peut le lire, ce qui empêche tout téléchargement
 // en pleine qualité avant paiement confirmé.
 export async function POST(request: NextRequest) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
-
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/server';
 import { verifyKkiapayTransaction } from '@/lib/kkiapay/server';
 import { markOrderPaid } from '@/lib/utils/orders';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { resolveRequestUser, isAuthorizedOrigin } from '@/lib/auth/resolveRequestUser';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 
 const confirmSchema = z.object({ transaction_id: z.string().min(1) });
@@ -22,14 +22,11 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { orderId: string } }
 ) {
-  if (!isSameOriginRequest(request)) {
+  const { user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
-
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   const rate = checkRateLimit(request, `confirm-kkiapay:${user?.id ?? request.headers.get('x-forwarded-for') ?? 'anon'}`, 20, 60_000);
   if (!rate.allowed) {

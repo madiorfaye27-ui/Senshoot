@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/server';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
+import { resolveRequestUser } from '@/lib/auth/resolveRequestUser';
 
 const ORIGINALS_BUCKET = 'photos-originals';
 const SIGNED_URL_TTL_SECONDS = 300; // 5 minutes
@@ -16,11 +17,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { itemId: string } }
 ) {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!user) {
     return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
@@ -59,5 +56,11 @@ export async function GET(
     .update({ downloaded: true, downloaded_at: new Date().toISOString() })
     .eq('id', params.itemId);
 
+  // A redirect is fine for a browser tab, but the mobile app can't do much
+  // with a 302 — it needs the URL itself to hand to Linking.openURL / a
+  // download manager.
+  if (isBearer) {
+    return NextResponse.json({ download_url: signed.signedUrl });
+  }
   return NextResponse.redirect(signed.signedUrl);
 }

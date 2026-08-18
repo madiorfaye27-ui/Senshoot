@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/utils/csrf';
+import { createAdminClient } from '@/lib/supabase/server';
+import { resolveRequestUser, isAuthorizedOrigin, parseFormOrJsonBody } from '@/lib/auth/resolveRequestUser';
 
 const statusSchema = z.object({
   status: z.enum(['validated', 'rejected', 'suspended', 'pending']),
@@ -18,16 +18,14 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { photographerId: string } }
 ) {
-  if (!isSameOriginRequest(request)) {
+  const { supabase, user, isBearer } = await resolveRequestUser(request);
+
+  if (!isAuthorizedOrigin(request, isBearer)) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   if (!user) {
+    if (isBearer) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -41,10 +39,11 @@ export async function POST(
     return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
   }
 
-  const formData = await request.formData();
-  const parsed = statusSchema.safeParse({ status: formData.get('status') });
+  const body = await parseFormOrJsonBody(request);
+  const parsed = statusSchema.safeParse({ status: body.status });
 
   if (!parsed.success) {
+    if (isBearer) return NextResponse.json({ error: 'Statut invalide' }, { status: 400 });
     return NextResponse.redirect(
       new URL('/admin/dashboard/photographes?error=' + encodeURIComponent('Statut invalide'), request.url)
     );
@@ -56,5 +55,6 @@ export async function POST(
     .update({ status: parsed.data.status })
     .eq('id', params.photographerId);
 
+  if (isBearer) return NextResponse.json({ success: true });
   return NextResponse.redirect(new URL('/admin/dashboard/photographes?success=1', request.url));
 }
