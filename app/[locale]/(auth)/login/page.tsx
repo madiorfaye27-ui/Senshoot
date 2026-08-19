@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation';
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string };
+  searchParams: { error?: string; success?: string };
 }) {
   const t = await getTranslations('LoginPage');
   const locale = await getLocale();
@@ -15,6 +15,9 @@ export default async function LoginPage({
 
       {searchParams.error && (
         <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{searchParams.error}</p>
+      )}
+      {searchParams.success && (
+        <p className="rounded-lg bg-sn-teal/10 p-3 text-sm text-sn-teal">{searchParams.success}</p>
       )}
 
       <div>
@@ -28,7 +31,12 @@ export default async function LoginPage({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('password')}</label>
+        <div className="flex items-center justify-between">
+          <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('password')}</label>
+          <Link href="/forgot-password" className="mb-1 text-xs font-medium text-sn-orange">
+            {t('forgotPassword')}
+          </Link>
+        </div>
         <input
           type="password"
           name="password"
