@@ -1,4 +1,5 @@
 const createNextIntlPlugin = require('next-intl/plugin');
+const { withSentryConfig } = require('@sentry/nextjs');
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
@@ -55,4 +56,17 @@ const nextConfig = {
   },
 };
 
-module.exports = withNextIntl(nextConfig);
+module.exports = withSentryConfig(withNextIntl(nextConfig), {
+  // Silencieux quand SENTRY_AUTH_TOKEN n'est pas défini (ex: en local) —
+  // l'upload des source maps est alors simplement ignoré plutôt que de
+  // faire échouer le build.
+  silent: true,
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
+  webpack: {
+    treeshake: { removeDebugLogging: true },
+    automaticVercelMonitors: true,
+  },
+});
