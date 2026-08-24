@@ -68,5 +68,13 @@ module.exports = withSentryConfig(withNextIntl(nextConfig), {
   webpack: {
     treeshake: { removeDebugLogging: true },
     automaticVercelMonitors: true,
+    // Désactivé : Sentry réécrit middleware.ts pour y injecter du
+    // monitoring, et ça fait échouer le déploiement Vercel avec "The
+    // Edge Function 'middleware' is referencing unsupported modules"
+    // (référence à nos propres imports @/i18n/routing et
+    // @/lib/supabase/middleware, alors qu'ils n'ont rien de non
+    // supporté — le souci vient bien de l'enrobage automatique, pas de
+    // notre code). Le suivi d'erreurs middleware n'est pas critique ici.
+    autoInstrumentMiddleware: false,
   },
 });
