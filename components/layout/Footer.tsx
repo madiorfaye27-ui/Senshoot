@@ -54,6 +54,10 @@ export default async function Footer() {
           <Link href="/conditions-generales" className="hover:text-white transition-colors">
             {t('terms')}
           </Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/politique-de-confidentialite" className="hover:text-white transition-colors">
+            {t('privacy')}
+          </Link>
         </div>
       </div>
     </footer>

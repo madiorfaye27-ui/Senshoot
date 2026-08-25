@@ -27,7 +27,8 @@
     "contact": "Contact",
     "location": "Dakar, Senegal",
     "rights": "All rights reserved.",
-    "terms": "Terms of use"
+    "terms": "Terms of use",
+    "privacy": "Privacy Policy"
   },
   "HomePage": {
     "heroTitle1": "Capture your precious moments.",
@@ -138,6 +139,8 @@
     "rolePhotographer": "Photographer",
     "acceptTermsPrefix": "I accept the",
     "acceptTermsLink": "terms of use",
+    "acceptTermsAnd": "and the",
+    "acceptPrivacyLink": "privacy policy",
     "submit": "Create my account",
     "alreadyRegistered": "Already registered?",
     "logIn": "Log in"
@@ -424,6 +427,56 @@
     "openWhatsapp": "Didn't open automatically? Click here →",
     "error": "Something went wrong, please try again.",
     "cancel": "Cancel"
+  },
+  "PrivacyPage": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: August 2026",
+    "sections": [
+      {
+        "heading": "1. Data controller",
+        "body": "Senshoot Sénégal is responsible for processing the personal data collected through the platform. For any question about this policy or to exercise your rights, contact us at contact@shootsenegal.com."
+      },
+      {
+        "heading": "2. Data we collect",
+        "body": "Photographers: name, email, phone, city, studio description. Clients with an account: name, email. Guest clients (no account): email address only, needed to receive the access link to purchased photos. We also collect order-related data (selected photos, amount, payment method) and, for photographers, the photos they upload as well as booking requests received from clients (name, email, WhatsApp)."
+      },
+      {
+        "heading": "3. Why we use it",
+        "body": "This data is used exclusively to run the service: create and manage your account, process your orders and payments, send you necessary emails (account confirmation, access to your photos, subscription reminders), connect you with a photographer when you submit a booking request, and keep the platform secure (login attempt limiting, fraud detection)."
+      },
+      {
+        "heading": "4. Who has access to your data",
+        "body": "We never sell or rent your personal data to anyone. It is only shared with the technical providers necessary to run the service, each with access limited to what their function requires: Supabase (database hosting, authentication, and photo storage), Stripe and KKiaPay (card and mobile money payment processing — Senshoot Sénégal never stores any banking data), Resend (transactional emails), Sentry (technical error monitoring, to fix bugs)."
+      },
+      {
+        "heading": "5. Where your data is hosted",
+        "body": "These providers host their services internationally, including in Europe and the United States. Each applies its own security and compliance safeguards for international data transfers. No banking data ever transits through or is stored by us — it is handled directly by Stripe or KKiaPay."
+      },
+      {
+        "heading": "6. Retention period",
+        "body": "Your data is kept for as long as your account is active. Order-related data is kept beyond that, for as long as needed to meet our accounting and legal obligations. If you delete your account, your personal data is deleted, except for what we must retain for those obligations."
+      },
+      {
+        "heading": "7. Cookies",
+        "body": "We only use technical cookies necessary for the site to work: keeping you signed in, remembering your language and your light/dark display preference. We use no advertising cookies or third-party marketing trackers."
+      },
+      {
+        "heading": "8. Your rights",
+        "body": "Under Senegalese law n°2008-12 on the protection of personal data, you have the right to access, correct, delete, and object to the use of your data. To exercise these rights, contact us at contact@shootsenegal.com. You may also file a complaint with Senegal's data protection authority (CDP – Commission de protection des données personnelles)."
+      },
+      {
+        "heading": "9. Photos and image rights",
+        "body": "Photographers are solely responsible for making sure they have the necessary permissions (image rights) from the people they photograph before uploading and selling those photos on the platform, including for minors appearing in photos."
+      },
+      {
+        "heading": "10. Security",
+        "body": "Access to your data is protected by strict security rules at the database level (each user can only access their own data), your passwords are never stored in plain text, and exchanges with the site are encrypted (HTTPS)."
+      },
+      {
+        "heading": "11. Changes to this policy",
+        "body": "This privacy policy may be updated; any substantial change will be communicated to you."
+      }
+    ]
   },
   "TermsPage": {
     "title": "Terms of Use",

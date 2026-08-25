@@ -76,6 +76,10 @@ export default async function RegisterPage({
           {t('acceptTermsPrefix')}{' '}
           <Link href="/conditions-generales" target="_blank" className="font-medium text-sn-orange underline">
             {t('acceptTermsLink')}
+          </Link>{' '}
+          {t('acceptTermsAnd')}{' '}
+          <Link href="/politique-de-confidentialite" target="_blank" className="font-medium text-sn-orange underline">
+            {t('acceptPrivacyLink')}
           </Link>
         </span>
       </label>
