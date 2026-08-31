@@ -23,7 +23,18 @@ export default async function PhotographesPage() {
             href={`/photographe/${p.slug}`}
             className="card-hover surface-card rounded-xl p-5 shadow-sm hover:border-sn-orange"
           >
-            <p className="font-semibold text-sn-slate dark:text-white">{p.studio_name || t('defaultName')}</p>
+            <div className="flex items-center gap-3">
+              {p.logo_url ? (
+                <img
+                  src={p.logo_url}
+                  alt={p.studio_name || t('defaultName')}
+                  className="h-10 w-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="h-10 w-10 shrink-0 rounded-full bg-sn-teal/10" />
+              )}
+              <p className="font-semibold text-sn-slate dark:text-white">{p.studio_name || t('defaultName')}</p>
+            </div>
             {p.city && <p className="mt-1 text-xs text-sn-teal">{p.city}</p>}
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{p.description}</p>
             {(p.contact_phone || p.contact_whatsapp) && (

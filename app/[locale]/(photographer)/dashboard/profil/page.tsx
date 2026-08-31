@@ -34,7 +34,36 @@ export default async function PhotographerProfilePage({
         </p>
       )}
 
-      <form action="/api/photographers/profile" method="post" className="mt-6 space-y-4">
+      <form
+        action="/api/photographers/profile"
+        method="post"
+        encType="multipart/form-data"
+        className="mt-6 space-y-4"
+      >
+        <div>
+          <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('photo')}</label>
+          <div className="flex items-center gap-4">
+            {photographer?.logo_url ? (
+              <img
+                src={photographer.logo_url}
+                alt={t('photo')}
+                className="h-16 w-16 rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-xs text-gray-400 dark:bg-white/5">
+                {t('photo')}
+              </div>
+            )}
+            <input
+              type="file"
+              name="logo"
+              accept="image/jpeg,image/png,image/webp"
+              className="input-field"
+            />
+          </div>
+          <p className="mt-1 text-xs text-gray-400">{t('photoHint')}</p>
+        </div>
+
         <div>
           <label className="mb-1 block text-sm font-medium text-sn-slate dark:text-gray-300">{t('studioName')}</label>
           <input

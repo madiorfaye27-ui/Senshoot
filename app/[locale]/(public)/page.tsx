@@ -11,7 +11,7 @@ export default async function HomePage() {
   } = await supabase.auth.getUser();
   const { data: photographers } = await supabase
     .from('photographers')
-    .select('slug, studio_name, description, city, contact_phone, contact_whatsapp')
+    .select('slug, studio_name, description, city, contact_phone, contact_whatsapp, logo_url')
     .eq('status', 'validated')
     .not('studio_name', 'is', null)
     .neq('studio_name', '')
@@ -99,9 +99,20 @@ export default async function HomePage() {
                   href={`/photographe/${p.slug}`}
                   className="card-hover surface-card block h-full rounded-xl p-5 shadow-sm hover:border-sn-orange"
                 >
-                  <p className="font-semibold text-sn-slate dark:text-white">
-                    {p.studio_name || 'Photographe'}
-                  </p>
+                  <div className="flex items-center gap-3">
+                    {p.logo_url ? (
+                      <img
+                        src={p.logo_url}
+                        alt={p.studio_name || 'Photographe'}
+                        className="h-10 w-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-10 w-10 shrink-0 rounded-full bg-sn-teal/10" />
+                    )}
+                    <p className="font-semibold text-sn-slate dark:text-white">
+                      {p.studio_name || 'Photographe'}
+                    </p>
+                  </div>
                   {p.city && <p className="mt-1 text-xs text-sn-teal">{p.city}</p>}
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
                     {p.description}

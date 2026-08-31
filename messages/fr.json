@@ -196,6 +196,8 @@
     "title": "Mon profil public",
     "intro": "Ces informations sont visibles par tous les clients sur la page d'accueil et l'annuaire des photographes — c'est ce qui leur permet de vous contacter pour un événement.",
     "success": "Profil mis à jour.",
+    "photo": "Photo de profil",
+    "photoHint": "JPEG, PNG ou WEBP, 5 Mo max. Elle sera recadrée en carré.",
     "studioName": "Nom du studio",
     "description": "Description",
     "city": "Ville",
@@ -254,6 +256,13 @@
     "newEvent": "+ Nouvel événement",
     "manage": "Gérer →",
     "empty": "Aucun événement pour le moment. Créez votre premier événement pour générer un QR Code."
+  },
+  "EventDeleteButton": {
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "deleting": "Suppression…",
+    "error": "Échec de la suppression"
   },
   "NewEventPage": {
     "title": "Nouvel événement",
@@ -318,6 +327,13 @@
     "save": "Enregistrer",
     "saved": "Enregistré ✓",
     "error": "Échec"
+  },
+  "PhotoDeleteButton": {
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "deleting": "Suppression…",
+    "error": "Échec de la suppression"
   },
   "AdminDashboardLayout": {
     "title": "Administration",

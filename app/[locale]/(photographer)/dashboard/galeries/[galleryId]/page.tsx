@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import PhotoUploader from '@/components/photographer/PhotoUploader';
 import PhotoPriceEditor from '@/components/photographer/PhotoPriceEditor';
+import PhotoDeleteButton from '@/components/photographer/PhotoDeleteButton';
 
 export default async function GalleryManagePage({
   params,
@@ -54,6 +55,9 @@ export default async function GalleryManagePage({
             <div className="flex items-center justify-between gap-1 p-1.5">
               <span className="text-[10px] text-gray-400">#{p.photo_number}</span>
               <PhotoPriceEditor photoId={p.id} initialPrice={p.price_fcfa} />
+            </div>
+            <div className="border-t border-gray-100 p-1.5 dark:border-white/10">
+              <PhotoDeleteButton photoId={p.id} />
             </div>
           </div>
         ))}

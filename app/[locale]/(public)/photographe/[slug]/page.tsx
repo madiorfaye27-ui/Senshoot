@@ -27,7 +27,15 @@ export default async function PhotographerProfilePage({
   return (
     <div className="container-sn py-16">
       <div className="flex items-center gap-4">
-        <div className="h-16 w-16 rounded-full bg-sn-teal/10" />
+        {photographer.logo_url ? (
+          <img
+            src={photographer.logo_url}
+            alt={photographer.studio_name || t('defaultName')}
+            className="h-16 w-16 rounded-full object-cover"
+          />
+        ) : (
+          <div className="h-16 w-16 rounded-full bg-sn-teal/10" />
+        )}
         <div>
           <h1 className="text-2xl font-bold text-sn-slate dark:text-white">
             {photographer.studio_name || t('defaultName')}

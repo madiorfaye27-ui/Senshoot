@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { Link } from '@/i18n/navigation';
+import EventDeleteButton from '@/components/photographer/EventDeleteButton';
 
 export default async function EventsPage() {
   const t = await getTranslations('EventsPage');
@@ -38,9 +39,12 @@ export default async function EventsPage() {
                 <p className="font-semibold text-sn-slate dark:text-white">{e.name}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">{e.category} · {e.status}</p>
               </div>
-              <Link href={`/dashboard/evenements/${e.id}`} className="text-sm font-medium text-sn-orange">
-                {t('manage')}
-              </Link>
+              <div className="flex items-center gap-4">
+                <Link href={`/dashboard/evenements/${e.id}`} className="text-sm font-medium text-sn-orange">
+                  {t('manage')}
+                </Link>
+                <EventDeleteButton eventId={e.id} />
+              </div>
             </div>
           ))
         ) : (
