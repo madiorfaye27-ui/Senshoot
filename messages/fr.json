@@ -313,7 +313,10 @@
   "GalleryManagePage": {
     "photosImported": "{count} photo(s) importée(s)",
     "qrCodeAlt": "QR Code",
-    "qrCodeTitle": "QR Code de l'événement"
+    "qrCodeTitle": "QR Code de l'événement",
+    "storageUsed": "Stockage utilisé",
+    "storageAmount": "{used} / {limit} Go",
+    "storageUnlimited": "{used} Go (illimité)"
   },
   "PhotoUploader": {
     "uploading": "Import et filigranage en cours… {done}/{total}",

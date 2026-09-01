@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';
 import { processPhoto } from '@/lib/utils/watermark';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
+import { getStorageLimitBytes, getStorageUsedBytes } from '@/lib/utils/storage';
 import { resolveRequestUser, isAuthorizedOrigin } from '@/lib/auth/resolveRequestUser';
 
 const ORIGINALS_BUCKET = 'photos-originals'; // bucket privé
@@ -89,6 +90,30 @@ export async function POST(request: NextRequest) {
 
   const originalBuffer = Buffer.from(await originalFile.arrayBuffer());
 
+  // 1bis. Vérifie le quota de stockage du forfait AVANT le traitement
+  // (coûteux en CPU) et l'upload des versions filigranées. Approximation
+  // volontaire : compare l'espace déjà utilisé + la seule taille de
+  // l'original (les versions filigranées, plus petites, ne sont pas
+  // encore connues à ce stade) — l'upload suivant, lui, verra la vraie
+  // taille cumulée enregistrée ci-dessous et sera bloqué si nécessaire.
+  const photographerId = (gallery as any).events.photographer_id;
+  const limitBytes = await getStorageLimitBytes(admin, photographerId);
+  if (limitBytes !== null) {
+    const usedBytes = await getStorageUsedBytes(admin, photographerId);
+    if (usedBytes + originalBuffer.length > limitBytes) {
+      // L'original a déjà été déposé par PhotoUploader.tsx avant cet
+      // appel : on le retire puisqu'il ne sera jamais traité/enregistré.
+      await admin.storage.from(ORIGINALS_BUCKET).remove([original_path]);
+      return NextResponse.json(
+        {
+          error:
+            'Quota de stockage de votre forfait atteint. Passez à un forfait supérieur ou supprimez des photos pour libérer de l\'espace.',
+        },
+        { status: 413 }
+      );
+    }
+  }
+
   // 2. Générer les versions filigranées
   let processed;
   try {
@@ -134,6 +159,7 @@ export async function POST(request: NextRequest) {
       price_fcfa: price_fcfa ?? 2000,
       width: processed.width,
       height: processed.height,
+      storage_bytes: originalBuffer.length + processed.web.length + processed.thumbnail.length,
     })
     .select()
     .single();
