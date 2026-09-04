@@ -28,6 +28,7 @@
     "location": "Dakar, Senegal",
     "rights": "All rights reserved.",
     "terms": "Terms of use",
+    "salesTerms": "Sales terms",
     "privacy": "Privacy Policy"
   },
   "HomePage": {
@@ -552,6 +553,56 @@
       {
         "heading": "13. Contact",
         "body": "For any question about these terms: contact@shootsenegal.com."
+      }
+    ]
+  },
+  "SalesTermsPage": {
+    "title": "Sales terms and conditions",
+    "lastUpdated": "Last updated: September 2026",
+    "sections": [
+      {
+        "heading": "1. Purpose and scope",
+        "body": "These sales terms and conditions govern exclusively the purchase of digital photos on Senshoot Sénégal, between a buyer (registered client or guest) and a selling photographer, through the platform. They complement the general terms of use and apply to every order placed on the site, regardless of the payment method used."
+      },
+      {
+        "heading": "2. Nature of the product sold",
+        "body": "The products sold are high-quality digital photo files, without watermark, delivered by download. No physical item is shipped. The version visible before purchase (watermarked) lets the buyer confirm their choice before paying."
+      },
+      {
+        "heading": "3. Price",
+        "body": "Each photo is sold at the price freely set by the photographer who uploaded it (500 F CFA minimum). A 10% discount is automatically applied to each photo's price once a buyer purchases 2 or more photos in the same order. Displayed prices are in West African CFA francs (F CFA), inclusive of any applicable taxes."
+      },
+      {
+        "heading": "4. Senshoot Sénégal's role in the sale",
+        "body": "The photographer remains the seller of the photos they publish: they are the author, set the price, and are responsible for the content. Senshoot Sénégal acts as a technical and commercial intermediary: the platform collects the buyer's payment on the photographer's behalf, deducts its commission (whose rate depends on the photographer's subscription plan, see the terms of use), then pays out the balance to the photographer on withdrawal request. Senshoot Sénégal is neither the author nor the owner of the photos sold."
+      },
+      {
+        "heading": "5. Payment terms",
+        "body": "Payment is made online, at the time of ordering, by credit card (via Stripe) or mobile money — Wave or Orange Money (via KKiaPay). No banking data is stored by Senshoot Sénégal: payments are processed directly by these specialized providers. The order is only confirmed once payment is validated by the relevant provider."
+      },
+      {
+        "heading": "6. Delivery and access to purchased photos",
+        "body": "As soon as payment is confirmed, the buyer receives a link giving access to their high-quality photos. A client account allows re-downloading purchases at any time, with no limit on the number of downloads, from the \"My downloads\" area."
+      },
+      {
+        "heading": "7. No right of withdrawal",
+        "body": "Given the nature of the product (digital content delivered immediately after payment), the buyer has no right of withdrawal once a photo has been downloaded. By placing an order, the buyer acknowledges and accepts this waiver, in exchange for immediate access to the content."
+      },
+      {
+        "heading": "8. Refunds and complaints",
+        "body": "A refund may be requested in the case of a proven technical error: a photo different from the one ordered, a corrupted or unreadable file, a duplicate charge. Any complaint must be sent to contact@shootsenegal.com within 7 days of purchase, stating the order number. For any question about a photo's content (quality, match with the event), the buyer may also contact the photographer directly using the contact details shown on their public page."
+      },
+      {
+        "heading": "9. Liability",
+        "body": "The photographer is solely responsible for the quality, content, and accuracy of the photos they sell, as well as for respecting the image rights of the people photographed. Senshoot Sénégal is responsible for the technical proper functioning of the transaction (payment, file delivery) but exercises no prior editorial control over the photos offered for sale."
+      },
+      {
+        "heading": "10. Governing law and disputes",
+        "body": "These sales terms are governed by Senegalese law. Any dispute related to a sale that cannot be resolved amicably falls under the jurisdiction of the courts of Dakar."
+      },
+      {
+        "heading": "11. Contact",
+        "body": "For any question regarding an order or these sales terms: contact@shootsenegal.com."
       }
     ]
   },

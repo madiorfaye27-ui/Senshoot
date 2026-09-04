@@ -28,6 +28,7 @@
     "location": "Dakar, Sénégal",
     "rights": "Tous droits réservés.",
     "terms": "Conditions générales d'utilisation",
+    "salesTerms": "Conditions générales de vente",
     "privacy": "Politique de confidentialité"
   },
   "HomePage": {
@@ -552,6 +553,56 @@
       {
         "heading": "13. Contact",
         "body": "Pour toute question relative aux présentes conditions : contact@shootsenegal.com."
+      }
+    ]
+  },
+  "SalesTermsPage": {
+    "title": "Conditions générales de vente",
+    "lastUpdated": "Dernière mise à jour : septembre 2026",
+    "sections": [
+      {
+        "heading": "1. Objet et champ d'application",
+        "body": "Les présentes conditions générales de vente (CGV) régissent exclusivement l'achat de photos numériques sur Senshoot Sénégal, entre un acheteur (client ou invité) et un photographe vendeur, par l'intermédiaire de la plateforme. Elles complètent les conditions générales d'utilisation (CGU) et s'appliquent à toute commande passée sur le site, quel que soit le moyen de paiement utilisé."
+      },
+      {
+        "heading": "2. Nature du produit vendu",
+        "body": "Les produits vendus sont des fichiers photographiques numériques en haute qualité, sans filigrane, livrés par téléchargement. Aucun support physique n'est envoyé. La version visible avant achat (filigranée) permet à l'acheteur de vérifier son choix avant de payer."
+      },
+      {
+        "heading": "3. Prix",
+        "body": "Chaque photo est vendue au prix fixé librement par le photographe qui l'a mise en ligne (500 F CFA minimum). Une remise de 10% est automatiquement appliquée sur le prix de chaque photo dès l'achat de 2 photos ou plus au sein d'une même commande. Les prix affichés sont en francs CFA (F CFA), toutes taxes comprises le cas échéant."
+      },
+      {
+        "heading": "4. Rôle de Senshoot Sénégal dans la vente",
+        "body": "Le photographe reste le vendeur des photos qu'il met en ligne : il en est l'auteur, en détermine le prix, et en garantit le contenu. Senshoot Sénégal agit en tant qu'intermédiaire technique et commercial : la plateforme encaisse le paiement de l'acheteur pour le compte du photographe, prélève sa commission (dont le taux dépend de la formule d'abonnement du photographe, voir les CGU), puis reverse le solde au photographe sur demande de retrait. Senshoot Sénégal n'est ni l'auteur, ni le propriétaire des photos vendues."
+      },
+      {
+        "heading": "5. Modalités de paiement",
+        "body": "Le paiement s'effectue en ligne, au moment de la commande, par carte bancaire (via Stripe) ou par mobile money — Wave ou Orange Money (via KKiaPay). Aucune donnée bancaire n'est stockée par Senshoot Sénégal : les paiements sont traités directement par ces prestataires spécialisés. La commande n'est confirmée qu'après validation du paiement par le prestataire concerné."
+      },
+      {
+        "heading": "6. Livraison et accès aux photos achetées",
+        "body": "Dès le paiement confirmé, l'acheteur reçoit un lien lui donnant accès à ses photos en haute qualité. Un compte client permet de retélécharger ses achats à tout moment, sans limite de nombre de téléchargements, depuis l'espace « Mes téléchargements »."
+      },
+      {
+        "heading": "7. Absence de droit de rétractation",
+        "body": "Conformément à la nature du produit (contenu numérique livré immédiatement après paiement), l'acheteur ne dispose d'aucun droit de rétractation une fois la photo téléchargée. En passant commande, l'acheteur reconnaît et accepte cette renonciation, en contrepartie de l'accès immédiat au contenu."
+      },
+      {
+        "heading": "8. Remboursement et réclamations",
+        "body": "Un remboursement peut être demandé en cas d'erreur technique avérée : photo différente de celle commandée, fichier corrompu ou illisible, double débit. Toute réclamation doit être adressée à contact@shootsenegal.com dans les 7 jours suivant l'achat, en précisant le numéro de commande. Pour toute question relative au contenu d'une photo (qualité, conformité à l'évènement), l'acheteur peut aussi contacter directement le photographe via les coordonnées affichées sur sa fiche publique."
+      },
+      {
+        "heading": "9. Responsabilité",
+        "body": "Le photographe est seul responsable de la qualité, du contenu et de la conformité des photos qu'il vend, ainsi que du respect du droit à l'image des personnes photographiées. Senshoot Sénégal est responsable du bon fonctionnement technique de la transaction (paiement, livraison du fichier) mais n'exerce aucun contrôle éditorial préalable sur les photos mises en vente."
+      },
+      {
+        "heading": "10. Droit applicable et litiges",
+        "body": "Les présentes CGV sont régies par le droit sénégalais. Tout litige relatif à une vente qui n'aurait pu être résolu à l'amiable relève de la compétence des tribunaux de Dakar."
+      },
+      {
+        "heading": "11. Contact",
+        "body": "Pour toute question relative à une commande ou aux présentes CGV : contact@shootsenegal.com."
       }
     ]
   },
