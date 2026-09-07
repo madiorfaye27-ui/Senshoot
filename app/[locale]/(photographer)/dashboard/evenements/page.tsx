@@ -20,6 +20,7 @@ export default async function EventsPage() {
     .from('events')
     .select('*')
     .eq('photographer_id', photographer?.id)
+    .is('deleted_at', null)
     .order('created_at', { ascending: false });
 
   return (

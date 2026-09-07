@@ -21,7 +21,7 @@ export default async function PhotographerProfilePage({
   if (!photographer) return notFound();
 
   const publicEvents = (photographer.events ?? []).filter(
-    (e: any) => e.status === 'publie' && e.visibility === 'public'
+    (e: any) => e.status === 'publie' && e.visibility === 'public' && !e.deleted_at
   );
 
   return (

@@ -34,22 +34,29 @@ export async function DELETE(
 
   const admin = createAdminClient();
 
-  // Une photo déjà achetée ne doit jamais disparaître : la contrainte de
-  // clé étrangère order_items.photo_id (sans ON DELETE CASCADE) bloquerait
-  // de toute façon le DELETE en base, mais on vérifie ici d'abord pour
-  // renvoyer un message clair plutôt qu'une erreur Postgres brute.
+  // Une photo déjà achetée n'est jamais supprimée physiquement — le client
+  // qui a payé doit garder son accès dans "Mes téléchargements"
+  // (/api/downloads/[itemId] lit directement original_url, sans jamais
+  // filtrer sur deleted_at). On la marque juste "supprimée" pour qu'elle
+  // disparaisse de la galerie publique et des tableaux de bord.
   const { count } = await admin
     .from('order_items')
     .select('id', { count: 'exact', head: true })
     .eq('photo_id', params.photoId);
 
   if (count && count > 0) {
-    return NextResponse.json(
-      { error: 'Cette photo a déjà été achetée et ne peut plus être supprimée.' },
-      { status: 409 }
-    );
+    const { error } = await admin
+      .from('photos')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', params.photoId);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    return NextResponse.json({ success: true, softDeleted: true });
   }
 
+  // Jamais achetée : suppression physique, y compris les fichiers Storage.
   const basePath = photo.original_url.replace(/\.[^/.]+$/, '');
 
   await Promise.all([

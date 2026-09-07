@@ -35,22 +35,30 @@ export async function DELETE(
 
   const admin = createAdminClient();
 
-  // Un événement avec au moins une commande ne doit jamais disparaître —
-  // même logique que pour une photo déjà achetée. orders.event_id n'a pas
-  // de ON DELETE CASCADE (migration 0001) : Postgres bloquerait de toute
-  // façon la suppression, mais on vérifie d'abord pour un message clair.
+  // Un événement avec au moins une commande n'est jamais supprimé
+  // physiquement — les clients ayant payé doivent garder leur accès
+  // (/api/downloads/[itemId] ne dépend jamais de l'événement ni de
+  // deleted_at). On le marque juste "supprimé" : galeries et photos
+  // restent intactes en base et en Storage, seul l'affichage est filtré.
   const { count } = await admin
     .from('orders')
     .select('id', { count: 'exact', head: true })
     .eq('event_id', params.eventId);
 
   if (count && count > 0) {
-    return NextResponse.json(
-      { error: 'Cet événement a des commandes associées et ne peut plus être supprimé.' },
-      { status: 409 }
-    );
+    const { error } = await admin
+      .from('events')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', params.eventId);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    if (isBearer) return NextResponse.json({ success: true, softDeleted: true });
+    return NextResponse.redirect(new URL('/dashboard/evenements', request.url));
   }
 
+  // Aucune commande : suppression physique, y compris les fichiers Storage.
   // La suppression en base (cascade events -> galleries -> photos, voir
   // migration 0001) ne nettoie pas les fichiers Storage physiques : on
   // récupère d'abord tous les chemins pour les supprimer explicitement.

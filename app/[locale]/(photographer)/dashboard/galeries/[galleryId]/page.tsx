@@ -26,6 +26,8 @@ export default async function GalleryManagePage({
 
   if (!gallery) return notFound();
 
+  const photos = ((gallery as any).photos ?? []).filter((p: any) => !p.deleted_at);
+
   const admin = createAdminClient();
   const photographerId = (gallery as any).events.photographer_id;
   const [limitBytes, usedBytes] = await Promise.all([
@@ -38,7 +40,7 @@ export default async function GalleryManagePage({
     <div>
       <h1 className="text-2xl font-bold text-sn-slate">{gallery.name}</h1>
       <p className="mt-1 text-sm text-gray-500">
-        {t('photosImported', { count: gallery.photos?.length ?? 0 })}
+        {t('photosImported', { count: photos.length })}
       </p>
 
       <div className="mt-3 max-w-xs">
@@ -77,7 +79,7 @@ export default async function GalleryManagePage({
       )}
 
       <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-5">
-        {(gallery.photos ?? []).map((p: any) => (
+        {photos.map((p: any) => (
           <div key={p.id} className="overflow-hidden rounded-lg border border-gray-100">
             <img
               src={p.thumbnail_url}

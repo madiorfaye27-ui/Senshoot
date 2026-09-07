@@ -17,10 +17,10 @@ export default async function GalleryPage({
     .eq('qr_short_code', params.eventId)
     .single();
 
-  if (!event) return notFound();
+  if (!event || event.deleted_at) return notFound();
 
   const gallery = event.galleries?.[0];
-  const photos = gallery?.photos ?? [];
+  const photos = (gallery?.photos ?? []).filter((p: any) => !p.deleted_at);
 
   const {
     data: { user },

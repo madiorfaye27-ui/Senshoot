@@ -17,8 +17,9 @@ export default async function GaleriesPage() {
 
   const { data: events } = await supabase
     .from('events')
-    .select('*, galleries(*, photos(id))')
-    .eq('photographer_id', photographer?.id);
+    .select('*, galleries(*, photos(id, deleted_at))')
+    .eq('photographer_id', photographer?.id)
+    .is('deleted_at', null);
 
   return (
     <div>
@@ -26,11 +27,12 @@ export default async function GaleriesPage() {
       <div className="mt-6 space-y-3">
         {(events ?? []).map((e: any) => {
           const gallery = e.galleries?.[0];
+          const photoCount = (gallery?.photos ?? []).filter((p: any) => !p.deleted_at).length;
           return (
             <div key={e.id} className="card-hover surface-card flex items-center justify-between rounded-lg p-4">
               <div>
                 <p className="font-semibold text-sn-slate dark:text-white">{e.name}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{t('photosCount', { count: gallery?.photos?.length ?? 0 })}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t('photosCount', { count: photoCount })}</p>
               </div>
               <Link
                 href={`/dashboard/galeries/${gallery?.id}`}

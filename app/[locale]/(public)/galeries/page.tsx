@@ -19,6 +19,7 @@ export default async function GalleriesSearchPage({
     .select('id, name, city, event_date, cover_image_url, qr_short_code')
     .eq('visibility', 'public')
     .eq('status', 'publie')
+    .is('deleted_at', null)
     .order('created_at', { ascending: false })
     .limit(30);
 

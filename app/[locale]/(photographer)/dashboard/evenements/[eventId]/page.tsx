@@ -21,9 +21,12 @@ export default async function EventManagePage({
     .eq('id', params.eventId)
     .single();
 
-  if (!event) return notFound();
+  if (!event || event.deleted_at) return notFound();
 
   const gallery = event.galleries?.[0];
+  if (gallery) {
+    gallery.photos = (gallery.photos ?? []).filter((p: any) => !p.deleted_at);
+  }
   const clientLinks = (event.event_client_links ?? []).sort(
     (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
