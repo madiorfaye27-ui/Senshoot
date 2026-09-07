@@ -53,9 +53,9 @@ export default async function TarifsPage() {
               <span className="text-sm font-normal text-gray-400">{t('perMonth')}</span>
             </p>
             <ul className="mt-4 space-y-1 text-left text-xs text-gray-500 dark:text-gray-400">
-              {plan.max_events && <li>{plan.max_events} {t('events')}</li>}
-              {plan.max_storage_gb && <li>{plan.max_storage_gb} {t('storage')}</li>}
-              {plan.max_photos && <li>{plan.max_photos} {t('photos')}</li>}
+              <li>{plan.max_events ? `${plan.max_events} ${t('events')}` : t('unlimitedEvents')}</li>
+              <li>{plan.max_storage_gb ? `${plan.max_storage_gb} ${t('storage')}` : t('unlimitedStorage')}</li>
+              <li>{plan.max_photos ? `${plan.max_photos} ${t('photos')}` : t('unlimitedPhotos')}</li>
             </ul>
             {plan.id === activePlanId ? (
               <p className="btn-secondary mt-6 w-full cursor-default text-sm opacity-70">
