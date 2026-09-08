@@ -64,7 +64,7 @@ export default async function TarifsPage() {
             ) : photographerId ? (
               <SubscribeButtons planId={plan.id} />
             ) : (
-              <Link href="/register" className="btn-primary mt-6 w-full text-sm">
+              <Link href={user ? '/register' : '/login'} className="btn-primary mt-6 w-full text-sm">
                 {t('choose')}
               </Link>
             )}
