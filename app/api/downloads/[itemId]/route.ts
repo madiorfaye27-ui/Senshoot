@@ -22,7 +22,7 @@ export async function GET(request: NextRequest, props: { params: Promise<{ itemI
   }
 
   // Limite le nombre de liens de téléchargement générés par utilisateur
-  const rate = checkRateLimit(request, `downloads:${user.id}`, 60, 60_000);
+  const rate = await checkRateLimit(request, `downloads:${user.id}`, 60, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }

@@ -26,7 +26,7 @@ export async function POST(request: NextRequest, props: { params: Promise<{ orde
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const rate = checkRateLimit(request, `confirm-kkiapay:${user?.id ?? request.headers.get('x-forwarded-for') ?? 'anon'}`, 20, 60_000);
+  const rate = await checkRateLimit(request, `confirm-kkiapay:${user?.id ?? request.headers.get('x-forwarded-for') ?? 'anon'}`, 20, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }

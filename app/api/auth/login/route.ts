@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
   // Limite les tentatives de connexion par IP : ralentit fortement une
   // attaque par force brute sur les mots de passe (5 essais / minute).
-  const rate = checkRateLimit(request, 'login', 5, 60_000);
+  const rate = await checkRateLimit(request, 'login', 5, 60_000);
   if (!rate.allowed) {
     return backToLogin('Trop de tentatives, réessayez dans une minute.');
   }

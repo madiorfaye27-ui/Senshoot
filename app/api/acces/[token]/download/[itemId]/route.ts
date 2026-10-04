@@ -15,7 +15,7 @@ export async function GET(
   props: { params: Promise<{ token: string; itemId: string }> }
 ) {
   const params = await props.params;
-  const rate = checkRateLimit(request, `acces-download:${params.token}`, 60, 60_000);
+  const rate = await checkRateLimit(request, `acces-download:${params.token}`, 60, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }

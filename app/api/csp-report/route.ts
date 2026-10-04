@@ -23,7 +23,7 @@ function pickFields(v: Violation) {
 }
 
 export async function POST(request: NextRequest) {
-  const rate = checkRateLimit(request, 'csp-report', 60, 60_000);
+  const rate = await checkRateLimit(request, 'csp-report', 60, 60_000);
   if (!rate.allowed) return new NextResponse(null, { status: 429 });
 
   const raw = await request.text().catch(() => '');

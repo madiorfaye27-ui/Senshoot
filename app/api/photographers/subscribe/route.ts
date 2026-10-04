@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Requête refusée' }, { status: 403 });
   }
 
-  const rate = checkRateLimit(request, 'subscribe', 20, 60_000);
+  const rate = await checkRateLimit(request, 'subscribe', 20, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }

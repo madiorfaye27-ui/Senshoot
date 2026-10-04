@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
   // Limite le nombre de photos traitées par minute et par utilisateur
   // (le traitement d'image est coûteux en ressources serveur).
-  const rate = checkRateLimit(request, `photos:${user.id}`, 120, 60_000);
+  const rate = await checkRateLimit(request, `photos:${user.id}`, 120, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }

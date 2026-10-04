@@ -21,7 +21,7 @@ const orderSchema = z.object({
 export async function POST(request: NextRequest) {
   // Limite les tentatives de création de commande par IP (anti-abus /
   // anti-bombardement de sessions Stripe).
-  const rate = checkRateLimit(request, 'orders', 20, 60_000);
+  const rate = await checkRateLimit(request, 'orders', 20, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }

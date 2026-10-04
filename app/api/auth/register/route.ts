@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   const locale = localeToPrefix(formData.get('locale')?.toString());
 
   // Limite la création de comptes par IP (anti-bot / anti-spam d'inscriptions)
-  const rate = checkRateLimit(request, 'register', 5, 10 * 60_000);
+  const rate = await checkRateLimit(request, 'register', 5, 10 * 60_000);
   if (!rate.allowed) {
     return NextResponse.redirect(
       new URL(`${locale}/register?error=` + encodeURIComponent('Trop de tentatives, réessayez plus tard.'), request.url)

@@ -26,7 +26,7 @@ export async function POST(
     return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
   }
 
-  const rate = checkRateLimit(request, `confirm-subscription-kkiapay:${user.id}`, 20, 60_000);
+  const rate = await checkRateLimit(request, `confirm-subscription-kkiapay:${user.id}`, 20, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });
   }

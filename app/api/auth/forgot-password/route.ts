@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   const locale = localeToPrefix(formData.get('locale')?.toString());
 
   // Limite les demandes par IP (anti-spam d'emails / anti-énumération)
-  const rate = checkRateLimit(request, 'forgot-password', 5, 10 * 60_000);
+  const rate = await checkRateLimit(request, 'forgot-password', 5, 10 * 60_000);
   if (!rate.allowed) {
     return NextResponse.redirect(
       new URL(`${locale}/forgot-password?error=` + encodeURIComponent('Trop de tentatives, réessayez plus tard.'), request.url)
