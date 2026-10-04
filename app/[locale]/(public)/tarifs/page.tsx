@@ -1,11 +1,15 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+import { localeToPrefix } from '@/lib/utils/locale';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA } from '@/lib/utils/format';
 import SubscribeButtons from '@/components/pricing/SubscribeButtons';
 
 export default async function TarifsPage() {
   const t = await getTranslations('PricingPage');
+  const locale = await getLocale();
+  // Après connexion, le visiteur revient ici pour choisir sa formule.
+  const loginHref = `/login?next=${encodeURIComponent(`${localeToPrefix(locale)}/tarifs`)}`;
   const supabase = createClient();
   const { data: plans } = await supabase
     .from('plans')
@@ -64,7 +68,7 @@ export default async function TarifsPage() {
             ) : photographerId ? (
               <SubscribeButtons planId={plan.id} />
             ) : (
-              <Link href={user ? '/register' : '/login'} className="btn-primary mt-6 w-full text-sm">
+              <Link href={user ? '/register' : loginHref} className="btn-primary mt-6 w-full text-sm">
                 {t('choose')}
               </Link>
             )}

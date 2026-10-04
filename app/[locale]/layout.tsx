@@ -5,10 +5,32 @@ import { routing } from '@/i18n/routing';
 import '../globals.css';
 import { themeInitScript } from '@/lib/theme-script';
 
+const TITLE = 'Senshoot Sénégal — Capturez. Partagez. Vendez.';
+const DESCRIPTION =
+  "Senshoot Sénégal met en relation photographes et clients : créez un événement, générez un QR Code, partagez votre galerie et vendez vos photos en ligne.";
+
 export const metadata: Metadata = {
-  title: 'Senshoot Sénégal — Capturez. Partagez. Vendez.',
-  description:
-    "Senshoot Sénégal met en relation photographes et clients : créez un événement, générez un QR Code, partagez votre galerie et vendez vos photos en ligne.",
+  metadataBase: new URL('https://shootsenegal.com'),
+  title: TITLE,
+  description: DESCRIPTION,
+  // "./" = URL de la page courante sans paramètres de requête : chaque page
+  // déclare ainsi sa propre adresse canonique (préfixe de langue compris).
+  alternates: { canonical: './' },
+  // Aperçu lors d'un partage (WhatsApp, Facebook, X…). Une image dédiée
+  // 1200×630 donnerait un meilleur rendu que le logo actuel.
+  openGraph: {
+    type: 'website',
+    siteName: 'Senshoot Sénégal',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [{ url: '/logo.png', width: 526, height: 364, alt: 'Senshoot Sénégal' }],
+  },
+  twitter: {
+    card: 'summary',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ['/logo.png'],
+  },
 };
 
 export function generateStaticParams() {

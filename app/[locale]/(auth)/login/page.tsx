@@ -1,16 +1,20 @@
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+import { safeNextPath } from '@/lib/utils/safe-next';
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string; success?: string };
+  searchParams: { error?: string; success?: string; next?: string };
 }) {
   const t = await getTranslations('LoginPage');
   const locale = await getLocale();
+  // Page voulue avant d'être renvoyé ici (validée à nouveau côté serveur).
+  const next = safeNextPath(searchParams.next);
   return (
     <form action="/api/auth/login" method="post" className="space-y-4">
       <input type="hidden" name="locale" value={locale} />
+      {next && <input type="hidden" name="next" value={next} />}
       <h1 className="text-center text-lg font-bold text-sn-slate dark:text-white">{t('title')}</h1>
 
       {searchParams.error && (
