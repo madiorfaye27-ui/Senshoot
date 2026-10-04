@@ -2,6 +2,33 @@ const createNextIntlPlugin = require('next-intl/plugin');
 const { withSentryConfig } = require('@sentry/nextjs');
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Content-Security-Policy : liste blanche des origines que le site charge
+// réellement (Supabase, widget KKiaPay, Sentry). Envoyée pour l'instant en
+// mode "Report-Only" : le navigateur signale les violations vers
+// /api/csp-report sans rien bloquer. Une fois les rapports propres, il
+// suffit de renommer l'en-tête en "Content-Security-Policy" pour appliquer.
+//
+// 'unsafe-inline' reste nécessaire pour les scripts/styles injectés par
+// Next.js et le script de thème du layout ; une version à nonce (via le
+// middleware) serait plus stricte mais plus lourde à maintenir.
+const cspDirectives = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://cdn.kkiapay.me`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://*.supabase.co https://*.kkiapay.me",
+  "font-src 'self' data:",
+  `connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.sentry.io https://*.kkiapay.me${isDev ? ' ws://localhost:*' : ''}`,
+  'frame-src https://*.kkiapay.me',
+  "frame-ancestors 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "worker-src 'self' blob:",
+  'report-uri /api/csp-report',
+].join('; ');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -49,6 +76,10 @@ const nextConfig = {
             // une fois le site en production sur un vrai domaine HTTPS.
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
+            key: 'Content-Security-Policy-Report-Only',
+            value: cspDirectives,
           },
         ],
       },
