@@ -13,10 +13,8 @@ const SIGNED_URL_TTL_SECONDS = 300; // 5 minutes
 // Sans ces conditions, seule la version filigranée (bucket public) reste
 // accessible. Voir cahier des charges section 8 : « vérifier les droits
 // et enregistrer le téléchargement ».
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { itemId: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ itemId: string }> }) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!user) {

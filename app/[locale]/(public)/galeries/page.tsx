@@ -3,11 +3,12 @@ import { Link, getPathname } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils/format';
 
-export default async function GalleriesSearchPage({
-  searchParams,
-}: {
-  searchParams: { q?: string };
-}) {
+export default async function GalleriesSearchPage(
+  props: {
+    searchParams: Promise<{ q?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('GalleriesSearchPage');
   const locale = await getLocale();
   const searchAction = getPathname({ href: '/galeries', locale });

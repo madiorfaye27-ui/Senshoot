@@ -6,10 +6,8 @@ import { createAdminClient } from '@/lib/supabase/server';
 // photos + paiement, flux inchangé). Le lien ne fonctionne qu'une fois ;
 // ceci n'a aucun effet sur le QR public de l'événement, qui reste
 // réutilisable par tous les invités.
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { token: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const admin = createAdminClient();
 
   const { data: link } = await admin

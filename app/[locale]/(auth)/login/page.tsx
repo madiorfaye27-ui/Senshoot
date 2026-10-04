@@ -2,11 +2,12 @@ import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { safeNextPath } from '@/lib/utils/safe-next';
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: { error?: string; success?: string; next?: string };
-}) {
+export default async function LoginPage(
+  props: {
+    searchParams: Promise<{ error?: string; success?: string; next?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('LoginPage');
   const locale = await getLocale();
   // Page voulue avant d'être renvoyé ici (validée à nouveau côté serveur).

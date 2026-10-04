@@ -3,11 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 import { getAvailableBalance, getCommissionRate } from '@/lib/utils/payouts';
 
-export default async function VentesPage({
-  searchParams,
-}: {
-  searchParams: { success?: string; error?: string };
-}) {
+export default async function VentesPage(
+  props: {
+    searchParams: Promise<{ success?: string; error?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('VentesPage');
   const supabase = createClient();
   const {

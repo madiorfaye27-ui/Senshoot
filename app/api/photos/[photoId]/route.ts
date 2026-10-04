@@ -8,10 +8,8 @@ const PUBLIC_BUCKET = 'photos-public';
 // Même schéma d'autorisation que app/api/photos/[photoId]/price/route.ts :
 // le client RLS-scoped ne renvoie la photo que si elle appartient à une
 // galerie du photographe connecté, puis l'écriture passe par le client admin.
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { photoId: string } }
-) {
+export async function DELETE(request: NextRequest, props: { params: Promise<{ photoId: string }> }) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

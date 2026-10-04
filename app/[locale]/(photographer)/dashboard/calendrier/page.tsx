@@ -9,11 +9,12 @@ function monthParamOf(date: Date) {
   return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`;
 }
 
-export default async function CalendarPage({
-  searchParams,
-}: {
-  searchParams: { month?: string };
-}) {
+export default async function CalendarPage(
+  props: {
+    searchParams: Promise<{ month?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('PhotographerCalendarPage');
   const tc = await getTranslations('EventCategories');
   const supabase = createClient();

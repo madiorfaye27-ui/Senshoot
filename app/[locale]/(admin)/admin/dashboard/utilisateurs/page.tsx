@@ -9,11 +9,12 @@ const ROLE_STYLES: Record<string, string> = {
   admin: 'bg-sn-slate/10 text-sn-slate dark:bg-white/10 dark:text-gray-200',
 };
 
-export default async function AdminUsersPage({
-  searchParams,
-}: {
-  searchParams: { role?: string };
-}) {
+export default async function AdminUsersPage(
+  props: {
+    searchParams: Promise<{ role?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('AdminUsersPage');
   const locale = await getLocale();
   const basePath = getPathname({ href: '/admin/dashboard/utilisateurs', locale });

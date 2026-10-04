@@ -3,11 +3,12 @@ import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 
-export default async function AbonnementPage({
-  searchParams,
-}: {
-  searchParams: { success?: string };
-}) {
+export default async function AbonnementPage(
+  props: {
+    searchParams: Promise<{ success?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('AbonnementPage');
   const supabase = createClient();
   const {

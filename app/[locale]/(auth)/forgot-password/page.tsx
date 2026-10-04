@@ -1,11 +1,12 @@
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
-export default async function ForgotPasswordPage({
-  searchParams,
-}: {
-  searchParams: { error?: string; success?: string };
-}) {
+export default async function ForgotPasswordPage(
+  props: {
+    searchParams: Promise<{ error?: string; success?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('ForgotPasswordPage');
   const locale = await getLocale();
   return (

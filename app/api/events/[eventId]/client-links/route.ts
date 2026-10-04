@@ -6,10 +6,8 @@ import { resolveRequestUser, isAuthorizedOrigin } from '@/lib/auth/resolveReques
 // de l'événement au photographe connecté est garantie par la policy RLS
 // "Un photographe peut créer des liens clients pour ses événements" — on
 // utilise ici le client lié à SA session, pas le client admin.
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { eventId: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ eventId: string }> }) {
+  const params = await props.params;
   const { supabase, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

@@ -13,10 +13,8 @@ const priceSchema = z.object({
 // galerie du photographe connecté — même policy SELECT que la lecture),
 // puis l'écriture passe par le client admin, même schéma que les autres
 // routes sensibles de ce projet.
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { photoId: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ photoId: string }> }) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

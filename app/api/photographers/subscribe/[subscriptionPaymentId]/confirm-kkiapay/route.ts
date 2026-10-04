@@ -13,8 +13,9 @@ const confirmSchema = z.object({ transaction_id: z.string().min(1) });
 // la transaction est revérifiée auprès de KKiaPay avec nos clés serveur.
 export async function POST(
   request: NextRequest,
-  { params }: { params: { subscriptionPaymentId: string } }
+  props: { params: Promise<{ subscriptionPaymentId: string }> }
 ) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

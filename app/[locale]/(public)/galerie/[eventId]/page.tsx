@@ -3,11 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import GalleryCart from '@/components/gallery/GalleryCart';
 
-export default async function GalleryPage({
-  params,
-}: {
-  params: { eventId: string };
-}) {
+export default async function GalleryPage(
+  props: {
+    params: Promise<{ eventId: string }>;
+  }
+) {
+  const params = await props.params;
   const t = await getTranslations('PublicGalleryPage');
   const supabase = createClient();
 

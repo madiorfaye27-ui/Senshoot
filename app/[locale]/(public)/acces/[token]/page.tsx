@@ -4,11 +4,12 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { formatFCFA, formatDate } from '@/lib/utils/format';
 
-export default async function AccessTokenPage({
-  params,
-}: {
-  params: { token: string };
-}) {
+export default async function AccessTokenPage(
+  props: {
+    params: Promise<{ token: string }>;
+  }
+) {
+  const params = await props.params;
   const t = await getTranslations('AccessTokenPage');
   const admin = createAdminClient();
 

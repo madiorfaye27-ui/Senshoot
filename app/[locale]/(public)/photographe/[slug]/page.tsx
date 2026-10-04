@@ -4,11 +4,12 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import BookingForm from '@/components/photographer/BookingForm';
 
-export default async function PhotographerProfilePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function PhotographerProfilePage(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+) {
+  const params = await props.params;
   const t = await getTranslations('PhotographerProfilePublicPage');
   const supabase = createClient();
 

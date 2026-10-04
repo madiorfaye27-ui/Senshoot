@@ -12,8 +12,9 @@ const SIGNED_URL_TTL_SECONDS = 300; // 5 minutes
 // app/api/downloads/[itemId]/route.ts (accès via le dashboard client).
 export async function GET(
   request: NextRequest,
-  { params }: { params: { token: string; itemId: string } }
+  props: { params: Promise<{ token: string; itemId: string }> }
 ) {
+  const params = await props.params;
   const rate = checkRateLimit(request, `acces-download:${params.token}`, 60, 60_000);
   if (!rate.allowed) {
     return NextResponse.json({ error: 'Trop de requêtes, réessayez plus tard.' }, { status: 429 });

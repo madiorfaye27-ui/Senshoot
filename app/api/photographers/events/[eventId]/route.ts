@@ -9,10 +9,8 @@ const PUBLIC_BUCKET = 'photos-public';
 // (policy "Un photographe peut voir ses propres événements", migration 0004)
 // vérifie l'appartenance, puis l'écriture passe par le client admin — il
 // n'existe aucune policy DELETE sur "events" côté client.
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { eventId: string } }
-) {
+export async function DELETE(request: NextRequest, props: { params: Promise<{ eventId: string }> }) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

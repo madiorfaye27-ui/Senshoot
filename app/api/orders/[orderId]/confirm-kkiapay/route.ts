@@ -18,10 +18,8 @@ const confirmSchema = z.object({ transaction_id: z.string().min(1) });
 // (UUID non devinable, connu seulement du navigateur qui vient de créer
 // la commande) fait office de preuve de possession — même niveau de
 // sécurité que la vérification de transaction KKiaPay elle-même.
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { orderId: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ orderId: string }> }) {
+  const params = await props.params;
   const { user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

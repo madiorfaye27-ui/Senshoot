@@ -1,11 +1,12 @@
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
-export default async function RegisterPage({
-  searchParams,
-}: {
-  searchParams: { error?: string };
-}) {
+export default async function RegisterPage(
+  props: {
+    searchParams: Promise<{ error?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('RegisterPage');
   const locale = await getLocale();
   return (

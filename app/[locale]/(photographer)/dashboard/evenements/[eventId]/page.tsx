@@ -5,11 +5,12 @@ import PhotoUploader from '@/components/photographer/PhotoUploader';
 import PhotoPriceEditor from '@/components/photographer/PhotoPriceEditor';
 import QRCode from 'qrcode';
 
-export default async function EventManagePage({
-  params,
-}: {
-  params: { eventId: string };
-}) {
+export default async function EventManagePage(
+  props: {
+    params: Promise<{ eventId: string }>;
+  }
+) {
+  const params = await props.params;
   const t = await getTranslations('EventManagePage');
   const tc = await getTranslations('EventCategories');
   const locale = await getLocale();

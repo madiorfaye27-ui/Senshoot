@@ -13,10 +13,8 @@ const statusSchema = z.object({
 // que si elle appartient à un photographe du profil connecté, même
 // policy SELECT que la lecture), puis l'écriture passe par le client
 // admin.
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { bookingId: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ bookingId: string }> }) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

@@ -16,10 +16,8 @@ const statusSchema = z.object({
 // table "payouts" n'a pas de policy RLS UPDATE (volontairement — voir
 // migration 0013), donc le client admin (service_role) n'est utilisé
 // qu'une fois le rôle admin vérifié ici.
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { payoutId: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ payoutId: string }> }) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

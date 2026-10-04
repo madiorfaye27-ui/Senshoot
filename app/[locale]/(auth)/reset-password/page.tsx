@@ -2,11 +2,12 @@ import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 
-export default async function ResetPasswordPage({
-  searchParams,
-}: {
-  searchParams: { error?: string };
-}) {
+export default async function ResetPasswordPage(
+  props: {
+    searchParams: Promise<{ error?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('ResetPasswordPage');
   const locale = await getLocale();
 

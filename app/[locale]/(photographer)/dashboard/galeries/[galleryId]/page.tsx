@@ -10,11 +10,12 @@ function formatGB(bytes: number): string {
   return (bytes / (1024 * 1024 * 1024)).toLocaleString('fr-FR', { maximumFractionDigits: 2 });
 }
 
-export default async function GalleryManagePage({
-  params,
-}: {
-  params: { galleryId: string };
-}) {
+export default async function GalleryManagePage(
+  props: {
+    params: Promise<{ galleryId: string }>;
+  }
+) {
+  const params = await props.params;
   const t = await getTranslations('GalleryManagePage');
   const supabase = createClient();
 

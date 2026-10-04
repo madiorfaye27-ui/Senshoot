@@ -6,7 +6,8 @@ import { createAdminClient } from '@/lib/supabase/server';
 // in, and can never hold the service_role key the way that Server
 // Component safely does). Same single-use semantics: the first GET
 // consumes the token exactly like the first render of the web page does.
-export async function GET(request: NextRequest, { params }: { params: { token: string } }) {
+export async function GET(request: NextRequest, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const admin = createAdminClient();
 
   const { data: accessToken } = await admin

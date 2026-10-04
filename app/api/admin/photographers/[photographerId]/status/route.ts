@@ -16,8 +16,9 @@ const statusSchema = z.object({
 // l'écriture elle-même, une fois l'autorisation vérifiée ici.
 export async function POST(
   request: NextRequest,
-  { params }: { params: { photographerId: string } }
+  props: { params: Promise<{ photographerId: string }> }
 ) {
+  const params = await props.params;
   const { supabase, user, isBearer } = await resolveRequestUser(request);
 
   if (!isAuthorizedOrigin(request, isBearer)) {

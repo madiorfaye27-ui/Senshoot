@@ -1,11 +1,12 @@
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 
-export default async function PhotographerProfilePage({
-  searchParams,
-}: {
-  searchParams: { success?: string; error?: string };
-}) {
+export default async function PhotographerProfilePage(
+  props: {
+    searchParams: Promise<{ success?: string; error?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('PhotographerProfilePage');
   const supabase = createClient();
   const {
