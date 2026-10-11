@@ -1,6 +1,8 @@
 import { Link } from '@/i18n/navigation';
 import { getTranslations } from 'next-intl/server';
 import Reveal from '@/components/ui/Reveal';
+import GrowLine from '@/components/ui/GrowLine';
+import HeroScene from '@/components/home/HeroScene';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function HomePage() {
@@ -18,6 +20,8 @@ export default async function HomePage() {
     .limit(3);
 
   const steps = [t('step1'), t('step2'), t('step3'), t('step4'), t('step5')];
+  // "Capturez. Partagez. Vendez." -> trois mots animés séparément
+  const titleWords = t('heroTitle2').split(/(?<=\.)\s+/);
 
   return (
     <>
@@ -35,24 +39,60 @@ export default async function HomePage() {
           className="pointer-events-none absolute -bottom-24 left-[-10%] h-72 w-72 animate-float rounded-full bg-sn-teal/10 blur-3xl [animation-delay:1.5s]"
         />
 
-        <div className="container-sn relative flex flex-col items-center py-20 text-center">
-          <h1 className="max-w-3xl animate-fade-up text-4xl font-extrabold leading-tight text-sn-slate dark:text-white sm:text-5xl">
-            {t('heroTitle1')}
-            <span className="block text-sn-orange">{t('heroTitle2')}</span>
-          </h1>
-          <p className="mt-6 max-w-xl animate-fade-up text-lg text-gray-600 dark:text-gray-400 [animation-delay:150ms]">
-            {t('heroSubtitle')}
-          </p>
-          <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:300ms] sm:flex-row">
-            <Link href="/galeries" className="btn-primary">
-              {t('findMyPhotos')}
-            </Link>
-            {!user && (
-              <Link href="/register" className="btn-secondary">
-                {t('iAmPhotographer')}
+        <div className="container-sn relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:gap-12 lg:py-24">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+            <h1 className="max-w-3xl animate-fade-up text-4xl font-extrabold leading-tight text-sn-slate dark:text-white sm:text-5xl">
+              {t('heroTitle1')}
+              {/* Les trois mots s'écrivent l'un après l'autre, puis un trait
+                  se dessine dessous. Le texte reste un seul bloc pour le SEO
+                  et les lecteurs d'écran. */}
+              <span className="relative mx-auto mt-1 block w-fit text-sn-orange lg:mx-0">
+                {titleWords.map((word, i) => (
+                  <span key={word}>
+                    {i > 0 && ' '}
+                    <span
+                      className="inline-block animate-fade-up"
+                      style={{ animationDelay: `${450 + i * 160}ms` }}
+                    >
+                      {word}
+                    </span>
+                  </span>
+                ))}
+                <svg
+                  aria-hidden
+                  viewBox="0 0 200 12"
+                  preserveAspectRatio="none"
+                  className="absolute -bottom-2.5 left-0 h-3 w-full overflow-visible"
+                >
+                  <path
+                    d="M2 8C40 2 80 12 120 6S180 4 198 7"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeOpacity="0.55"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    pathLength={1}
+                    className="animate-draw [animation-delay:1.1s]"
+                  />
+                </svg>
+              </span>
+            </h1>
+            <p className="mt-8 max-w-xl animate-fade-up text-lg text-gray-600 dark:text-gray-400 [animation-delay:150ms]">
+              {t('heroSubtitle')}
+            </p>
+            <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:300ms] sm:flex-row">
+              <Link href="/galeries" className="btn-primary">
+                {t('findMyPhotos')}
               </Link>
-            )}
+              {!user && (
+                <Link href="/register" className="btn-secondary">
+                  {t('iAmPhotographer')}
+                </Link>
+              )}
+            </div>
           </div>
+
+          <HeroScene badge={t('heroBadge')} />
         </div>
       </section>
 
@@ -64,7 +104,14 @@ export default async function HomePage() {
             {t('howItWorksTitle')}
           </h2>
         </Reveal>
-        <div className="mt-10 grid gap-6 sm:grid-cols-5">
+        <div className="relative mt-10 grid gap-6 sm:grid-cols-5">
+          {/* Fil qui relie les étapes : visible dans l'espace entre les cartes,
+              se déploie de la 1re à la dernière au scroll. Placé avant les
+              cartes dans le DOM pour passer derrière elles. */}
+          <GrowLine
+            delay={200}
+            className="pointer-events-none absolute left-[10%] right-[10%] top-[2.375rem] hidden h-[3px] rounded-full bg-gradient-to-r from-sn-orange to-sn-teal sm:block"
+          />
           {steps.map((step, i) => (
             <Reveal key={step} delay={i * 100}>
               <div className="card-hover h-full rounded-xl border border-gray-100 bg-white p-5 text-center shadow-sm dark:border-white/10 dark:bg-slate-800">
