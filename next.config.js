@@ -5,10 +5,14 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 const isDev = process.env.NODE_ENV !== 'production';
 
 // Content-Security-Policy : liste blanche des origines que le site charge
-// réellement (Supabase, widget KKiaPay, Sentry). Envoyée pour l'instant en
-// mode "Report-Only" : le navigateur signale les violations vers
-// /api/csp-report sans rien bloquer. Une fois les rapports propres, il
-// suffit de renommer l'en-tête en "Content-Security-Policy" pour appliquer.
+// réellement (Supabase, widget KKiaPay, Sentry). Appliquée (mode bloquant) :
+// tout ce qui n'est pas dans cette liste est refusé par le navigateur. Les
+// violations continuent d'être signalées à /api/csp-report (logs Vercel,
+// préfixe "[csp-report]") : c'est là qu'il faut regarder si une nouvelle
+// fonctionnalité (ex. Google Analytics, une vidéo YouTube, une police
+// externe) ne s'affiche pas — il suffira d'ajouter son origine ci-dessous.
+// Pour repasser temporairement en simple surveillance, renommer l'en-tête
+// plus bas en "Content-Security-Policy-Report-Only".
 //
 // 'unsafe-inline' reste nécessaire pour les scripts/styles injectés par
 // Next.js et le script de thème du layout ; une version à nonce (via le
@@ -78,7 +82,7 @@ const nextConfig = {
             value: 'max-age=63072000; includeSubDomains; preload',
           },
           {
-            key: 'Content-Security-Policy-Report-Only',
+            key: 'Content-Security-Policy',
             value: cspDirectives,
           },
         ],
