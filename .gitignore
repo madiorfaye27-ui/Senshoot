@@ -38,3 +38,8 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# Etat operationnel confidentiel des agents (le depot GitHub est public)
+docs/agents/ETAT_PRIVE.md
+.claude/agent-memory-local/
+.claude/scheduled_tasks.lock
