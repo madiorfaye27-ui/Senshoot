@@ -2,7 +2,6 @@ import { Link } from '@/i18n/navigation';
 import { getTranslations } from 'next-intl/server';
 import Reveal from '@/components/ui/Reveal';
 import GrowLine from '@/components/ui/GrowLine';
-import HeroScene from '@/components/home/HeroScene';
 import LogoReveal from '@/components/home/LogoReveal';
 import { createClient } from '@/lib/supabase/server';
 
@@ -40,14 +39,14 @@ export default async function HomePage() {
           className="pointer-events-none absolute -bottom-24 left-[-10%] h-72 w-72 animate-float rounded-full bg-sn-teal/10 blur-3xl [animation-delay:1.5s]"
         />
 
-        <div className="container-sn relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:gap-12 lg:py-24">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+        <div className="container-sn relative flex flex-col items-center py-20 text-center">
+          <div className="flex flex-col items-center text-center">
             <h1 className="max-w-3xl animate-fade-up text-4xl font-extrabold leading-tight text-sn-slate dark:text-white sm:text-5xl">
               {t('heroTitle1')}
               {/* Les trois mots s'écrivent l'un après l'autre, puis un trait
                   se dessine dessous. Le texte reste un seul bloc pour le SEO
                   et les lecteurs d'écran. */}
-              <span className="relative mx-auto mt-1 block w-fit text-sn-orange lg:mx-0">
+              <span className="relative mx-auto mt-1 block w-fit text-sn-orange">
                 {titleWords.map((word, i) => (
                   <span key={word}>
                     {i > 0 && ' '}
@@ -92,8 +91,6 @@ export default async function HomePage() {
               )}
             </div>
           </div>
-
-          <HeroScene badge={t('heroBadge')} />
         </div>
       </section>
 
