@@ -39,14 +39,14 @@ export default async function HomePage() {
           className="pointer-events-none absolute -bottom-24 left-[-10%] h-72 w-72 animate-float rounded-full bg-sn-teal/10 blur-3xl [animation-delay:1.5s]"
         />
 
-        <div className="container-sn relative flex flex-col items-center py-20 text-center">
-          <div className="flex flex-col items-center text-center">
+        <div className="container-sn relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:gap-12 lg:py-24">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <h1 className="max-w-3xl animate-fade-up text-4xl font-extrabold leading-tight text-sn-slate dark:text-white sm:text-5xl">
               {t('heroTitle1')}
               {/* Les trois mots s'écrivent l'un après l'autre, puis un trait
                   se dessine dessous. Le texte reste un seul bloc pour le SEO
                   et les lecteurs d'écran. */}
-              <span className="relative mx-auto mt-1 block w-fit text-sn-orange">
+              <span className="relative mx-auto mt-1 block w-fit text-sn-orange lg:mx-0">
                 {titleWords.map((word, i) => (
                   <span key={word}>
                     {i > 0 && ' '}
@@ -91,18 +91,12 @@ export default async function HomePage() {
               )}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Animation du logo : démarre toute seule (sans le son) quand on arrive
-          dessus ; la voix off « Bienvenue dans SENSHOOT » est facultative. */}
-      <section className="container-sn py-12">
-        <Reveal>
-          <h2 className="mb-6 text-center text-2xl font-bold text-sn-slate dark:text-white">
-            {t('brandTitle')}
-          </h2>
-        </Reveal>
-        <LogoReveal />
+          {/* Animation du logo : démarre toute seule (sans le son) quand elle
+              est visible ; la voix off « Bienvenue dans SENSHOOT » est facultative.
+              À droite du titre sur ordinateur, sous le texte sur téléphone. */}
+          <LogoReveal />
+        </div>
       </section>
 
       {/* Parcours — révélation en cascade au scroll : chaque étape apparaît
