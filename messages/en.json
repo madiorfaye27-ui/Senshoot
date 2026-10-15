@@ -47,7 +47,13 @@
     "seeAll": "See all →",
     "ctaTagline": "Your moments. Your images. Your value.",
     "createPhotographerAccount": "Create my photographer account",
-    "heroBadge": "Payment confirmed"
+    "heroBadge": "Payment confirmed",
+    "brandTitle": "Welcome to SENSHOOT",
+    "brandAlt": "Senshoot logo animation",
+    "brandDescription": "Senshoot logo animation: a computer mouse is drawn, a cable carries an orange dot to a camera, then the letters SEN and the Sn badge appear. Optional French voice-over: “Bienvenue dans SENSHOOT” (Welcome to SENSHOOT).",
+    "brandReplay": "Replay",
+    "brandSoundOn": "Sound on (French voice-over)",
+    "brandSoundOff": "Mute"
   },
   "LanguageSwitcher": {
     "label": "Language"

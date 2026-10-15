@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import Reveal from '@/components/ui/Reveal';
 import GrowLine from '@/components/ui/GrowLine';
 import HeroScene from '@/components/home/HeroScene';
+import LogoReveal from '@/components/home/LogoReveal';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function HomePage() {
@@ -94,6 +95,17 @@ export default async function HomePage() {
 
           <HeroScene badge={t('heroBadge')} />
         </div>
+      </section>
+
+      {/* Animation du logo : démarre toute seule (sans le son) quand on arrive
+          dessus ; la voix off « Bienvenue dans SENSHOOT » est facultative. */}
+      <section className="container-sn py-12">
+        <Reveal>
+          <h2 className="mb-6 text-center text-2xl font-bold text-sn-slate dark:text-white">
+            {t('brandTitle')}
+          </h2>
+        </Reveal>
+        <LogoReveal />
       </section>
 
       {/* Parcours — révélation en cascade au scroll : chaque étape apparaît

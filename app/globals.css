@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Police des lettres du logo animé (sous-ensemble : S, E, N, n), servie par
+   le site lui-même — pas de Google Fonts, compatible avec la CSP. */
+@font-face {
+  font-family: 'SenPoppins';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/senpoppins-italic-800-v1.woff2') format('woff2');
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

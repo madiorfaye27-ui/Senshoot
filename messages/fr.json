@@ -47,7 +47,13 @@
     "seeAll": "Voir tout →",
     "ctaTagline": "Vos moments. Vos images. Votre valeur.",
     "createPhotographerAccount": "Créer mon compte photographe",
-    "heroBadge": "Paiement confirmé"
+    "heroBadge": "Paiement confirmé",
+    "brandTitle": "Bienvenue dans SENSHOOT",
+    "brandAlt": "Animation du logo Senshoot",
+    "brandDescription": "Animation du logo Senshoot : une souris se dessine, un câble porte un point orange jusqu'à un appareil photo, puis les lettres SEN et le badge Sn apparaissent. Voix off facultative : « Bienvenue dans SENSHOOT ».",
+    "brandReplay": "Revoir",
+    "brandSoundOn": "Activer le son",
+    "brandSoundOff": "Couper le son"
   },
   "LanguageSwitcher": {
     "label": "Langue"
